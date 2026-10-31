@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Python試験 学習教材</title>
+<meta name="description" content="Python 3 エンジニア認定基礎試験・データ分析試験の学習教材と模擬試験">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&family=Barlow:wght@600;700&display=swap">
+<style>
+:root{
+  --paper:#f3f6f9; --sheet:#ffffff; --ink:#18212d; --muted:#5b6778; --line:#d9e1ea;
+  --brand:#0b86d6; --brand-ink:#075a9c; --brand-soft:#e5f3fd;
+  --f-head:"Zen Maru Gothic","Zen Kaku Gothic New",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-num:"Barlow","Zen Maru Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0e131a; --sheet:#151c25; --ink:#e4e9f0; --muted:#98a3b3; --line:#283342;
+  --brand:#45a8ec; --brand-ink:#8cc8f5; --brand-soft:#132a3e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0e131a; --sheet:#151c25; --ink:#e4e9f0; --muted:#98a3b3; --line:#283342;
+  --brand:#45a8ec; --brand-ink:#8cc8f5; --brand-soft:#132a3e; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.8}
+.wrap{max-width:860px;margin:0 auto;padding:48px 16px 32px}
+.eyebrow{font-family:var(--f-num);font-weight:700;font-size:.8rem;letter-spacing:.12em;color:var(--brand-ink)}
+h1{font-family:var(--f-head);font-size:2rem;line-height:1.35;margin:6px 0 8px}
+.intro{color:var(--muted);margin:0 0 36px}
+h2{font-family:var(--f-head);font-size:1.15rem;margin:0 0 12px}
+.exam{margin-bottom:32px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.card{display:block;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:16px 18px;color:inherit;text-decoration:none}
+.card:hover,.card:focus-visible{border-color:var(--brand);background:var(--brand-soft)}
+.kind{font-size:.76rem;font-weight:700;color:var(--brand-ink)}
+.card b{display:block;font-family:var(--f-head);font-size:1.08rem;margin:2px 0 4px}
+.card span.desc{display:block;font-size:.9rem;color:var(--muted);line-height:1.65}
+footer{max-width:860px;margin:0 auto;padding:0 16px 40px;font-size:.82rem;color:var(--muted)}
+footer p{border-top:1px solid var(--line);padding-top:16px;margin:0}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="eyebrow">PYTHON 3 ENGINEER</div>
+  <h1>Python試験 学習教材</h1>
+  <p class="intro">Python 3 エンジニア認定試験の学習教材と模擬試験です。学習の進み具合や受験の記録は、お使いのブラウザに保存されます。</p>
+
+  <section class="exam">
+    <h2>基礎試験</h2>
+    <div class="cards">
+      <a class="card" href="basic-tutorial.html">
+        <span class="kind">教材</span>
+        <b>チュートリアル総点検</b>
+        <span class="desc">全小節の論点を1つずつ点検します。コードはその場で実行できます。</span>
+      </a>
+      <a class="card" href="basic-mock.html">
+        <span class="kind">模試</span>
+        <b>本番形式模試</b>
+        <span class="desc">40問・60分の模擬試験です。採点と解説、受験の記録が付いています。</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="exam">
+    <h2>データ分析試験</h2>
+    <div class="cards">
+      <a class="card" href="data-analysis.html">
+        <span class="kind">教材</span>
+        <b>Pythonデータ分析 入門</b>
+        <span class="desc">NumPy・pandas・Matplotlib・scikit-learnを中心に、出題範囲を順に学びます。</span>
+      </a>
+    </div>
+  </section>
+</main>
+<footer>
+  <p>個人が作成した非公式の学習教材です。試験の実施団体や出版社とは関係ありません。</p>
+</footer>
+</body>
+</html>
