@@ -1,0 +1,52 @@
+<h3 id="s5-5"><span class="secno">5.5</span>ディクショナリ</h3>
+<p><dfn id="t34">ディクショナリ</dfn>（辞書）は、<mark>キーと値の組</mark>を集めたもので、キーで値を取り出します。キーは辞書の中で重複しません。</p>
+<ul>
+<li><mark>キーにできるのはイミュータブルな型</mark>です。文字列・数値はいつでもキーにできます。タプルは、<mark>中身がすべてイミュータブルなら</mark>キーにできます。</li>
+<li><mark>リストはキーにできません</mark>（append やスライス代入で変更できてしまうため）。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">tel</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'jack'</span><span class="p">:</span> <span class="mi">4098</span><span class="p">,</span> <span class="s1">'sape'</span><span class="p">:</span> <span class="mi">4139</span><span class="p">}</span>
+<span class="n">tel</span><span class="p">[</span><span class="s1">'guido'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4127</span>          <span class="c1"># 追加</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tel</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tel</span><span class="p">[</span><span class="s1">'jack'</span><span class="p">])</span>
+<span class="k">del</span> <span class="n">tel</span><span class="p">[</span><span class="s1">'sape'</span><span class="p">]</span>              <span class="c1"># 削除</span>
+<span class="n">tel</span><span class="p">[</span><span class="s1">'irv'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4127</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tel</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">tel</span><span class="p">))</span>             <span class="c1"># キーのリスト（挿入した順）</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">tel</span><span class="p">))</span>           <span class="c1"># キーを並べ替えたリスト</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'guido'</span> <span class="ow">in</span> <span class="n">tel</span><span class="p">,</span> <span class="s1">'jack'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tel</span><span class="p">)</span>
+<span class="n">tel</span><span class="p">[</span><span class="s1">'jack'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>              <span class="c1"># 既存のキーに代入すると上書き</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tel</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">tel</span><span class="p">[</span><span class="s1">'nobody'</span><span class="p">]</span>
+<span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"KeyError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>{&#x27;jack&#x27;: 4098, &#x27;sape&#x27;: 4139, &#x27;guido&#x27;: 4127}
+4098
+{&#x27;jack&#x27;: 4098, &#x27;guido&#x27;: 4127, &#x27;irv&#x27;: 4127}
+[&#x27;jack&#x27;, &#x27;guido&#x27;, &#x27;irv&#x27;]
+[&#x27;guido&#x27;, &#x27;irv&#x27;, &#x27;jack&#x27;]
+True False
+{&#x27;jack&#x27;: 1, &#x27;guido&#x27;: 4127, &#x27;irv&#x27;: 4127}
+KeyError: &#x27;nobody&#x27;</code></pre>
+<ul>
+<li>すでにあるキーに値を入れると、<mark>古い値は上書き</mark>されます。存在しないキーを取り出すと <mark>KeyError</mark> です。</li>
+<li><code>list(d)</code> は<mark>キーを挿入した順</mark>に並べたリスト、<code>sorted(d)</code> はキーを並べ替えたリストを返します。</li>
+<li>キーがあるかは <code>in</code> で調べます。</li>
+</ul>
+<h5><span>辞書の作り方</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">([(</span><span class="s1">'sape'</span><span class="p">,</span> <span class="mi">4139</span><span class="p">),</span> <span class="p">(</span><span class="s1">'guido'</span><span class="p">,</span> <span class="mi">4127</span><span class="p">),</span> <span class="p">(</span><span class="s1">'jack'</span><span class="p">,</span> <span class="mi">4098</span><span class="p">)]))</span>   <span class="c1"># キーと値の組の並びから</span>
+<span class="nb">print</span><span class="p">({</span><span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">)})</span>                             <span class="c1"># 辞書内包</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">sape</span><span class="o">=</span><span class="mi">4139</span><span class="p">,</span> <span class="n">guido</span><span class="o">=</span><span class="mi">4127</span><span class="p">,</span> <span class="n">jack</span><span class="o">=</span><span class="mi">4098</span><span class="p">))</span>                     <span class="c1"># キーが文字列ならキーワード引数で</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="p">{[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]:</span> <span class="s1">'list'</span><span class="p">}</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"TypeError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">({(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="s1">'tuple'</span><span class="p">})</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>{&#x27;sape&#x27;: 4139, &#x27;guido&#x27;: 4127, &#x27;jack&#x27;: 4098}
+{2: 4, 4: 16, 6: 36}
+{&#x27;sape&#x27;: 4139, &#x27;guido&#x27;: 4127, &#x27;jack&#x27;: 4098}
+TypeError: unhashable type: &#x27;list&#x27;
+{(1, 2): &#x27;tuple&#x27;}</code></pre>
+

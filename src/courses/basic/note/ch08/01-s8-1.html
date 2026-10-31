@@ -1,0 +1,8 @@
+<h3 id="s8-1"><span class="secno">8.1</span>構文エラー</h3>
+<p><dfn id="t52">構文エラー</dfn>（SyntaxError、パースエラー）は、プログラムを解析する段階で見つかる文法の誤りです。<mark>実行が始まる前</mark>に見つかります。</p>
+<pre class="out"><code>  File "&lt;string&gt;", line 2
+    while True print('Hello world')
+               ^^^^^
+SyntaxError: invalid syntax</code></pre>
+<p>パーサは問題のある行を表示し、<mark>エラーが見つかった位置を矢印（^）で示します</mark>。この例では、<code>print()</code> の前にコロン <code>:</code> がないことが原因です。ファイル名と行番号も表示されるので、どこを直せばよいか分かります。</p>
+

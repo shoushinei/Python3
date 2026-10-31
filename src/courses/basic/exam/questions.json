@@ -1,0 +1,1138 @@
+[
+  {
+    "ch": 1,
+    "sec": "s1-1",
+    "secLabel": "1.1",
+    "q": "Pythonの特徴として正しいものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "インタプリタ言語なので、コンパイルやリンクの作業が不要である。",
+        0
+      ],
+      [
+        "変数や関数の引数は、使う前に型を宣言する必要がある。",
+        0
+      ],
+      [
+        "文のグループ化は、begin と end で囲んで表す。",
+        0
+      ],
+      [
+        "名前の由来は、爬虫類のニシキヘビである。",
+        0
+      ],
+      [
+        "C言語で書いた拡張モジュールを組み込むことはできない。",
+        0
+      ]
+    ],
+    "ans": 0,
+    "exp": "Pythonはインタプリタ言語で、コンパイル・リンクが不要です。宣言は不要、グループ化はインデント、名前はBBCの番組「モンティ・パイソン」から、Cで拡張できます。"
+  },
+  {
+    "ch": 2,
+    "sec": "s2-1-1",
+    "secLabel": "2.1.1",
+    "q": "カレントディレクトリにある mymod.py を <code>python3 -m mymod a b</code> で実行した。mymod.py の中で <code>print(sys.argv[0])</code> としたときに表示されるものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "&#x27;-m&#x27;",
+        1
+      ],
+      [
+        "&#x27;mymod&#x27;",
+        1
+      ],
+      [
+        "mymod.py のフルパス",
+        0
+      ],
+      [
+        "&#x27;&#x27;（空文字列）",
+        0
+      ],
+      [
+        "&#x27;a&#x27;",
+        1
+      ]
+    ],
+    "ans": 2,
+    "exp": "-m でモジュールを実行したとき、sys.argv[0] には見つかったモジュールのフルパス名が入ります。-c のときは &#x27;-c&#x27;、引数なしの起動では &#x27;&#x27; です。"
+  },
+  {
+    "ch": 3,
+    "sec": "s3-1-1",
+    "secLabel": "3.1.1",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"mi\">7</span> <span class=\"o\">//</span> <span class=\"o\">-</span><span class=\"mi\">2</span><span class=\"p\">,</span> <span class=\"mi\">7</span> <span class=\"o\">%</span> <span class=\"o\">-</span><span class=\"mi\">2</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "-3 1",
+        1
+      ],
+      [
+        "-4 -1",
+        1
+      ],
+      [
+        "-3 -1",
+        1
+      ],
+      [
+        "-4 1",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "7 / -2 = -3.5 を小さい方へ切り捨てるので -4。余りは 7 − (-4 × -2) = -1 です。// は0の方向ではなく、小さい方へ切り捨てます。"
+  },
+  {
+    "ch": 3,
+    "sec": "s3-1-2",
+    "secLabel": "3.1.2",
+    "q": "対話モードで <code>&gt;&gt;&gt; 'doesn\\'t'</code> と入力したときに表示されるものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "&#x27;doesn\\&#x27;t&#x27;",
+        1
+      ],
+      [
+        "&quot;doesn&#x27;t&quot;",
+        1
+      ],
+      [
+        "doesn&#x27;t",
+        1
+      ],
+      [
+        "&#x27;doesn&#x27;t&#x27;",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "対話モードの表示は repr() です。文字列に &#x27; が含まれ &quot; が含まれないときは、外側を &quot; で囲んで表示します。print() すれば引用符なしの doesn&#x27;t になります。"
+  },
+  {
+    "ch": 3,
+    "sec": "s3-1-2",
+    "secLabel": "3.1.2",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"n\">s</span> <span class=\"o\">=</span> <span class=\"s1\">'Python'</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">s</span><span class=\"p\">[</span><span class=\"o\">-</span><span class=\"mi\">3</span><span class=\"p\">:],</span> <span class=\"n\">s</span><span class=\"p\">[:</span><span class=\"o\">-</span><span class=\"mi\">3</span><span class=\"p\">])</span>",
+    "opts": [
+      [
+        "hon Pyt",
+        1
+      ],
+      [
+        "Pyt hon",
+        1
+      ],
+      [
+        "hon Pyth",
+        1
+      ],
+      [
+        "on Pyt",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "s[-3:] は後ろから3文字目以降 &#x27;hon&#x27;、s[:-3] は後ろから3文字目の手前まで &#x27;Pyt&#x27; です。s[:i] + s[i:] は常に s になります。"
+  },
+  {
+    "ch": 3,
+    "sec": "s3-1-2",
+    "secLabel": "3.1.2",
+    "q": "次のうち、SyntaxError になるものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "&#x27;a&#x27; &#x27;b&#x27;",
+        1
+      ],
+      [
+        "(&#x27;a&#x27; * 2) &#x27;b&#x27;",
+        1
+      ],
+      [
+        "&#x27;a&#x27; + &#x27;b&#x27;",
+        1
+      ],
+      [
+        "&#x27;a&#x27; * 2 + &#x27;b&#x27;",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "隣り合ったものが自動で連結されるのは、文字列リテラル同士だけです。式（&#x27;a&#x27; * 2）や変数とリテラルを並べると SyntaxError です。"
+  },
+  {
+    "ch": 3,
+    "sec": "s3-1-3",
+    "secLabel": "3.1.3",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"n\">squares</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"mi\">4</span><span class=\"p\">,</span> <span class=\"mi\">9</span><span class=\"p\">]</span>\n<span class=\"n\">squares</span><span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">:</span><span class=\"mi\">2</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"mi\">5</span><span class=\"p\">,</span> <span class=\"mi\">6</span><span class=\"p\">,</span> <span class=\"mi\">7</span><span class=\"p\">]</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">squares</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "[1, [5, 6, 7], 9]",
+        1
+      ],
+      [
+        "[1, 5, 6, 7, 9]",
+        1
+      ],
+      [
+        "[1, 5, 9]",
+        1
+      ],
+      [
+        "[1, 5, 6, 7]",
+        1
+      ],
+      [
+        "[5, 6, 7, 4, 9]",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "スライスへの代入は、その範囲（インデックス1の要素 4）を右辺の要素で置き換えます。要素の数が違ってもかまいません。"
+  },
+  {
+    "ch": 3,
+    "sec": "s3-2",
+    "secLabel": "3.2",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"s1\">'a'</span><span class=\"p\">,</span> <span class=\"s1\">'b'</span><span class=\"p\">,</span> <span class=\"n\">sep</span><span class=\"o\">=</span><span class=\"s1\">'-'</span><span class=\"p\">,</span> <span class=\"n\">end</span><span class=\"o\">=</span><span class=\"s1\">'!'</span><span class=\"p\">)</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"s1\">'c'</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "a-b!c",
+        1
+      ],
+      [
+        "a-b!\\nc（2行）",
+        0
+      ],
+      [
+        "a b!c",
+        1
+      ],
+      [
+        "a-b-c!",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "sep は引数の間の区切り、end は末尾に出力する文字列です。end=&#x27;!&#x27; なので改行されず、次の print の c が同じ行に続きます。"
+  },
+  {
+    "ch": 4,
+    "sec": "s4-2",
+    "secLabel": "4.2",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"k\">for</span> <span class=\"n\">i</span> <span class=\"ow\">in</span> <span class=\"nb\">range</span><span class=\"p\">(</span><span class=\"mi\">3</span><span class=\"p\">):</span>\n    <span class=\"k\">pass</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">i</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "2",
+        1
+      ],
+      [
+        "3",
+        1
+      ],
+      [
+        "0",
+        1
+      ],
+      [
+        "NameError",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "for ループの変数は、ループが終わった後も最後の値（2）のまま残ります。range(3) は 0, 1, 2 なので 3 にはなりません。"
+  },
+  {
+    "ch": 4,
+    "sec": "s4-3",
+    "secLabel": "4.3",
+    "q": "<code>list(range(5, 0, -2))</code> の結果はどれか。",
+    "code": "<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"nb\">list</span><span class=\"p\">(</span><span class=\"nb\">range</span><span class=\"p\">(</span><span class=\"mi\">5</span><span class=\"p\">,</span> <span class=\"mi\">0</span><span class=\"p\">,</span> <span class=\"o\">-</span><span class=\"mi\">2</span><span class=\"p\">)))</span>",
+    "opts": [
+      [
+        "[5, 3, 1]",
+        1
+      ],
+      [
+        "[5, 3, 1, -1]",
+        1
+      ],
+      [
+        "[5, 3]",
+        1
+      ],
+      [
+        "[]",
+        1
+      ],
+      [
+        "[4, 2, 0]",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "5 から -2 ずつ、終了の 0 を含まない手前まで進むので [5, 3, 1] です。"
+  },
+  {
+    "ch": 4,
+    "sec": "s4-4",
+    "secLabel": "4.4",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"n\">n</span> <span class=\"o\">=</span> <span class=\"mi\">0</span>\n<span class=\"k\">while</span> <span class=\"n\">n</span> <span class=\"o\">&lt;</span> <span class=\"mi\">3</span><span class=\"p\">:</span>\n    <span class=\"n\">n</span> <span class=\"o\">+=</span> <span class=\"mi\">1</span>\n<span class=\"k\">else</span><span class=\"p\">:</span>\n    <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"s1\">'else'</span><span class=\"p\">,</span> <span class=\"n\">n</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "else 3",
+        1
+      ],
+      [
+        "else 2",
+        1
+      ],
+      [
+        "何も出力されない",
+        0
+      ],
+      [
+        "SyntaxError",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "while の else 節は、条件が偽になってループが終わったときに実行されます（break で抜けたときは実行されない）。"
+  },
+  {
+    "ch": 4,
+    "sec": "s4-7-4",
+    "secLabel": "4.7.4",
+    "q": "<code>def f(a, b=2, *args, c, **kw):</code> と定義された関数の呼び出しとして、エラーにならないものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "f(1, 2, 3)",
+        1
+      ],
+      [
+        "f(1, c=3)",
+        1
+      ],
+      [
+        "f(a=1, 2, c=3)",
+        1
+      ],
+      [
+        "f(c=3)",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "*args より後ろの c はキーワード専用で、デフォルト値がないので必ず c=… で渡します。f(a=1, 2, …) はキーワード引数の後ろに位置引数があるので SyntaxError、f(c=3) は a がありません。"
+  },
+  {
+    "ch": 4,
+    "sec": "s4-7-1",
+    "secLabel": "4.7.1",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"k\">def</span><span class=\"w\"> </span><span class=\"nf\">f</span><span class=\"p\">(</span><span class=\"n\">x</span><span class=\"p\">,</span> <span class=\"n\">L</span><span class=\"o\">=</span><span class=\"p\">[]):</span>\n    <span class=\"n\">L</span><span class=\"o\">.</span><span class=\"n\">append</span><span class=\"p\">(</span><span class=\"n\">x</span><span class=\"p\">)</span>\n    <span class=\"k\">return</span> <span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">L</span><span class=\"p\">)</span>\n\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">f</span><span class=\"p\">(</span><span class=\"mi\">1</span><span class=\"p\">),</span> <span class=\"n\">f</span><span class=\"p\">(</span><span class=\"mi\">2</span><span class=\"p\">),</span> <span class=\"n\">f</span><span class=\"p\">(</span><span class=\"mi\">3</span><span class=\"p\">,</span> <span class=\"p\">[]))</span>",
+    "opts": [
+      [
+        "1 1 1",
+        1
+      ],
+      [
+        "1 2 3",
+        1
+      ],
+      [
+        "1 2 1",
+        1
+      ],
+      [
+        "1 2 2",
+        1
+      ],
+      [
+        "3 3 1",
+        1
+      ]
+    ],
+    "ans": 2,
+    "exp": "デフォルト値のリストは定義時に1つだけ作られ、f(1)・f(2) で同じリストに追加されます。f(3, []) は新しいリストを渡しているので 1 です。"
+  },
+  {
+    "ch": 4,
+    "sec": "s4-7-6",
+    "secLabel": "4.7.6",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"n\">f</span> <span class=\"o\">=</span> <span class=\"k\">lambda</span> <span class=\"n\">x</span><span class=\"p\">,</span> <span class=\"n\">y</span><span class=\"o\">=</span><span class=\"mi\">2</span><span class=\"p\">:</span> <span class=\"n\">x</span> <span class=\"o\">*</span> <span class=\"n\">y</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">f</span><span class=\"p\">(</span><span class=\"mi\">3</span><span class=\"p\">),</span> <span class=\"n\">f</span><span class=\"p\">(</span><span class=\"mi\">3</span><span class=\"p\">,</span> <span class=\"mi\">3</span><span class=\"p\">))</span>",
+    "opts": [
+      [
+        "6 9",
+        1
+      ],
+      [
+        "5 6",
+        1
+      ],
+      [
+        "6 6",
+        1
+      ],
+      [
+        "TypeError",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "lambda にもデフォルト値付きの引数を書けます。f(3) は 3 × 2、f(3, 3) は 3 × 3 です。"
+  },
+  {
+    "ch": 4,
+    "sec": "s4-7-6",
+    "secLabel": "4.7.6",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"n\">words</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"s1\">'ccc'</span><span class=\"p\">,</span> <span class=\"s1\">'a'</span><span class=\"p\">,</span> <span class=\"s1\">'bb'</span><span class=\"p\">]</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"nb\">sorted</span><span class=\"p\">(</span><span class=\"n\">words</span><span class=\"p\">,</span> <span class=\"n\">key</span><span class=\"o\">=</span><span class=\"nb\">len</span><span class=\"p\">,</span> <span class=\"n\">reverse</span><span class=\"o\">=</span><span class=\"kc\">True</span><span class=\"p\">))</span>",
+    "opts": [
+      [
+        "[&#x27;ccc&#x27;, &#x27;bb&#x27;, &#x27;a&#x27;]",
+        1
+      ],
+      [
+        "[&#x27;a&#x27;, &#x27;bb&#x27;, &#x27;ccc&#x27;]",
+        1
+      ],
+      [
+        "[&#x27;ccc&#x27;, &#x27;a&#x27;, &#x27;bb&#x27;]",
+        1
+      ],
+      [
+        "None",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "key=len で長さを基準に、reverse=True で降順に並べた新しいリストを返します。"
+  },
+  {
+    "ch": 4,
+    "sec": "s4-7-7",
+    "secLabel": "4.7.7",
+    "q": "ドキュメンテーション文字列（docstring）の書き方として、チュートリアルが勧めているものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "1行目には関数名と引数の型を書く。",
+        0
+      ],
+      [
+        "1行目は簡潔な要約にし、続きがある場合は2行目を空行にする。",
+        0
+      ],
+      [
+        "要約のすぐ次の2行目から詳しい説明を書く。",
+        0
+      ],
+      [
+        "docstring は関数の最後に書く。",
+        0
+      ],
+      [
+        "docstring は # で始まるコメントで書く。",
+        0
+      ]
+    ],
+    "ans": 1,
+    "exp": "1行目は大文字で始まりピリオドで終わる簡潔な要約、2行目は空行、3行目以降に詳しい説明を書きます。docstring は関数本体の最初の文字列リテラルです。"
+  },
+  {
+    "ch": 4,
+    "sec": "s4-7-8",
+    "secLabel": "4.7.8",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"k\">def</span><span class=\"w\"> </span><span class=\"nf\">f</span><span class=\"p\">(</span><span class=\"n\">a</span><span class=\"p\">:</span> <span class=\"nb\">int</span><span class=\"p\">,</span> <span class=\"n\">b</span><span class=\"p\">:</span> <span class=\"nb\">str</span> <span class=\"o\">=</span> <span class=\"s1\">'x'</span><span class=\"p\">)</span> <span class=\"o\">-&gt;</span> <span class=\"nb\">bool</span><span class=\"p\">:</span>\n    <span class=\"k\">return</span> <span class=\"kc\">True</span>\n\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">f</span><span class=\"o\">.</span><span class=\"vm\">__annotations__</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "{&#x27;a&#x27;: &lt;class &#x27;int&#x27;&gt;, &#x27;b&#x27;: &lt;class &#x27;str&#x27;&gt;, &#x27;return&#x27;: &lt;class &#x27;bool&#x27;&gt;}",
+        1
+      ],
+      [
+        "{&#x27;a&#x27;: &#x27;int&#x27;, &#x27;b&#x27;: &#x27;str&#x27;}",
+        1
+      ],
+      [
+        "(&lt;class &#x27;int&#x27;&gt;, &lt;class &#x27;str&#x27;&gt;, &lt;class &#x27;bool&#x27;&gt;)",
+        1
+      ],
+      [
+        "None",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "関数注釈は __annotations__ 属性に辞書で保存されます。戻り値の注釈はキー &#x27;return&#x27; に入ります。"
+  },
+  {
+    "ch": 5,
+    "sec": "s5-1",
+    "secLabel": "5.1",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"n\">a</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"mi\">2</span><span class=\"p\">,</span> <span class=\"mi\">3</span><span class=\"p\">]</span>\n<span class=\"n\">a</span><span class=\"o\">.</span><span class=\"n\">extend</span><span class=\"p\">(</span><span class=\"s1\">'ab'</span><span class=\"p\">)</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">a</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "[1, 2, 3, &#x27;ab&#x27;]",
+        1
+      ],
+      [
+        "[1, 2, 3, &#x27;a&#x27;, &#x27;b&#x27;]",
+        1
+      ],
+      [
+        "[1, 2, 3, [&#x27;a&#x27;, &#x27;b&#x27;]]",
+        1
+      ],
+      [
+        "TypeError",
+        1
+      ],
+      [
+        "[1, 2, 3, &#x27;b&#x27;, &#x27;a&#x27;]",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "extend はイテラブルの要素を1つずつ末尾に追加します。文字列もイテラブルなので &#x27;a&#x27; と &#x27;b&#x27; に分かれます。append(&#x27;ab&#x27;) なら &#x27;ab&#x27; が1要素で入ります。"
+  },
+  {
+    "ch": 5,
+    "sec": "s5-1",
+    "secLabel": "5.1",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"n\">a</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"mi\">3</span><span class=\"p\">,</span> <span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"mi\">2</span><span class=\"p\">,</span> <span class=\"mi\">1</span><span class=\"p\">]</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">a</span><span class=\"o\">.</span><span class=\"n\">remove</span><span class=\"p\">(</span><span class=\"mi\">1</span><span class=\"p\">),</span> <span class=\"n\">a</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "None [3, 2, 1]",
+        1
+      ],
+      [
+        "1 [3, 2, 1]",
+        1
+      ],
+      [
+        "None [3, 2]",
+        1
+      ],
+      [
+        "[3, 2, 1] [3, 2, 1]",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "remove は値が一致する最初の要素だけを削除し、戻り値は None です。"
+  },
+  {
+    "ch": 5,
+    "sec": "s5-3",
+    "secLabel": "5.3",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"n\">t</span> <span class=\"o\">=</span> <span class=\"p\">(</span><span class=\"s1\">'a'</span><span class=\"p\">)</span>\n<span class=\"n\">u</span> <span class=\"o\">=</span> <span class=\"p\">(</span><span class=\"s1\">'a'</span><span class=\"p\">,)</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"nb\">type</span><span class=\"p\">(</span><span class=\"n\">t</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"vm\">__name__</span><span class=\"p\">,</span> <span class=\"nb\">type</span><span class=\"p\">(</span><span class=\"n\">u</span><span class=\"p\">)</span><span class=\"o\">.</span><span class=\"vm\">__name__</span><span class=\"p\">,</span> <span class=\"nb\">len</span><span class=\"p\">(</span><span class=\"n\">u</span><span class=\"p\">))</span>",
+    "opts": [
+      [
+        "str tuple 1",
+        1
+      ],
+      [
+        "tuple tuple 1",
+        1
+      ],
+      [
+        "str tuple 2",
+        1
+      ],
+      [
+        "tuple tuple 2",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "(&#x27;a&#x27;) はカッコで囲んだだけの文字列です。要素1つのタプルは末尾にカンマが必要です。"
+  },
+  {
+    "ch": 5,
+    "sec": "s5-4",
+    "secLabel": "5.4",
+    "q": "空の集合（set）を作る正しい書き方はどれか。",
+    "code": "",
+    "opts": [
+      [
+        "{}",
+        1
+      ],
+      [
+        "set()",
+        1
+      ],
+      [
+        "[]",
+        1
+      ],
+      [
+        "()",
+        1
+      ],
+      [
+        "{None}",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "空の集合は set() で作ります。{} は空の辞書になります。{None} は None を1つ含む集合です。"
+  },
+  {
+    "ch": 5,
+    "sec": "s5-5",
+    "secLabel": "5.5",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"n\">d</span> <span class=\"o\">=</span> <span class=\"nb\">dict</span><span class=\"p\">(</span><span class=\"n\">b</span><span class=\"o\">=</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"n\">a</span><span class=\"o\">=</span><span class=\"mi\">2</span><span class=\"p\">)</span>\n<span class=\"n\">d</span><span class=\"p\">[</span><span class=\"s1\">'b'</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"mi\">3</span>\n<span class=\"n\">d</span><span class=\"p\">[</span><span class=\"s1\">'c'</span><span class=\"p\">]</span> <span class=\"o\">=</span> <span class=\"mi\">4</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"nb\">list</span><span class=\"p\">(</span><span class=\"n\">d</span><span class=\"p\">),</span> <span class=\"n\">d</span><span class=\"p\">[</span><span class=\"s1\">'b'</span><span class=\"p\">])</span>",
+    "opts": [
+      [
+        "[&#x27;b&#x27;, &#x27;a&#x27;, &#x27;c&#x27;] 3",
+        1
+      ],
+      [
+        "[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;] 3",
+        1
+      ],
+      [
+        "[&#x27;b&#x27;, &#x27;a&#x27;, &#x27;c&#x27;] 1",
+        1
+      ],
+      [
+        "[&#x27;c&#x27;, &#x27;b&#x27;, &#x27;a&#x27;] 3",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "list(d) はキーを挿入した順に返します。既存のキー &#x27;b&#x27; への代入は値の上書きで、順番は変わりません。並べ替えたいときは sorted(d) です。"
+  },
+  {
+    "ch": 5,
+    "sec": "s5-7",
+    "secLabel": "5.7",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"nb\">repr</span><span class=\"p\">([]</span> <span class=\"ow\">or</span> <span class=\"mi\">0</span> <span class=\"ow\">or</span> <span class=\"s1\">'x'</span><span class=\"p\">),</span> <span class=\"nb\">repr</span><span class=\"p\">(</span><span class=\"s1\">'a'</span> <span class=\"ow\">and</span> <span class=\"s1\">''</span> <span class=\"ow\">and</span> <span class=\"s1\">'b'</span><span class=\"p\">))</span>",
+    "opts": [
+      [
+        "True False",
+        1
+      ],
+      [
+        "&#x27;x&#x27; &#x27;&#x27;",
+        1
+      ],
+      [
+        "&#x27;x&#x27; &#x27;b&#x27;",
+        1
+      ],
+      [
+        "0 &#x27;&#x27;",
+        1
+      ],
+      [
+        "&#x27;x&#x27; False",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "or は最初の真の値（なければ最後の値）、and は最初の偽の値（なければ最後の値）をそのまま返します。True / False には変換されません。"
+  },
+  {
+    "ch": 5,
+    "sec": "s5-8",
+    "secLabel": "5.8",
+    "q": "次の比較のうち、結果が True になるものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "(1, 2, 3) &lt; (1, 2)",
+        1
+      ],
+      [
+        "&#x27;abc&#x27; &lt; &#x27;abd&#x27;",
+        1
+      ],
+      [
+        "[2] &lt; [1, 9]",
+        1
+      ],
+      [
+        "&#x27;Z&#x27; &gt; &#x27;a&#x27;",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "シーケンスは先頭から辞書式に比べます。&#x27;c&#x27; &lt; &#x27;d&#x27; なので True。(1, 2) は先頭部分が同じで短い方が小さく、[2] &gt; [1, 9]、&#x27;Z&#x27;(90) &lt; &#x27;a&#x27;(97) です。"
+  },
+  {
+    "ch": 6,
+    "sec": "s6-4-1",
+    "secLabel": "6.4.1",
+    "q": "パッケージ sound.effects の __init__.py に <code>__all__ = [\"echo\", \"surround\"]</code> と書かれている。<code>from sound.effects import *</code> を実行したときの説明として正しいものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "effects ディレクトリ内のすべてのモジュールがインポートされる。",
+        0
+      ],
+      [
+        "echo と surround の2つのサブモジュールがインポートされる。",
+        0
+      ],
+      [
+        "何もインポートされない。",
+        0
+      ],
+      [
+        "__all__ は相対インポートのときにだけ使われる。",
+        0
+      ]
+    ],
+    "ans": 1,
+    "exp": "__all__ が定義されていれば、from package import * でインポートされるのは、そこに列挙されたモジュール名です。"
+  },
+  {
+    "ch": 6,
+    "sec": "s6-1-3",
+    "secLabel": "6.1.3",
+    "q": "インタープリタの <code>-OO</code> オプションの説明として正しいものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "assert 文だけを除去する。",
+        0
+      ],
+      [
+        "assert 文と __doc__ 文字列を除去する。",
+        0
+      ],
+      [
+        "プログラムの実行速度を2倍にする。",
+        0
+      ],
+      [
+        "__pycache__ ディレクトリを作らないようにする。",
+        0
+      ],
+      [
+        "コンパイル済みファイルを常に作り直す。",
+        0
+      ]
+    ],
+    "ans": 1,
+    "exp": "-O は assert 文を除去し、-OO は assert 文と __doc__（docstring）を除去します。.pyc から読み込んでも速くなるのは読み込みだけで、実行は速くなりません。"
+  },
+  {
+    "ch": 7,
+    "sec": "s7-1-1",
+    "secLabel": "7.1.1",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"sa\">f</span><span class=\"s1\">'</span><span class=\"si\">{</span><span class=\"mf\">3.14159</span><span class=\"si\">:</span><span class=\"s1\">.2f</span><span class=\"si\">}</span><span class=\"s1\">|</span><span class=\"si\">{</span><span class=\"mi\">42</span><span class=\"si\">:</span><span class=\"s1\">5</span><span class=\"si\">}</span><span class=\"s1\">|</span><span class=\"si\">{</span><span class=\"s2\">\"ab\"</span><span class=\"si\">:</span><span class=\"s1\">&gt;4</span><span class=\"si\">}</span><span class=\"s1\">|'</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "3.14|   42|  ab|",
+        1
+      ],
+      [
+        "3.14|42   |ab  |",
+        1
+      ],
+      [
+        "3.14159|   42|  ab|",
+        1
+      ],
+      [
+        "3.1|   42|  ab|",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": ".2f は小数点以下2桁、:5 は最小幅5（数値は既定で右寄せ）、&gt;4 は幅4の右寄せです。"
+  },
+  {
+    "ch": 8,
+    "sec": "s8-3",
+    "secLabel": "8.3",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"k\">try</span><span class=\"p\">:</span>\n    <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"s1\">'try'</span><span class=\"p\">,</span> <span class=\"n\">end</span><span class=\"o\">=</span><span class=\"s1\">' '</span><span class=\"p\">)</span>\n<span class=\"k\">except</span> <span class=\"ne\">ValueError</span><span class=\"p\">:</span>\n    <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"s1\">'except'</span><span class=\"p\">,</span> <span class=\"n\">end</span><span class=\"o\">=</span><span class=\"s1\">' '</span><span class=\"p\">)</span>\n<span class=\"k\">else</span><span class=\"p\">:</span>\n    <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"s1\">'else'</span><span class=\"p\">,</span> <span class=\"n\">end</span><span class=\"o\">=</span><span class=\"s1\">' '</span><span class=\"p\">)</span>\n<span class=\"k\">finally</span><span class=\"p\">:</span>\n    <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"s1\">'finally'</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "try else finally",
+        1
+      ],
+      [
+        "try finally",
+        1
+      ],
+      [
+        "try except else finally",
+        1
+      ],
+      [
+        "try except finally",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "例外が起きなかったので except は飛ばされ、else が実行されます。finally は必ず最後に実行されます。"
+  },
+  {
+    "ch": 8,
+    "sec": "s8-7",
+    "secLabel": "8.7",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"k\">def</span><span class=\"w\"> </span><span class=\"nf\">f</span><span class=\"p\">():</span>\n    <span class=\"k\">try</span><span class=\"p\">:</span>\n        <span class=\"k\">return</span> <span class=\"s1\">'try'</span>\n    <span class=\"k\">finally</span><span class=\"p\">:</span>\n        <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"s1\">'finally'</span><span class=\"p\">,</span> <span class=\"n\">end</span><span class=\"o\">=</span><span class=\"s1\">' '</span><span class=\"p\">)</span>\n\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">f</span><span class=\"p\">())</span>",
+    "opts": [
+      [
+        "finally try",
+        1
+      ],
+      [
+        "try finally",
+        1
+      ],
+      [
+        "try",
+        1
+      ],
+      [
+        "finally",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "try 節の return が実行される直前に finally 節が実行されます。そのため &#x27;finally&#x27; が先に出力され、その後に戻り値 &#x27;try&#x27; が print されます。"
+  },
+  {
+    "ch": 8,
+    "sec": "s8-3",
+    "secLabel": "8.3",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"k\">try</span><span class=\"p\">:</span>\n    <span class=\"k\">raise</span> <span class=\"ne\">ValueError</span><span class=\"p\">(</span><span class=\"s1\">'bad'</span><span class=\"p\">)</span>\n<span class=\"k\">except</span> <span class=\"ne\">Exception</span><span class=\"p\">:</span>\n    <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"s1\">'E'</span><span class=\"p\">)</span>\n<span class=\"k\">except</span> <span class=\"ne\">ValueError</span><span class=\"p\">:</span>\n    <span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"s1\">'V'</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "E",
+        1
+      ],
+      [
+        "V",
+        1
+      ],
+      [
+        "E と V の2行",
+        0
+      ],
+      [
+        "ValueError で停止する",
+        0
+      ]
+    ],
+    "ans": 0,
+    "exp": "except 節は上から順に調べられます。ValueError は Exception の派生クラスなので、先に書いた except Exception で捕まり、後ろの except ValueError には届きません。"
+  },
+  {
+    "ch": 8,
+    "sec": "s8-5",
+    "secLabel": "8.5",
+    "q": "トレースバックに「The above exception was the direct cause of the following exception:」と表示されるのは、例外をどのように送出したときか。",
+    "code": "",
+    "opts": [
+      [
+        "except 節の中で、from を付けずに別の例外を送出したとき",
+        0
+      ],
+      [
+        "raise 新しい例外 from 元の例外 と書いたとき",
+        0
+      ],
+      [
+        "raise 新しい例外 from None と書いたとき",
+        0
+      ],
+      [
+        "except 節の中で、引数なしの raise を書いたとき",
+        0
+      ],
+      [
+        "finally 節の中で return したとき",
+        0
+      ]
+    ],
+    "ans": 1,
+    "exp": "from で原因を明示すると「direct cause」と表示されます。from なしで except 内から送出すると「During handling of the above exception, another exception occurred」、from None なら元の例外は表示されません。"
+  },
+  {
+    "ch": 9,
+    "sec": "s9-3-5",
+    "secLabel": "9.3.5",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"k\">class</span><span class=\"w\"> </span><span class=\"nc\">C</span><span class=\"p\">:</span>\n    <span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"p\">[]</span>\n    <span class=\"k\">def</span><span class=\"w\"> </span><span class=\"nf\">add</span><span class=\"p\">(</span><span class=\"bp\">self</span><span class=\"p\">,</span> <span class=\"n\">v</span><span class=\"p\">):</span>\n        <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">x</span><span class=\"o\">.</span><span class=\"n\">append</span><span class=\"p\">(</span><span class=\"n\">v</span><span class=\"p\">)</span>\n\n<span class=\"n\">a</span> <span class=\"o\">=</span> <span class=\"n\">C</span><span class=\"p\">()</span>\n<span class=\"n\">b</span> <span class=\"o\">=</span> <span class=\"n\">C</span><span class=\"p\">()</span>\n<span class=\"n\">a</span><span class=\"o\">.</span><span class=\"n\">add</span><span class=\"p\">(</span><span class=\"mi\">1</span><span class=\"p\">)</span>\n<span class=\"n\">b</span><span class=\"o\">.</span><span class=\"n\">x</span> <span class=\"o\">=</span> <span class=\"p\">[</span><span class=\"mi\">9</span><span class=\"p\">]</span>\n<span class=\"n\">b</span><span class=\"o\">.</span><span class=\"n\">add</span><span class=\"p\">(</span><span class=\"mi\">2</span><span class=\"p\">)</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">a</span><span class=\"o\">.</span><span class=\"n\">x</span><span class=\"p\">,</span> <span class=\"n\">b</span><span class=\"o\">.</span><span class=\"n\">x</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "[1] [9, 2]",
+        1
+      ],
+      [
+        "[1, 2] [9]",
+        1
+      ],
+      [
+        "[1, 2] [1, 2]",
+        1
+      ],
+      [
+        "[1] [2]",
+        1
+      ],
+      [
+        "[1, 9, 2] [9, 2]",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "a.add(1) はクラス変数のリストに追加します。b.x = [9] は b にインスタンス変数 x を新しく作るので、以後 b.x はそちらを指します（インスタンス属性が優先）。a.x はクラス変数のまま [1] です。"
+  },
+  {
+    "ch": 9,
+    "sec": "s9-6",
+    "secLabel": "9.6",
+    "q": "次のクラスのインスタンス a から、値 1 を取り出せる書き方はどれか。",
+    "code": "<span class=\"k\">class</span><span class=\"w\"> </span><span class=\"nc\">A</span><span class=\"p\">:</span>\n    <span class=\"k\">def</span><span class=\"w\"> </span><span class=\"fm\">__init__</span><span class=\"p\">(</span><span class=\"bp\">self</span><span class=\"p\">):</span>\n        <span class=\"bp\">self</span><span class=\"o\">.</span><span class=\"n\">__v</span> <span class=\"o\">=</span> <span class=\"mi\">1</span>\n\n<span class=\"n\">a</span> <span class=\"o\">=</span> <span class=\"n\">A</span><span class=\"p\">()</span>",
+    "opts": [
+      [
+        "a.__v",
+        1
+      ],
+      [
+        "a._A__v",
+        1
+      ],
+      [
+        "a.A__v",
+        1
+      ],
+      [
+        "A.__v",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "先頭にアンダースコアが2つ以上ある名前は、名前マングリングで _クラス名__v に置き換えられます。完全なプライベートではないので、この名前なら参照できます。"
+  },
+  {
+    "ch": 10,
+    "sec": "s10-2",
+    "secLabel": "10.2",
+    "q": "モジュールと機能の組み合わせとして正しいものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "glob ― ワイルドカードで検索したファイル名のリストを返す",
+        0
+      ],
+      [
+        "shutil ― コマンドライン引数を解析する",
+        0
+      ],
+      [
+        "smtplib ― URL からデータを取得する",
+        0
+      ],
+      [
+        "zlib ― 日付と時刻を扱う",
+        0
+      ],
+      [
+        "timeit ― データを圧縮する",
+        0
+      ]
+    ],
+    "ans": 0,
+    "exp": "glob は正しい組み合わせです。shutil はファイルのコピーや移動、argparse がコマンドライン引数、urllib.request が URL、datetime が日付、zlib が圧縮、timeit が性能計測です。"
+  },
+  {
+    "ch": 10,
+    "sec": "s10-6",
+    "secLabel": "10.6",
+    "q": "0 から 5 までの整数の中から1つをランダムに返すものはどれか（random は import 済み）。",
+    "code": "",
+    "opts": [
+      [
+        "random.randrange(6)",
+        1
+      ],
+      [
+        "random.random(6)",
+        1
+      ],
+      [
+        "random.sample(6)",
+        1
+      ],
+      [
+        "random.choice(6)",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "randrange(6) は range(6) から選んだ整数を返します。random() は引数なしで0以上1未満の float、sample と choice はシーケンス（やrange）を受け取ります。"
+  },
+  {
+    "ch": 10,
+    "sec": "s10-6",
+    "secLabel": "10.6",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"kn\">import</span><span class=\"w\"> </span><span class=\"nn\">statistics</span>\n<span class=\"nb\">print</span><span class=\"p\">(</span><span class=\"n\">statistics</span><span class=\"o\">.</span><span class=\"n\">median</span><span class=\"p\">([</span><span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"mi\">3</span><span class=\"p\">,</span> <span class=\"mi\">5</span><span class=\"p\">,</span> <span class=\"mi\">7</span><span class=\"p\">]))</span>",
+    "opts": [
+      [
+        "4.0",
+        1
+      ],
+      [
+        "4",
+        1
+      ],
+      [
+        "3",
+        1
+      ],
+      [
+        "5",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "要素数が偶数のときは、真ん中の2つ（3と5）の平均を返すので 4.0 です。"
+  },
+  {
+    "ch": 10,
+    "sec": "s10-8",
+    "secLabel": "10.8",
+    "q": "次のコードの出力はどれか。",
+    "code": "<span class=\"kn\">from</span><span class=\"w\"> </span><span class=\"nn\">datetime</span><span class=\"w\"> </span><span class=\"kn\">import</span> <span class=\"n\">date</span>\n<span class=\"nb\">print</span><span class=\"p\">((</span><span class=\"n\">date</span><span class=\"p\">(</span><span class=\"mi\">2026</span><span class=\"p\">,</span> <span class=\"mi\">1</span><span class=\"p\">,</span> <span class=\"mi\">1</span><span class=\"p\">)</span> <span class=\"o\">-</span> <span class=\"n\">date</span><span class=\"p\">(</span><span class=\"mi\">2025</span><span class=\"p\">,</span> <span class=\"mi\">12</span><span class=\"p\">,</span> <span class=\"mi\">25</span><span class=\"p\">))</span><span class=\"o\">.</span><span class=\"n\">days</span><span class=\"p\">)</span>",
+    "opts": [
+      [
+        "7",
+        1
+      ],
+      [
+        "6",
+        1
+      ],
+      [
+        "8",
+        1
+      ],
+      [
+        "-7",
+        1
+      ]
+    ],
+    "ans": 0,
+    "exp": "date 同士の引き算は timedelta になり、days 属性で日数を取り出せます。12月25日から1月1日までは7日です。"
+  },
+  {
+    "ch": 11,
+    "sec": "s11-1",
+    "secLabel": "11.1",
+    "q": "大きなコンテナや深く入れ子になったコンテナを、省略して短く表示する repr() を提供するモジュールはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "pprint",
+        1
+      ],
+      [
+        "reprlib",
+        1
+      ],
+      [
+        "textwrap",
+        1
+      ],
+      [
+        "locale",
+        1
+      ],
+      [
+        "string",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "reprlib.repr() は長い表示を ... で省略します。pprint は改行・インデントで見やすく表示、textwrap は幅に合わせて文章を整形、locale は地域ごとの書式です。"
+  },
+  {
+    "ch": 12,
+    "sec": "s12-3",
+    "secLabel": "12.3",
+    "q": "仮想環境にインストールされているパッケージを、<code>pip install -r</code> で読み込める形式で一覧表示するコマンドはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "python -m pip list",
+        1
+      ],
+      [
+        "python -m pip freeze",
+        1
+      ],
+      [
+        "python -m pip show",
+        1
+      ],
+      [
+        "python -m pip install --upgrade",
+        1
+      ]
+    ],
+    "ans": 1,
+    "exp": "freeze は「名前==バージョン」の形式で出力します。慣習として requirements.txt に保存し、pip install -r requirements.txt で再現します。"
+  },
+  {
+    "ch": 14,
+    "sec": "s14-1",
+    "secLabel": "14.1",
+    "q": "対話モードの入力行編集とヒストリについて正しいものはどれか。",
+    "code": "",
+    "opts": [
+      [
+        "タブ補完は、起動後に毎回手動で有効にする必要がある。",
+        0
+      ],
+      [
+        "入力の履歴は、ユーザーのディレクトリの .python_history に保存される。",
+        0
+      ],
+      [
+        "タブ補完の対象はモジュール名だけである。",
+        0
+      ],
+      [
+        "インタープリタを終了すると、入力の履歴はすべて失われる。",
+        0
+      ]
+    ],
+    "ans": 1,
+    "exp": "補完は起動時に自動で有効になり、文の名前・ローカル変数・モジュール名が対象です。履歴は .python_history に保存され、次回も使えます。"
+  }
+]

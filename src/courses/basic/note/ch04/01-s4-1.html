@@ -1,0 +1,15 @@
+<h3 id="s4-1"><span class="secno">4.1</span>if文</h3>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">x</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Negative changed to zero'</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Zero'</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Single'</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'More'</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>More</code></pre>
+<p><code>elif</code> は「else if」の略で、いくつ並べてもかまいません。<code>elif</code> も <code>else</code> も省略できます。<mark>if … elif … elif … の並びは、他の言語の switch文・case文の代わり</mark>になります。上から順に調べて、最初に当てはまったブロックだけが実行されます。</p>
+

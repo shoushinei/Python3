@@ -1,0 +1,51 @@
+<h3 id="s2-1"><span class="secno">2.1</span>インタープリタの起動</h3>
+<div class="lead">インタープリタの起動・終了と、起動オプションを説明します。</div>
+<h5><span>起動と終了</span></h5>
+<p>インタープリタは、Unixでは通常 <code>/usr/local/bin/python3.x</code> にインストールされ、ターミナルで <code>python3.x</code> と打つと起動します。Windowsでは <code>py</code> コマンドも使えます。</p>
+<ul>
+<li>終了するには、一次プロンプトで<mark>EOF（ファイル終端）文字を入力</mark>します。<mark>Unixでは <kbd>Ctrl</kbd>+<kbd>D</kbd>、Windowsでは <kbd>Ctrl</kbd>+<kbd>Z</kbd></mark> です。</li>
+<li>または <mark><code>quit()</code></mark> と入力しても終了します。</li>
+<li>GNU readline ライブラリに対応していれば、行の編集や履歴の呼び出しができます（→ 14章）。</li>
+</ul>
+<h5><span>起動のしかた</span></h5>
+<div class="tbl"><table>
+<tr><th>コマンド</th><th>意味</th></tr>
+<tr><td><code>python3 script.py</code></td><td>スクリプトファイルを実行する</td></tr>
+<tr><td><code>python3 -c "コマンド" [引数]</code></td><td><mark>コマンド（文字列）を実行する</mark>。シェルの特殊文字が含まれるので、コマンドは引用符で囲むのが普通</td></tr>
+<tr><td><code>python3 -m モジュール [引数]</code></td><td><mark>モジュールのソースファイルをスクリプトとして実行する</mark></td></tr>
+<tr><td><code>python3 -i script.py</code></td><td>スクリプトを実行した<mark>後に対話モードに入る</mark></td></tr>
+</table></div>
+<h4 id="s2-1-1"><span class="subno">2.1.1</span>引数を渡す</h4>
+<p>スクリプト名とその後ろの引数は、文字列のリストとして <code>sys</code> モジュールの <dfn id="t5">sys.argv</dfn> に入ります。<code>import sys</code> で使えます。リストの長さは必ず1以上です。</p>
+<div class="tbl"><table>
+<tr><th>起動のしかた</th><th><code>sys.argv[0]</code></th></tr>
+<tr><td><code>python3 s.py x y</code></td><td><code>'s.py'</code>（スクリプト名）</td></tr>
+<tr><td>スクリプト名も引数もなし</td><td><mark><code>''</code>（空文字列）</mark></td></tr>
+<tr><td>スクリプト名に <code>-</code>（標準入力）を指定</td><td><mark><code>'-'</code></mark></td></tr>
+<tr><td><code>python3 -c "…"</code></td><td><mark><code>'-c'</code></mark></td></tr>
+<tr><td><code>python3 -m hello</code></td><td><mark>見つかったモジュールのフルパス名</mark></td></tr>
+</table></div>
+<p>実際に試すと、次のようになります。</p>
+<pre class="shell"><code>% python3 -c &quot;import sys; print(sys.argv)&quot; a b
+[&#x27;-c&#x27;, &#x27;a&#x27;, &#x27;b&#x27;]
+% python3 s.py x y            <span class="cm"># s.py の中身は import sys; print(sys.argv)</span>
+[&#x27;s.py&#x27;, &#x27;x&#x27;, &#x27;y&#x27;]
+% echo &#x27;import sys; print(sys.argv)&#x27; | python3 - p q
+[&#x27;-&#x27;, &#x27;p&#x27;, &#x27;q&#x27;]
+% python3 -m hello z
+[&#x27;/tmp/mm/hello.py&#x27;, &#x27;z&#x27;]</code></pre>
+<p><code>-c コマンド</code> や <code>-m モジュール</code> の後ろに書いたオプションは、インタープリタ自身のオプションとしては処理されず、<mark>そのまま sys.argv に入ります</mark>。</p>
+<div class="box java"><span class="bh">Javaと比べると</span><p>Javaの <code>main(String[] args)</code> の <code>args</code> には、クラス名は入らず引数だけが入ります。Pythonの <code>sys.argv</code> は、<mark>先頭（[0]）にスクリプト名が入る</mark>点が違います。引数そのものは <code>sys.argv[1:]</code> です。</p></div>
+<h4 id="s2-1-2"><span class="subno">2.1.2</span>対話モード</h4>
+<p>コマンドを端末から読み込んでいる状態を<dfn id="t6">対話モード</dfn>と呼びます。</p>
+<ul>
+<li>次のコマンドを待っているときは<dfn id="t7">一次プロンプト</dfn> <mark><code>&gt;&gt;&gt;</code></mark> が表示されます。</li>
+<li>複数行の構文（if文など）の続きを待っているときは<dfn id="t8">二次プロンプト</dfn> <mark><code>...</code></mark> が表示されます。</li>
+<li>起動すると、最初のプロンプトの前に、バージョン番号と著作権表示から始まるメッセージが表示されます。</li>
+</ul>
+<pre class="pynr"><code>&gt;&gt;&gt; the_world_is_flat = True
+&gt;&gt;&gt; if the_world_is_flat:
+...     print("Be careful not to fall off!")
+...
+Be careful not to fall off!</code></pre>
+

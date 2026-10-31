@@ -1,0 +1,110 @@
+<h3 id="s8-3"><span class="secno">8.3</span>例外の処理</h3>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Please enter a number: "</span><span class="p">))</span>
+        <span class="k">break</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Oops!  That was no valid number.  Try again..."</span><span class="p">)</span></code></pre>
+<h5><span>try 文の流れ</span></h5>
+<div class="flow">
+<div><i>1</i><b>try 節を実行</b>例外が起きなければ except 節は飛ばして、try 文は終わる。</div>
+<div><i>2</i><b>例外が起きたら</b>try 節の<mark>残りは飛ばす</mark>。例外の型が except の名前と一致すれば、その except 節を実行し、try 文の後ろから続ける。</div>
+<div><i>3</i><b>一致しなければ</b>外側の try 文に渡す。どこでも処理されなければ<dfn id="t55">処理されない例外</dfn>となり、メッセージを出して止まる。</div>
+</div>
+<ul>
+<li>except 節はいくつ書いてもよいですが、<mark>実行されるのは最大1つ</mark>だけです。</li>
+<li>except 節が処理するのは、対応する <mark>try 節で起きた例外だけ</mark>です。同じ try 文の別の except 節の中で起きた例外は処理しません。</li>
+<li>1つの except 節で複数の例外を処理するには、<mark>タプル</mark>で書きます：<code>except (RuntimeError, TypeError, NameError):</code></li>
+</ul>
+<h5><span>基底クラスでも捕まえられる</span></h5>
+<p>except 節のクラスは、<mark>同じクラスか、その基底クラス</mark>の例外と一致します（逆は一致しません）。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">D</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="p">[</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="bp">cls</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">D</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"D"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">C</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"C"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">B</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"B"</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>B
+C
+D</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">B</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">(</span><span class="n">B</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">D</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="p">[</span><span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="bp">cls</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">B</span><span class="p">:</span>              <span class="c1"># 基底クラスを先に書くと、全部ここで捕まる</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"B"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">D</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"D"</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">C</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"C"</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>B
+B
+B</code></pre>
+<div class="box warn"><span class="bh">注意：except の順番</span><p>except 節は<mark>上から順に</mark>調べられ、最初に一致したものだけが実行されます。<mark>基底クラスを先に書くと、派生クラスの except 節には決して届きません</mark>。</p></div>
+<div class="box java"><span class="bh">Javaと比べると</span><p>Javaの try-catch と同じ考え方です。Javaでは、基底クラスの catch を先に書くとコンパイルエラー（到達不能）になりますが、<mark>Pythonではエラーにならず、そのまま実行されて後ろが無視される</mark>点が違います。</p></div>
+<h5><span>例外オブジェクトと args</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">try</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">'spam'</span><span class="p">,</span> <span class="s1">'eggs'</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">inst</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">inst</span><span class="p">))</span>      <span class="c1"># 例外のインスタンスの型</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="o">.</span><span class="n">args</span><span class="p">)</span>       <span class="c1"># 引数は .args にタプルで入る</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>            <span class="c1"># __str__ により args が表示される</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">inst</span><span class="o">.</span><span class="n">args</span>       <span class="c1"># アンパックもできる</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'x ='</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'y ='</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&lt;class &#x27;Exception&#x27;&gt;
+(&#x27;spam&#x27;, &#x27;eggs&#x27;)
+(&#x27;spam&#x27;, &#x27;eggs&#x27;)
+x = spam
+y = eggs</code></pre>
+<p><code>except 例外名 as 変数:</code> と書くと、例外のインスタンスが変数に入ります。例外を作ったときの引数は <code>args</code> 属性にタプルで入っています。</p>
+<h5><span>else 節</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'ok.txt'</span><span class="p">,</span> <span class="s1">'missing.txt'</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">arg</span> <span class="o">==</span> <span class="s1">'ok.txt'</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'line1</span><span class="se">\n</span><span class="s1">line2</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'cannot open'</span><span class="p">,</span> <span class="n">arg</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="s1">'has'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()),</span> <span class="s1">'lines'</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>ok.txt has 2 lines
+cannot open missing.txt</code></pre>
+<ul>
+<li><dfn id="t56">else 節</dfn>は、<mark>すべての except 節より後ろ</mark>に書きます。<mark>try 節で例外が起きなかったときだけ</mark>実行されます。</li>
+<li>try 節にコードを追加するより、else 節に書く方がよいとされています。保護したいコード以外で起きた例外を、うっかり捕まえてしまうのを防げるからです。</li>
+<li>try 節の中で直接起きた例外だけでなく、<mark>try 節の中で呼んだ関数の中で起きた例外</mark>も処理されます。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">this_fails</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">this_fails</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Handling run-time error:'</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Handling run-time error: division by zero</code></pre>
+<p>最後の except 節では例外名を省略でき（<code>except:</code>）、どんな例外でも捕まえます。本当のエラーを隠してしまうので、使うときは十分注意します。メッセージを表示してから、<code>raise</code> で同じ例外をもう一度送出する使い方もあります。</p>
+

@@ -1,0 +1,21 @@
+<h3 id="s5-2"><span class="secno">5.2</span>del文</h3>
+<p><dfn id="t31">del文</dfn>は、値ではなく<mark>インデックスやスライスを指定して</mark>要素を削除します。<mark>pop() と違って、値を返しません</mark>。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">66.25</span><span class="p">,</span> <span class="mi">333</span><span class="p">,</span> <span class="mi">333</span><span class="p">,</span> <span class="mf">1234.5</span><span class="p">]</span>
+<span class="k">del</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">a</span><span class="p">[:]</span>           <span class="c1"># 全要素を削除（空のリストが残る）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">a</span>              <span class="c1"># 変数そのものを削除</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">NameError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"NameError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[1, 66.25, 333, 333, 1234.5]
+[1, 66.25, 1234.5]
+[]
+NameError: name &#x27;a&#x27; is not defined</code></pre>
+<p><code>del a</code> で変数そのものを削除すると、その後 <code>a</code> を参照したときに（別の値を代入するまで）<mark>NameError</mark> になります。</p>
+

@@ -1,0 +1,35 @@
+<h3 id="s9-8"><span class="secno">9.8</span>反復子（iterator）</h3>
+<p>for 文は、内部でコンテナオブジェクトに <code>iter()</code> を呼びます。返ってくる<dfn id="t70">イテレータ</dfn>オブジェクトは <code>__next__()</code> メソッドを持ち、要素を1つずつ返します。<mark>要素がなくなると <code>StopIteration</code> 例外を送出</mark>し、for ループが終わります。組み込み関数 <code>next()</code> で <code>__next__()</code> を呼べます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">s</span> <span class="o">=</span> <span class="s1">'abc'</span>
+<span class="n">it</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">),</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">),</span> <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">))</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">it</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"StopIteration"</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&lt;str_ascii_iterator object at 0x7f14cad58d60&gt;
+a b c
+StopIteration</code></pre>
+<p>自分のクラスにイテレータの動きを持たせるには、<mark><code>__iter__()</code> で <code>__next__()</code> を持つオブジェクトを返す</mark>ようにします。クラス自身が <code>__next__()</code> を定義しているなら、<code>__iter__()</code> は <code>self</code> を返すだけでかまいません。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">Reverse</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Iterator for looping over a sequence backwards."""</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">Reverse</span><span class="p">(</span><span class="s1">'spam'</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>m a p s </code></pre>
+

@@ -1,0 +1,282 @@
+<h3 id="s4-1"><span class="secno">4.1</span>NumPy <span class="scope">6問</span></h3>
+<div class="lead">数値計算の土台となる NumPy で、配列（ndarray）の作り方・扱い方と、各種の計算機能を説明します。</div>
+<h4 id="s4-1-1"><span class="subno">4.1.1</span>NumPyの概要</h4>
+<p><dfn>NumPy</dfn> は、<mark>配列や行列を効率よく扱うためのサードパーティ製パッケージ</mark>です。中身がC言語で書かれているので、Pythonのリストをfor文で回すよりはるかに高速に計算できます。慣習として <code>np</code> という名前でimportします。</p>
+<ul>
+<li>配列用の型 <dfn id="t110">ndarray</dfn>（N次元配列）が中心です。</li>
+<li>行列用の型 <dfn id="t111">matrix</dfn> もありますが、現在は非推奨で、行列も ndarray で扱うのが普通です。</li>
+<li>リストと違い、<mark>1つの配列の要素はすべて同じデータ型</mark>になります。</li>
+</ul>
+<div class="box java"><span class="bh">Javaと比べると</span><p>ndarray は、要素の型がそろった Java の配列（<code>int[]</code> や <code>double[][]</code>）に近いものです。ただし、for文を書かなくても配列全体をまとめて計算できます。</p></div>
+
+<h4 id="s4-1-2"><span class="subno">4.1.2</span>NumPyでデータを扱う</h4>
+<h5><span>配列の作成と、型・形状の確認</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>       <span class="c1"># オブジェクトの型</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>       <span class="c1"># 要素のデータ型</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>       <span class="c1"># 形状（各次元の要素数をタプルで）</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>   <span class="c1"># 形状、次元数、要素の総数</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>       <span class="c1"># 小数が1つでもあれば全体が float64 になる</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&lt;class &#x27;numpy.ndarray&#x27;&gt;
+int64
+(4,)
+(3, 2) 2 6
+float64</code></pre>
+<ul>
+<li><mark><code>type()</code> でオブジェクトの型</mark>（<code>numpy.ndarray</code>）を、<mark><code>dtype</code> で要素のデータ型</mark>を確認します。</li>
+<li><mark><code>shape</code> で形状</mark>を確認します。<code>shape</code> は属性なので、カッコは付けません（資料によっては「shapeメソッド」と書かれていることもあります）。</li>
+<li>整数のリストから作ると <mark><code>int64</code></mark>、小数を含むと <mark><code>float64</code></mark> になります（WindowsでNumPy 1.x を使っている場合、整数は <code>int32</code> になることがあります）。</li>
+<li><code>np.array([1, 2], dtype=np.float32)</code> のように型を指定したり、<code>a.astype(float)</code> で型を変換したりできます。</li>
+</ul>
+<h5><span>形の変更：reshape・ravel・flatten</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>          <span class="c1"># [0 1 2 3 4 5 6 7]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>       <span class="c1"># 2行4列に変える</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>   <span class="c1"># -1 は「残りから自動で決める」</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>          <span class="c1"># 1次元に戻す</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>        <span class="c1"># 1次元に戻す</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[[0 1 2 3]
+ [4 5 6 7]]
+[[0 1]
+ [2 3]
+ [4 5]
+ [6 7]]
+[0 1 2 3 4 5 6 7]
+[0 1 2 3 4 5 6 7]</code></pre>
+<p><dfn id="t112">reshape</dfn> は次元（形）を変換します。<dfn id="t113">ravel</dfn> と <dfn id="t114">flatten</dfn> は、どちらも多次元配列を1次元にしますが、<mark>コピーを作るかどうか</mark>が違います。</p>
+<div class="cmp">
+<div><b><code>ravel()</code></b>できるだけ<mark>元の配列を参照する（<span class="gl" tabindex="0" data-g="ビュー">ビュー</span>）</mark>配列を返す。結果を書き換えると、元の配列も変わる。</div>
+<div><b><code>flatten()</code></b>必ず<mark>コピー</mark>を返す。結果を書き換えても、元の配列は変わらない。</div>
+</div>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>flatten ＝ 「平らに（flat）した新品」</strong>を作る → 新しく作るのでコピー。<strong>ravel ＝ 「ほどく」</strong> → 元の配列をそのまま見ているだけ（ビュー）。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span>     <span class="c1"># ravel の結果を書き換える</span>
+<span class="n">f</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">200</span>     <span class="c1"># flatten の結果を書き換える</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>       <span class="c1"># ravel の変更だけが元の配列に伝わる</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[[100   2]
+ [  3   4]]</code></pre>
+<h5><span>要素の取り出し：インデックスとスライス</span></h5>
+<p>インデックスは0から始まり、<code>-1</code> は末尾を表します。スライス <code>開始:終了</code> は<mark>終了の位置を含みません</mark>。2次元配列は <mark><code>a[行, 列]</code></mark> のようにカンマで区切って指定します。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span> <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">90</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>        <span class="c1"># 1行目の2列目</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>           <span class="c1"># 0行目全体</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>        <span class="c1"># すべての行の1列目</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>  <span class="c1"># 1行目以降（スライス）× 0列目と2列目（リスト）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>  <span class="c1"># 最後の行（整数）× 0列目と2列目</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">a</span> <span class="o">&gt;</span> <span class="mi">55</span><span class="p">])</span>      <span class="c1"># 条件に合う要素だけ（ブールインデックス）</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>60
+[10 20 30]
+[20 50 80]
+[[40 60]
+ [70 90]]
+[70 90]
+[60 70 80 90]</code></pre>
+<div class="box warn"><span class="bh">注意：結果の次元に気をつける</span>
+<p>行の指定が<mark>スライス（<code>1:</code> や <code>-1:</code>）なら結果は2次元のまま</mark>、<mark>整数（<code>-1</code>）なら1次元</mark>になります。上の例の <code>a[1:, [0, 2]]</code> はカッコが二重の2次元、<code>a[-1, [0, 2]]</code> は1次元です。列の位置に <code>[0, 2]</code> のようなリストを渡すと、その列だけを取り出せます（<span class="gl" tabindex="0" data-g="ファンシーインデックス">ファンシーインデックス</span>）。</p></div>
+<div class="dg">
+<div class="col"><div class="g" style="--c:4"><span class="l"></span><span class="l">列0</span><span class="l">列1</span><span class="l">列2</span><span class="l">行0</span><span>10</span><span>20</span><span>30</span><span class="l">行1</span><span class="h">40</span><span>50</span><span class="h">60</span><span class="l">行2</span><span class="h">70</span><span>80</span><span class="h">90</span></div>
+<div class="cap"><b>a[1:, [0, 2]]</b><br>行1以降 × 列0と列2 → [[40 60] [70 90]]（2次元）</div></div>
+<div class="col"><div class="g" style="--c:4"><span class="l"></span><span class="l">列0</span><span class="l">列1</span><span class="l">列2</span><span class="l">行0</span><span>10</span><span>20</span><span>30</span><span class="l">行1</span><span>40</span><span>50</span><span>60</span><span class="l">行2</span><span class="y">70</span><span>80</span><span class="y">90</span></div>
+<div class="cap"><b>a[-1, [0, 2]]</b><br>最後の行（整数）× 列0と列2 → [70 90]（1次元）</div></div>
+</div>
+<h5><span>配列を作る関数</span></h5>
+<div class="tbl"><table>
+<tr><th>関数</th><th>作られる配列</th><th>例と結果</th></tr>
+<tr><td><code>np.arange(start, stop, step)</code></td><td>等間隔の数列（<mark>stop は含まない</mark>）</td><td><code>np.arange(2, 12, 4)</code> → [2 6 10]</td></tr>
+<tr><td><code>np.linspace(start, stop, num)</code></td><td>start〜stop を<mark>num 個に等分</mark>（<mark>stop を含む</mark>）</td><td><code>np.linspace(0, 2, 5)</code> → [0. 0.5 1. 1.5 2.]</td></tr>
+<tr><td><code>np.zeros(shape)</code> / <code>np.ones(shape)</code></td><td>すべて0 / すべて1（float）</td><td><code>np.zeros((2, 3))</code></td></tr>
+<tr><td><code>np.full(shape, 値)</code></td><td><mark>すべて指定した値</mark></td><td><code>np.full((2, 2), 9)</code> → [[9 9] [9 9]]</td></tr>
+<tr><td><code>np.eye(n)</code></td><td>n×n の<mark>単位行列</mark>（float）</td><td><code>np.eye(3)</code></td></tr>
+</table></div>
+<div class="box memo"><span class="bh">覚え方</span><ul>
+<li><strong>arange ＝ array + range</strong>。Pythonの <code>range</code> と同じく、<mark>終点を含まない</mark>。指定するのは「間隔（step）」。</li>
+<li><strong>linspace ＝ linear space（直線を等分）</strong>。線の両端に点を打って等分するイメージなので、<mark>両端を含む</mark>。指定するのは「個数（num）」。点が num 個なら、間隔は (stop − start) ÷ (num − 1)。</li>
+<li><strong>eye ＝ I（アイ）</strong>。単位行列の記号 I と同じ発音。</li>
+<li><strong>full ＝ 指定した値で満タン（full）にする</strong>。</li>
+</ul></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">a</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>        <span class="c1"># 対角成分は 1.0、それ以外は 0.0</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[ 2  6 10] 3 10
+[[1. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+1.0 0.0
+[0.  0.5 1.  1.5 2. ]
+[[3.14 3.14 3.14]
+ [3.14 3.14 3.14]]
+[0. 0. 0.] float64</code></pre>
+<h5><span>乱数</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>                         <span class="c1"># シードを固定すると毎回同じ乱数になる</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>                  <span class="c1"># 0以上1未満の一様乱数</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>                 <span class="c1"># 標準正規分布（平均0・標準偏差1）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>        <span class="c1"># 0以上5未満の整数（5は含まない）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>        <span class="c1"># 平均50・標準偏差10の正規分布</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">],</span> <span class="mi">4</span><span class="p">))</span>  <span class="c1"># リストから無作為に選ぶ</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[0.07630829 0.77991879 0.43840923]
+[ 0.09316606  3.20091471 -0.15698866]
+[4 0 4 0 3 2 3 4 4 0]
+[47.09868617 55.54580312 51.23880905]
+[&#x27;a&#x27; &#x27;b&#x27; &#x27;c&#x27; &#x27;c&#x27;]</code></pre>
+<ul>
+<li><mark><code>np.random.seed(値)</code></mark> で乱数の種を固定すると、何度実行しても同じ乱数が出ます。<mark>実行結果の再現性を確保する</mark>ために使います。</li>
+<li><mark><code>randint(low, high)</code> の high は含みません</mark>。<code>randint(0, 5)</code> は0〜4です。</li>
+<li><code>normal(平均, 標準偏差, 個数)</code> は正規分布に従う乱数を作ります。</li>
+</ul>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>type は型、shape は形状、dtype は要素の型。reshape は形の変換、ravel はビュー、flatten はコピー。</li>
+<li>スライスで取り出すと次元は保たれ、整数で取り出すと次元が1つ減る。</li>
+<li>arange と randint の終点は含まない。linspace の終点は含む。eye は単位行列（float）。</li>
+</ul></div>
+
+<h4 id="s4-1-3"><span class="subno">4.1.3</span>NumPyの各機能</h4>
+<h5><span>ユニバーサルファンクション</span></h5>
+<p>配列に <code>+ 1</code> や <code>* 10</code> をすると、<mark>for文を書かなくても全要素に同じ計算がされます</mark>。<code>np.sqrt</code> や <code>np.log10</code> のように、配列の全要素に関数を適用する関数を<dfn id="t115">ユニバーサルファンクション</dfn>（ufunc）と呼びます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>       <span class="c1"># 全要素に計算</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>          <span class="c1"># 平方根</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="mi">25</span><span class="p">))</span>    <span class="c1"># 25, 100, 225, 400 の常用対数</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">([</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[ 2  5 10 17] [ 10  40  90 160]
+[1. 2. 3. 4.]
+[1.39794001 2.         2.35218252 2.60205999]
+[1.    2.718] [2 3]</code></pre>
+<h5><span>ブロードキャスト</span></h5>
+<p>形の違う配列同士でも、<mark>小さい方を自動で引き延ばして計算</mark>してくれます。これを<dfn id="t116">ブロードキャスト</dfn>と呼びます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>   <span class="c1"># 2行3列</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>             <span class="c1"># 3要素</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>        <span class="c1"># v が各行に足される</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>        <span class="c1"># スカラーは全要素に</span>
+<span class="n">col</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">100</span><span class="p">],</span> <span class="p">[</span><span class="mi">200</span><span class="p">]])</span>         <span class="c1"># 2行1列</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span> <span class="o">+</span> <span class="n">col</span><span class="p">)</span>      <span class="c1"># col が各列に足される</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[[11 22 33]
+ [14 25 36]]
+[[ 2  4  6]
+ [ 8 10 12]]
+[[101 102 103]
+ [204 205 206]]</code></pre>
+<h5><span>集約と axis</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">m</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">m</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">m</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>    <span class="c1"># 縦方向に集約（列ごと）→ 3要素</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>    <span class="c1"># 横方向に集約（行ごと）→ 2要素</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">])))</span>   <span class="c1"># 最大値の位置（インデックス）</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>21 3.5 6 1
+[5 7 9]
+[ 6 15]
+1</code></pre>
+<p><code>axis=0</code> で集約すると、縦方向につぶれて列ごとの結果になります。迷ったら、<mark>「指定した axis が消える」</mark>と覚えると確実です。形が (2, 3) の配列を <code>axis=0</code> で集約すると (3,) になります。</p>
+<div class="dg">
+<div class="col"><div class="g" style="--c:3"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div><div class="cap">m（形 (2, 3)）</div></div>
+<div class="col"><div class="arr">↓</div><div class="g" style="--c:3"><span class="h">5</span><span class="h">7</span><span class="h">9</span></div><div class="cap"><b>sum(axis=0)</b><br>縦につぶす → 形 (3,)<br>0番目の次元（行）が消える</div></div>
+<div class="col"><div class="arr">→</div><div class="g" style="--c:1"><span class="y">6</span><span class="y">15</span></div><div class="cap"><b>sum(axis=1)</b><br>横につぶす → 形 (2,)<br>1番目の次元（列）が消える</div></div>
+</div>
+<h5><span>要素間の差分</span></h5>
+<p><code>np.diff</code> 関数は、要素間の差分（後ろの値 − 前の値）を返します。要素数は1つ減ります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">l</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>array([ 0,  4, -5,  2])</code></pre>
+<h5><span>連結と転置</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">]])</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">20</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">]))</span>            <span class="c1"># 1次元同士の連結</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">b</span><span class="p">,</span> <span class="n">b1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>   <span class="c1"># 列を増やす方向に連結</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">b</span><span class="p">,</span> <span class="n">b1</span><span class="p">]))</span>                <span class="c1"># hstack も同じ結果</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="p">]))</span>                 <span class="c1"># 行を増やす方向に連結</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>                               <span class="c1"># 転置（2行3列 → 3行2列）</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[1 5 4 1 5 4]
+[[ 1  2  8 10]
+ [ 4  5  8 20]]
+[[ 1  2  8 10]
+ [ 4  5  8 20]]
+[[1 2 8]
+ [4 5 8]
+ [1 2 8]
+ [4 5 8]]
+[[1 4]
+ [2 5]
+ [8 8]]</code></pre>
+<ul>
+<li><dfn id="t117">concatenate</dfn> で連結します。<mark><code>axis=0</code> は行が増える方向（縦）、<code>axis=1</code> は列が増える方向（横）</mark>です。pandas でも同じ考え方です。</li>
+<li><dfn id="t118">hstack</dfn> は横（horizontal）、<dfn id="t119">vstack</dfn> は縦（vertical）に連結します。1次元配列同士の hstack は、単純に後ろにつなげる連結です。</li>
+<li><code>.T</code> は<span class="gl" tabindex="0" data-g="転置">転置</span>です。1×4 の配列を <code>.T</code> にすると 4×1 になります。</li>
+</ul>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>h</strong>stack ＝ <strong>h</strong>orizontal（水平＝横に並べる）、<strong>v</strong>stack ＝ <strong>v</strong>ertical（垂直＝縦に積む）。<code>.T</code> は Transpose（転置）の T です。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>          <span class="c1"># 1×4 → 4×1</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>                      <span class="c1"># 4×1 → 1次元の4要素</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)])</span>   <span class="c1"># 1次元同士の hstack</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>(4, 1)
+[7 7 7 7] [7.  7.  7.  7.  0.  0.5 1. ] (7,)</code></pre>
+<h5><span>ドット積（内積・行列積）</span></h5>
+<p>第3章の内積や行列の積は、<mark><code>np.dot(x, y)</code> または演算子 <code>@</code></mark> で計算します。<code>*</code> は同じ位置の要素同士の掛け算（<span class="gl" tabindex="0" data-g="要素積">要素積</span>）なので、区別しましょう。</p>
+<div class="box java"><span class="bh">Javaと比べると</span><p>Javaで内積を書くと <code>for (int i = 0; i &lt; a.length; i++) sum += a[i] * b[i];</code> のようなループになります。NumPyではこれを <code>a @ b</code> の1語で書けます。一方、<code>a * b</code> は「ループの中の <code>a[i] * b[i]</code> を並べただけ」（足し合わせない）と考えると区別しやすくなります。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">)</span>          <span class="c1"># 要素積 → [6 4]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">@</span> <span class="n">b</span><span class="p">)</span>          <span class="c1"># 内積 → 2×3 + 1×4 = 10</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>   <span class="c1"># 行列×ベクトル → [1×2+0×1, 2×2+3×1] = [2 7]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span> <span class="o">@</span> <span class="n">c</span><span class="p">)</span>          <span class="c1"># 行列積</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[6 4]
+10
+[2 7]
+[[1 0]
+ [8 9]]</code></pre>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>配列と<span class="gl" tabindex="0" data-g="スカラー">スカラー</span>の演算や ufunc は全要素に作用する。形の違う配列はブロードキャストで計算される。</li>
+<li>axis=0 は縦方向（行が増える／列ごとに集約）、axis=1 は横方向。</li>
+<li>内積・行列積は np.dot または @。* は要素積。</li>
+</ul></div>
+
+<!-- ================================================================ pandas -->

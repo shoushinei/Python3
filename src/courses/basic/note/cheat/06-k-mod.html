@@ -1,0 +1,17 @@
+<h3 id="k-mod">モジュール（6章）</h3>
+<div class="tbl"><table class="drill">
+<tr><th>問い</th><th>答え</th><th>メモ</th></tr>
+<tr><td><code>from datetime import ＿＿</code></td><td class="a">date（from の後ろはモジュール名）</td><td><span class="qreal">本番</span></td></tr>
+<tr><td><code>import fibo の後</code></td><td class="a">fibo.fib で使う</td><td></td></tr>
+<tr><td><code>from fibo import fib の後</code></td><td class="a">fib で使う（fibo は未定義）</td><td></td></tr>
+<tr><td><code>from fibo import *</code></td><td class="a">_ で始まる名前以外を全部</td><td class="trap">一般には勧められない</td></tr>
+<tr><td><code>モジュールの読み込み</code></td><td class="a">1セッション1回（再読込は importlib.reload）</td><td></td></tr>
+<tr><td><code>スクリプト実行時の __name__</code></td><td class="a">&#x27;__main__&#x27;</td><td></td></tr>
+<tr><td><code>モジュールの検索順</code></td><td class="a">組み込み → sys.path（スクリプトのディレクトリ → PYTHONPATH → デフォルト）</td><td></td></tr>
+<tr><td><code>コンパイル済みファイル</code></td><td class="a">__pycache__/名前.バージョン.pyc</td><td class="trap">速くなるのは読み込みだけ</td></tr>
+<tr><td><code>-O / -OO</code></td><td class="a">assert を除去 / assert と docstring を除去</td><td></td></tr>
+<tr><td><code>dir() / dir(builtins)</code></td><td class="a">現在の名前（組み込みは含まない） / 組み込みの名前</td><td></td></tr>
+<tr><td><code>__init__.py</code></td><td class="a">ディレクトリをパッケージとして扱わせる</td><td></td></tr>
+<tr><td><code>from pkg import *</code></td><td class="a">__all__ に列挙したモジュールだけ</td><td></td></tr>
+<tr><td><code>from . import echo / from .. import x</code></td><td class="a">同じパッケージ / 親パッケージ</td><td class="trap">メインモジュールでは使えない</td></tr>
+</table></div>

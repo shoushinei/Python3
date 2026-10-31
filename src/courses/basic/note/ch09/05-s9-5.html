@@ -1,0 +1,43 @@
+<h3 id="s9-5"><span class="secno">9.5</span>継承</h3>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">Animal</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">"..."</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">"I say "</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">speak</span><span class="p">()</span>    <span class="c1"># 派生クラスで上書きした speak が呼ばれうる</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Cat</span><span class="p">(</span><span class="n">Animal</span><span class="p">):</span>                        <span class="c1"># class 派生クラス名(基底クラス名):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">speak</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>                      <span class="c1"># メソッドのオーバーライド</span>
+        <span class="k">return</span> <span class="s2">"meow"</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Animal</span><span class="o">.</span><span class="n">greet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"!"</span>   <span class="c1"># 基底クラスのメソッドを直接呼ぶ</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">Cat</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">greet</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">Animal</span><span class="p">),</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">Cat</span><span class="p">,</span> <span class="n">Animal</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">issubclass</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>I say meow!
+True True
+True False</code></pre>
+<ul>
+<li>属性が派生クラスで見つからなければ、<mark>基底クラスを探しに行きます</mark>（基底クラスがさらに派生クラスなら、その基底クラスへと再帰的に）。</li>
+<li>派生クラスは、基底クラスのメソッドを<mark>オーバーライド</mark>（上書き）できます。基底クラスのメソッドが同じクラスの別のメソッドを呼ぶとき、<mark>派生クラスで上書きしたメソッドが呼ばれる</mark>ことがあります（C++でいえば、すべてのメソッドが virtual）。</li>
+<li>基底クラスのメソッドを直接呼ぶには、<code>基底クラス名.メソッド名(self, 引数)</code> と書きます。</li>
+<li><mark><code>isinstance(obj, int)</code></mark> は、<code>obj.__class__</code> が int か int の派生クラスなら True。<mark><code>issubclass(bool, int)</code> は True</mark>（bool は int の派生クラス）、<code>issubclass(float, int)</code> は False です。</li>
+</ul>
+<h4 id="s9-5-1"><span class="subno">9.5.1</span>多重継承</h4>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="k">class</span><span class="w"> </span><span class="nc">DerivedClassName</span><span class="p">(</span><span class="n">Base1</span><span class="p">,</span> <span class="n">Base2</span><span class="p">,</span> <span class="n">Base3</span><span class="p">):</span>
+    <span class="o">...</span></code></pre>
+<p>単純な場合、基底クラスから継承した属性は、<mark>深さ優先・左から右</mark>の順で探されます。階層が重なっている場合でも、同じクラスを2回探すことはありません。つまり、DerivedClassName で見つからなければ Base1 を探し、次に Base1 の基底クラスを（再帰的に）探し、それでも見つからなければ Base2 を探す…という順です。実際には、<code>super()</code> を協調的に呼べるように、メソッドの解決順序（MRO）は動的に決まります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">Base1</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">who</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s2">"Base1"</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Base2</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">who</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s2">"Base2"</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Derived</span><span class="p">(</span><span class="n">Base1</span><span class="p">,</span> <span class="n">Base2</span><span class="p">):</span>
+    <span class="k">pass</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">Derived</span><span class="p">()</span><span class="o">.</span><span class="n">who</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">c</span><span class="o">.</span><span class="vm">__name__</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">Derived</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">])</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Base1
+[&#x27;Derived&#x27;, &#x27;Base1&#x27;, &#x27;Base2&#x27;, &#x27;object&#x27;]</code></pre>
+

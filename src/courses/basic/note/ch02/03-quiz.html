@@ -1,0 +1,20 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q1</span><code>python3 -c "import sys; print(sys.argv)" spam eggs</code> を実行したときの出力はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">['spam', 'eggs']</li>
+<li data-k="b" class="code">['', 'spam', 'eggs']</li>
+<li data-k="c" class="code">['import sys; print(sys.argv)', 'spam', 'eggs']</li>
+<li data-k="d" class="code">['-c', 'spam', 'eggs']</li>
+</ol><div class="exp" hidden>-c を使ったとき、sys.argv[0] は '-c' になります。後ろの引数は sys.argv[1:] に入ります。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q2</span>Pythonインタープリタに関する説明として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">python3 -i script.py とすると、スクリプトを実行した後に対話モードに入る。</li>
+<li data-k="b">二次プロンプトは &gt;&gt;&gt; である。</li>
+<li data-k="c">ソースファイルのデフォルトの文字コードは Shift_JIS である。</li>
+<li data-k="d">Windowsで対話モードを終了するには Ctrl+D を押す。</li>
+</ol><div class="exp" hidden>二次プロンプトは ...、デフォルトの文字コードは UTF-8、Windowsの終了は Ctrl+Z（または quit()）です。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q3</span>1行目にシバン行 <code>#!/usr/bin/env python3</code> があるファイルで、文字コードを宣言するコメントはどこに書くか。</p>
+<ol class="opts">
+<li data-k="a">シバン行と同じ1行目の末尾</li><li data-k="b">ファイルの最終行</li><li data-k="c">2行目</li><li data-k="d">どこに書いてもよい</li>
+</ol><div class="exp" hidden>文字コードの宣言は通常1行目ですが、1行目がシバン行のときは2行目に書きます。</div></div>
+</div>

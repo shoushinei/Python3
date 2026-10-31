@@ -1,0 +1,473 @@
+<h3 id="s4-4"><span class="secno">4.4</span>scikit-learn <span class="scope">8問</span></h3>
+<div class="lead">scikit-learn は機械学習を含むデータマイニングやデータ解析のライブラリで、Pythonで深層学習以外の機械学習を行うデファクトスタンダードになっています。</div>
+<p><dfn>scikit-learn</dfn>（import名は <code>sklearn</code>）の最大の特長は、<mark>どのアルゴリズムでも使い方が統一されている</mark>ことです。</p>
+<div class="flow">
+<div><i>1</i><b>インスタンス化</b><code>model = クラス名(パラメータ)</code></div>
+<div><i>2</i><b>学習 fit</b><code>model.fit(X, y)</code></div>
+<div><i>3</i><b>予測 predict</b><code>model.predict(X_new)</code></div>
+<div><i>前処理</i><b>変換 transform</b><code>fit</code> で学習し、<code>transform</code> で変換。<code>fit_transform</code> は両方を同時に行う。</div>
+</div>
+<p>学習は <dfn id="t148">fit</dfn>、予測は <dfn id="t149">predict</dfn> です。説明変数は慣習で大文字の <code>X</code>（行列なので）、目的変数は小文字の <code>y</code>（ベクトルなので）と書きます。</p>
+<div class="dg">
+<div class="col"><div class="flow2"><span>モデル<br><code>SVC()</code> など</span><i>→</i><span><code>fit(X_train, y_train)</code><br>学習</span><i>→</i><span><code>predict(X_test)</code><br>予測結果 y_pred</span></div><div class="cap"><b>分類・回帰</b>：fit で学習し、predict で予測する</div></div>
+<div class="col"><div class="flow2"><span>前処理<br><code>StandardScaler()</code> など</span><i>→</i><span><code>fit(X)</code><br>平均などを学習</span><i>→</i><span><code>transform(X)</code><br>変換後のデータ</span></div><div class="cap"><b>前処理・次元削減</b>：fit で学習し、transform で変換する（両方まとめて fit_transform）</div></div>
+</div>
+<div class="box java"><span class="bh">Javaと比べると</span><p>すべてのモデルが、同じインタフェース（fit / predict）を実装しているイメージです。アルゴリズムを入れ替えても、コードの形はほとんど変わりません。</p></div>
+
+<h4 id="s4-4-1"><span class="subno">4.4.1</span>前処理</h4>
+<h5><span>欠損値への対応</span></h5>
+<p>欠損値への対処法は、大きく分けて「除去する」か「補完する」かの2つです。除去は pandas の <code>dropna</code>、補完は scikit-learn の <code>SimpleImputer</code> でもできます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.impute</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimpleImputer</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"A"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s2">"B"</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">10</span><span class="p">]})</span>
+<span class="n">imp</span> <span class="o">=</span> <span class="n">SimpleImputer</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">"mean"</span><span class="p">)</span>    <span class="c1"># 平均値で補完（median / most_frequent も指定できる）</span>
+<span class="n">imp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>                             <span class="c1"># 各列の平均値を学習</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">imp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[[ 1.    6.  ]
+ [ 3.25  7.  ]
+ [ 3.    8.  ]
+ [ 4.    7.75]
+ [ 5.   10.  ]]</code></pre>
+<h5><span>カテゴリ変数のエンコーディング</span></h5>
+<p>機械学習のアルゴリズムは数値しか扱えません。<code>"S", "M", "L"</code> のような文字の<dfn id="t150">カテゴリ変数</dfn>を、<mark>a→0、b→1、c→2 のように数値に変換する処理</mark>を、<dfn id="t151">カテゴリ変数のエンコーディング</dfn>と呼びます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"size"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"M"</span><span class="p">,</span> <span class="s2">"S"</span><span class="p">,</span> <span class="s2">"L"</span><span class="p">,</span> <span class="s2">"M"</span><span class="p">]})</span>
+<span class="n">le</span> <span class="o">=</span> <span class="n">LabelEncoder</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">le</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"size"</span><span class="p">]))</span>   <span class="c1"># アルファベット順に L→0, M→1, S→2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[1 2 0 1]
+[&#x27;L&#x27; &#x27;M&#x27; &#x27;S&#x27;]</code></pre>
+<p><dfn id="t152">One-hotエンコーディング</dfn>は、カテゴリの<mark>取りうる値の数だけ列を作り、各行の該当する列だけを1、それ以外を0</mark>にする変換です。数値の大小に意味がないカテゴリ（色など）に向いています。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">OneHotEncoder</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"color"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">,</span> <span class="s2">"green"</span><span class="p">,</span> <span class="s2">"red"</span><span class="p">]})</span>
+<span class="n">ohe</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse_output</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ohe</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s2">"color"</span><span class="p">]]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ohe</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>   <span class="c1"># pandas でも同じことができる</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[[0. 0. 1.]
+ [1. 0. 0.]
+ [0. 1. 0.]
+ [0. 0. 1.]]
+[&#x27;color_blue&#x27; &#x27;color_green&#x27; &#x27;color_red&#x27;]
+   blue  green  red
+0     0      0    1
+1     1      0    0
+2     0      1    0
+3     0      0    1</code></pre>
+<h5><span>特徴量の正規化</span></h5>
+<p>例えば「年齢」は2桁、「年収」は7桁というように、特徴量ごとに桁（オーダー）が大きく違うと、<mark>値の大きい特徴量ばかりが重視されやすくなります</mark>。特徴量の尺度をそろえる処理を<dfn id="t153">正規化</dfn>と呼びます。</p>
+<div class="cmp">
+<div><b>分散正規化</b>平均を引いて標準偏差で割り、<mark>平均0・標準偏差1</mark>にする。標準化・z変換とも呼ぶ。<code>StandardScaler</code></div>
+<div><b>最小最大正規化</b><mark>最小値が0、最大値が1</mark>になるように変換する。<code>MinMaxScaler</code></div>
+</div>
+<p>どちらも <code>sklearn.preprocessing</code> モジュールにあります。<dfn id="t154">分散正規化</dfn>（<dfn id="t155">標準化</dfn>）は <code>StandardScaler</code>、<dfn id="t156">最小最大正規化</dfn>は <code>MinMaxScaler</code> を使います。</p>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>Standard ＝ 標準 → 標準化 → 平均0・標準偏差1</strong>（テストの偏差値と同じ考え方で、「平均からどれだけ離れているか」に直す）。<strong>MinMax ＝ 名前のとおり最小（Min）を0、最大（Max）を1</strong>にそろえる。平均と標準偏差の0と1を逆にした選択肢に注意しましょう。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">MinMaxScaler</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">3000000</span><span class="p">],</span> <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="mi">5000000</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">7000000</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>  <span class="c1"># 年齢と年収</span>
+<span class="n">std</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">std</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"平均"</span><span class="p">,</span> <span class="n">std</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="s2">"標準偏差"</span><span class="p">,</span> <span class="n">std</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">mm</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[[-1.22474487 -1.22474487]
+ [ 0.          0.        ]
+ [ 1.22474487  1.22474487]]
+平均 [0. 0.] 標準偏差 [1. 1.]
+[[0.  0. ]
+ [0.5 0.5]
+ [1.  1. ]]</code></pre>
+
+<h4 id="s4-4-2"><span class="subno">4.4.2</span>分類</h4>
+<h5><span>分類とは</span></h5>
+<p>分類は、データがどのクラスに属するかを予測するタスクです。<mark>正解（クラスのラベル）が分かっている既知のデータを教師として学習する、教師あり学習の典型的なタスク</mark>です。</p>
+<h5><span>分類モデル構築の流れ</span></h5>
+<div class="flow">
+<div><i>1</i><b>データの分割</b>手元のデータを<dfn id="t157">学習データ</dfn>と<dfn id="t158">テストデータ</dfn>に分ける。</div>
+<div><i>2</i><b>学習</b>学習データで分類モデルを作る（fit）。</div>
+<div><i>3</i><b>予測と評価</b>テストデータで予測（predict）し、未知のデータへの性能（<dfn id="t159">汎化能力</dfn>）を評価する。</div>
+</div>
+<p>分割には、<mark><code>sklearn.model_selection</code> モジュールの <dfn id="t160">train_test_split</dfn></mark> 関数を使います。ここでは scikit-learn に付属する <dfn id="t161">Irisデータセット</dfn>を使います。150件のアヤメについて、<mark>がく（sepal）と花びら（petal）の長さと幅</mark>の4つの特徴量と、3種類の品種が記録されています。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>          <span class="c1"># 150件 × 4特徴量</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">target_names</span><span class="p">)</span>         <span class="c1"># 3つの品種</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>   <span class="c1"># 8:2 に分割</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>(150, 4) (150,)
+[&#x27;sepal length (cm)&#x27;, &#x27;sepal width (cm)&#x27;, &#x27;petal length (cm)&#x27;, &#x27;petal width (cm)&#x27;]
+[&#x27;setosa&#x27; &#x27;versicolor&#x27; &#x27;virginica&#x27;]
+(120, 4) (30, 4)</code></pre>
+<ul>
+<li><code>test_size=0.2</code> で、<mark>テスト用が2割、学習用が8割</mark>になります（0.3 なら3割と7割）。</li>
+<li><code>random_state</code> は、分割をランダムに行うときの乱数のシードです。固定すると毎回同じ分割になります。</li>
+<li>分割と学習・評価を何度も繰り返して評価を平均する方法を、<dfn id="t162">交差検証</dfn>と呼びます（→ <a href="#s4-4-5">4.4.5</a>）。</li>
+</ul>
+<div class="box java"><span class="bh">Javaと比べると</span><p>学習データとテストデータを分けるのは、単体テストで「実装に使ったデータとは別のデータで確かめる」のと同じ考え方です。学習に使ったデータで評価すると、答えを知っている問題で採点するようなもので、本当の実力（<span class="gl" tabindex="0" data-g="汎化能力">汎化能力</span>）が分かりません。</p></div>
+<h5><span>サポートベクタマシン</span></h5>
+<ul>
+<li>クラスを分ける境界（<dfn id="t163">決定境界</dfn>）を、<dfn id="t164">マージン</dfn>（境界と、境界に最も近いデータとの距離）が<mark>最大になるように</mark>決める手法です。境界に最も近いデータを<dfn id="t165">サポートベクタ</dfn>と呼びます。</li>
+<li>マージンを大きくとると、境界が各クラスのデータから離れます。そのため、データが多少変わっても誤分類しにくい、<mark>汎化能力の高い</mark>モデルになります。</li>
+<li>直線や平面で分けられないデータも、<dfn id="t166">カーネル法</dfn>で<mark>高次元の空間に写すことで<span class="gl" tabindex="0" data-g="線形分離">線形分離</span></mark>できるようになります。</li>
+<li>分類だけでなく、回帰や<mark>外れ値検出</mark>にも使えます。</li>
+</ul>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>マージン ＝ 境界線の両側の「安全地帯」</strong>。安全地帯が広いほど、新しいデータが多少ずれても誤分類しにくいので、マージンは<mark>最大化</mark>します。安全地帯の端にいて境界を「支えている（support）」データがサポートベクタです。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">svc</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">"rbf"</span><span class="p">)</span>       <span class="c1"># kernel="linear" で線形のSVM</span>
+<span class="n">svc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>     <span class="c1"># 学習</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>  <span class="c1"># 予測</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"正解率"</span><span class="p">,</span> <span class="n">svc</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[2 1 0 2 0 2 0 1 1 1]
+正解率 1.0</code></pre>
+<p>この手法を<dfn id="t167">サポートベクタマシン</dfn>（SVM）と呼びます。</p>
+<h5><span>決定木</span></h5>
+<ul>
+<li>「花びらの幅は0.8cm以下か？」のような質問を繰り返して、データを分割していく手法です。結果が木のような形になります。</li>
+<li><dfn id="t168">木</dfn>というデータ構造は、頂点である<dfn id="t169">ノード</dfn>と、ノード同士を結ぶ<dfn id="t170">エッジ</dfn>でできています。一番上のノードを<dfn id="t171">ルート</dfn>、<mark>最下部にあって子ノードを持たないノードを<dfn id="t172">リーフ</dfn>（葉）</mark>と呼びます。</li>
+<li>どこで分割するかは、分割によってどれだけ得をするかを表す<dfn id="t173">情報利得</dfn>で決めます。<mark>情報利得 ＝ 親ノードの<span class="gl" tabindex="0" data-g="不純度">不純度</span> − 子ノードの不純度</mark>です。<dfn id="t174">不純度</dfn>はノード内のクラスの混ざり具合で、ジニ不純度や<span class="gl" tabindex="0" data-g="エントロピー">エントロピー</span>で測ります。</li>
+<li>主な<span class="gl" tabindex="0" data-g="ハイパーパラメータ">ハイパーパラメータ</span>は木の深さ <code>max_depth</code> です。深すぎると学習データに合わせすぎてしまいます（<dfn id="t175">過学習</dfn>）。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span><span class="p">,</span> <span class="n">export_text</span>
+
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">tree</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">tree</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">export_text</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">iris</span><span class="o">.</span><span class="n">feature_names</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"正解率"</span><span class="p">,</span> <span class="n">tree</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>|--- petal width (cm) &lt;= 0.80
+|   |--- class: 0
+|--- petal width (cm) &gt;  0.80
+|   |--- petal width (cm) &lt;= 1.75
+|   |   |--- class: 1
+|   |--- petal width (cm) &gt;  1.75
+|   |   |--- class: 2
+
+正解率 0.9666666666666667</code></pre>
+<p>この手法を<dfn id="t176">決定木</dfn>と呼びます。</p>
+<h5><span>ランダムフォレスト</span></h5>
+<ul>
+<li>学習データから、重複を許して無作為にデータを取り出した<dfn id="t177">ブートストラップデータ</dfn>を作り、それで決定木を作る処理を何度も繰り返します。</li>
+<li>たくさんの決定木の予測を、<mark>多数決（分類）や平均（回帰）</mark>でまとめます。複数のモデルを組み合わせるこのような手法を<dfn id="t178">アンサンブル学習</dfn>と呼びます。</li>
+<li>各決定木で使う特徴量も無作為に選ぶので、木同士が似すぎず、1本の決定木より安定した予測になります。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>   <span class="c1"># 決定木50本</span>
+<span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"正解率"</span><span class="p">,</span> <span class="n">rf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>正解率 0.9666666666666667</code></pre>
+<p>この手法を<dfn id="t179">ランダムフォレスト</dfn>と呼びます。</p>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>forest（森）＝ tree（木）がたくさん</strong>。<strong>random ＝ データ（<span class="gl" tabindex="0" data-g="ブートストラップ">ブートストラップ</span>）と特徴量を無作為に選ぶ</strong>。たくさんの木の多数決をとる「みんなで決める」方式が、<span class="gl" tabindex="0" data-g="アンサンブル学習">アンサンブル学習</span>です。</p></div>
+
+<h4 id="s4-4-3"><span class="subno">4.4.3</span>回帰</h4>
+<p>回帰は、連続値の目的変数を予測するタスクです。最も基本的なのが、説明変数と目的変数の関係を直線（平面）で表す<dfn id="t180">線形回帰</dfn>（<code>LinearRegression</code>）です。</p>
+<div class="cmp">
+<div><b>単回帰</b>説明変数が<mark>1つ</mark>。<span class="math">y = a x + b</span></div>
+<div><b>重回帰</b>説明変数が<mark>2つ以上</mark>。<span class="math">y = a<sub>1</sub>x<sub>1</sub> + a<sub>2</sub>x<sub>2</sub> + … + b</span></div>
+</div>
+<p>説明変数の数で<dfn id="t181">単回帰</dfn>と<dfn id="t182">重回帰</dfn>を区別します。学習によって、係数（<code>coef_</code>）と切片（<code>intercept_</code>）が決まります。</p>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>単 ＝ 説明変数が1つ（単独）</strong>、<strong>重 ＝ 説明変数が重なる（複数）</strong>。目的変数はどちらも1つです。<code>coef_</code> は coefficient（係数）、<code>intercept_</code> は切片（y軸と交わる点）の略です。末尾の <code>_</code> は「学習して決まった値」の印です。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">],</span> <span class="p">[</span><span class="mi">40</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">]])</span>   <span class="c1"># 広告費（説明変数は1つ → 単回帰）</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">25</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">79</span><span class="p">,</span> <span class="mi">101</span><span class="p">])</span>            <span class="c1"># 売上</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"係数"</span><span class="p">,</span> <span class="n">lr</span><span class="o">.</span><span class="n">coef_</span><span class="p">,</span> <span class="s2">"切片"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">intercept_</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">60</span><span class="p">]])))</span>            <span class="c1"># 広告費60のときの予測</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>係数 [1.9] 切片 4.6
+[118.6]</code></pre>
+<p>付属の <code>load_diabetes</code>（糖尿病の進行度と10個の特徴量）を使った例です。説明変数が10個あるので、重回帰になります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_diabetes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">load_diabetes</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>                                <span class="c1"># 442件 × 説明変数10個 → 重回帰</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>                      <span class="c1"># 学習用の説明変数と目的変数で学習</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>                   <span class="c1"># テスト用の説明変数から目的変数を予測</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lr</span><span class="o">.</span><span class="n">coef_</span><span class="p">))</span>                          <span class="c1"># 説明変数の数だけ係数がある</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>(442, 10)
+[117.4 107.9 186.6]
+10</code></pre>
+<ul>
+<li><code>X_train</code> は学習用の説明変数、<code>y_train</code> は学習用の目的変数です。<code>X_test</code>・<code>y_test</code> はテスト用です。</li>
+<li><code>predict(X_test)</code> は、テスト用の説明変数から目的変数を予測します。</li>
+</ul>
+<p class="vnote">古い資料では、米国ボストン市郊外の住宅価格のデータセット（<code>load_boston</code>）がよく使われていました。このデータセットは scikit-learn 1.2 で削除されたので、現在の版では使えません。</p>
+
+<h4 id="s4-4-4"><span class="subno">4.4.4</span>次元削減</h4>
+<p><dfn>次元削減</dfn>は、データが持つ情報をできるだけ損なわずに、<mark>説明変数（特徴量）の数を減らす</mark>タスクです。計算量を減らしたり、2次元・3次元に落としてグラフで確認できるようにしたりするために使います。</p>
+<p>代表的な手法が<dfn id="t184">主成分分析</dfn>（PCA）です。</p>
+<ul>
+<li>データの<mark>分散が最も大きくなる方向</mark>を探して新しい軸（<dfn id="t185">第一主成分</dfn>）とします。次に、それと直交する方向で分散が大きい軸を第二主成分とし、以下同様に続けます。</li>
+<li>元の次元<mark>以下</mark>の次元にデータを変換します。情報の多い<span class="gl" tabindex="0" data-g="主成分">主成分</span>だけを残すことで、次元を減らせます。</li>
+<li>各主成分が元のデータの分散（情報）をどれだけ説明するかは、<dfn id="t186">寄与率</dfn>（<code>explained_variance_ratio_</code>）で確認します。少数の主成分で<span class="gl" tabindex="0" data-g="寄与率">寄与率</span>の合計が大きければ、少ない次元に削減しても情報はあまり失われません。</li>
+<li>scikit-learn では、<mark><code>sklearn.decomposition</code> モジュールの <code>PCA</code> クラス</mark>を使います。</li>
+</ul>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>分散 ＝ 情報量</strong>と考えます。データが大きくばらつく向きほど、データの違いをよく表している（情報が多い）ので、<mark>分散が大きい方向</mark>を残します。<strong>PCA ＝ Principal Component Analysis（主成分分析）</strong>、モジュール名の <strong>decomposition ＝ 分解</strong>（データを成分に分解する）です。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_wine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_wine</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>          <span class="c1"># ワイン178件 × 特徴量13個</span>
+<span class="n">X_std</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># 尺度をそろえてから</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>                  <span class="c1"># 13次元 → 2次元</span>
+<span class="n">X_2d</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_std</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="s2">"→"</span><span class="p">,</span> <span class="n">X_2d</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>   <span class="c1"># 各主成分の寄与率</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>(178, 13) → (178, 2)
+[0.362 0.192]</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_wine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_wine</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_2d</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_2d</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_2d</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"PC1"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"PC2"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-15.webp"></figure>
+<p>13個の特徴量を2つの主成分にまとめただけで、3種類のワインがおおよそ分かれて見えます。</p>
+
+<h4 id="s4-4-5"><span class="subno">4.4.5</span>モデルの評価</h4>
+<h5><span>混同行列</span></h5>
+<p>分類モデルの予測結果は、<dfn id="t187">混同行列</dfn>にまとめて評価します。ここでは「正例（陽性）か負例（陰性）か」の2クラスで考えます。</p>
+<div class="tbl"><table>
+<tr><th></th><th>予測：正例</th><th>予測：負例</th></tr>
+<tr><th>実際：正例</th><td><mark>TP</mark>（<span class="gl" tabindex="0" data-g="真陽性">真陽性</span>：正しく正例と予測）</td><td><mark>FN</mark>（<span class="gl" tabindex="0" data-g="偽陰性">偽陰性</span>：見逃し）</td></tr>
+<tr><th>実際：負例</th><td><mark>FP</mark>（<span class="gl" tabindex="0" data-g="偽陽性">偽陽性</span>：誤検出）</td><td><mark>TN</mark>（<span class="gl" tabindex="0" data-g="真陰性">真陰性</span>：正しく負例と予測）</td></tr>
+</table></div>
+<h5><span>評価指標</span></h5>
+<div class="tbl"><table>
+<tr><th>指標</th><th>式</th><th>意味・重視する場面</th></tr>
+<tr><td><dfn id="t188">正解率</dfn>（accuracy）</td><td>(TP+TN) / (TP+FP+FN+TN)</td><td>正例・負例を問わず、予測が当たった割合</td></tr>
+<tr><td><dfn id="t189">適合率</dfn>（precision）</td><td>TP / (TP+FP)</td><td>正例と予測したもののうち、本当に正例だった割合。<mark>正例と予測するときに、なるべく間違えたくない</mark>（誤検出を減らしたい）場合に重視する</td></tr>
+<tr><td><dfn id="t190">再現率</dfn>（recall）</td><td>TP / (TP+FN)</td><td>本当の正例のうち、正例と予測できた割合。<mark>見逃しを減らしたい</mark>場合（病気の検査など）に重視する</td></tr>
+<tr><td><dfn id="t191">F値</dfn>（F1）</td><td>2 × 適合率 × 再現率 / (適合率 + 再現率)</td><td>適合率と再現率の<mark><span class="gl" tabindex="0" data-g="調和平均">調和平均</span></mark></td></tr>
+</table></div>
+<p>適合率と再現率は、一般に<dfn id="t192">トレードオフ</dfn>の関係にあります。片方を高くすると、もう片方は低くなりやすいので、両方のバランスを見る F値を使います。</p>
+<div class="dg">
+<div class="col"><div class="g" style="--c:3"><span class="l"></span><span class="l">予測:正</span><span class="l">予測:負</span><span class="l">実際:正</span><span class="h">TP</span><span>FN</span><span class="l">実際:負</span><span class="h">FP</span><span>TN</span></div><div class="cap"><b>適合率 ＝ TP /（TP + FP）</b><br>「正と予測した列」の中で見る</div></div>
+<div class="col"><div class="g" style="--c:3"><span class="l"></span><span class="l">予測:正</span><span class="l">予測:負</span><span class="l">実際:正</span><span class="y">TP</span><span class="y">FN</span><span class="l">実際:負</span><span>FP</span><span>TN</span></div><div class="cap"><b>再現率 ＝ TP /（TP + FN）</b><br>「実際に正の行」の中で見る</div></div>
+<div class="col"><div class="g" style="--c:3"><span class="l"></span><span class="l">予測:正</span><span class="l">予測:負</span><span class="l">実際:正</span><span class="gr">TP</span><span>FN</span><span class="l">実際:負</span><span>FP</span><span class="gr">TN</span></div><div class="cap"><b>正解率 ＝（TP + TN）/ 全体</b><br>対角線（当たり）÷ 全部</div></div>
+</div>
+<div class="box memo"><span class="bh">覚え方</span><ul>
+<li><strong>TP / FP などの読み方</strong>：後ろの P / N が「予測」、前の T / F が「当たったか」。FP ＝ 正（P）と予測したが外れ（F）＝ 誤検出、FN ＝ 負（N）と予測したが外れ ＝ 見逃し。</li>
+<li><strong>適合率（precision ＝ 精密さ）</strong>：予測の側から見る。「正と言ったものは本当に正か」。迷惑メールフィルタで、普通のメールを誤って捨てたくないときに重視する。</li>
+<li><strong>再現率（recall ＝ 思い出す、取りこぼさない）</strong>：実際の側から見る。「本当の正をどれだけ拾えたか」。病気の見逃しを避けたいときに重視する。</li>
+</ul></div>
+<div class="box warn"><span class="bh">注意：分類と回帰で指標が違う</span><p>正解率・適合率・再現率・F値は、混同行列から計算する<mark>分類モデルの指標</mark>です。<mark>回帰モデルは、<span class="gl" tabindex="0" data-g="平均二乗誤差">平均二乗誤差</span>（MSE）や<span class="gl" tabindex="0" data-g="決定係数">決定係数</span>（R²）など、予測値と実際の値の差で評価します</mark>。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_breast_cancer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">f1_score</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>     <span class="c1"># 2クラス（良性=1 / 悪性=0）</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">))</span>        <span class="c1"># [[TN FP] [FN TP]] の並び</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"正解率"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"適合率"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"再現率"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"F値  "</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[[53  0]
+ [ 9 81]]
+正解率 0.937
+適合率 1.0
+再現率 0.9
+F値   0.947</code></pre>
+<p>scikit-learn の <code>confusion_matrix</code> は、行が実際のクラス、列が予測のクラスで、<mark>クラス番号の小さい順（0, 1）</mark>に並びます。正例を1とすると、左上が TN、右下が TP になり、上の表とは並びが逆になります。</p>
+<h5><span>ROC曲線とAUC</span></h5>
+<p>判定のしきい値を変えながら、横軸に偽陽性率（FP / (FP+TN)）、縦軸に真陽性率（＝再現率）をとって描いた曲線を<dfn id="t193">ROC曲線</dfn>と呼びます。曲線の下の面積が<dfn id="t194">AUC</dfn>で、1に近いほど良いモデルです。でたらめな予測では0.5になります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_breast_cancer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">roc_curve</span><span class="p">,</span> <span class="n">roc_auc_score</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">prob</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X_test</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>      <span class="c1"># 正例である確率</span>
+<span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">th</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prob</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"FPR"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"TPR"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"AUC"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">roc_auc_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">prob</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>AUC 0.998</code></pre>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-16.webp"></figure>
+<h5><span>交差検証</span></h5>
+<p>データを k 個に分け、1つをテスト用、残りを学習用にして評価します。テスト用を入れ替えながら k 回繰り返して評価を平均するのが <dfn id="t195">k分割交差検証</dfn>です。データの分け方による偶然の影響を減らせます。</p>
+<div class="dg"><div class="col"><div class="kfold">
+<div>1回目 <span class="t"></span><span></span><span></span><span></span><span></span></div>
+<div>2回目 <span></span><span class="t"></span><span></span><span></span><span></span></div>
+<div>3回目 <span></span><span></span><span class="t"></span><span></span><span></span></div>
+<div>4回目 <span></span><span></span><span></span><span class="t"></span><span></span></div>
+<div>5回目 <span></span><span></span><span></span><span></span><span class="t"></span></div>
+</div><div class="cap"><span class="legend-dot" style="background:#f0a35e"></span>テスト用<span class="legend-dot" style="background:var(--brand-soft);border:1px solid var(--line)"></span>学習用　<b>5分割交差検証（cv=5）</b>：5回の評価の平均をとる</div></div></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">cross_val_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="n">cross_val_score</span><span class="p">(</span><span class="n">SVC</span><span class="p">(),</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>   <span class="c1"># 5分割交差検証</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scores</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">scores</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[0.967 0.967 0.967 0.933 1.   ] 0.967</code></pre>
+
+<h4 id="s4-4-6"><span class="subno">4.4.6</span>ハイパーパラメータの最適化</h4>
+<p>学習によって決まる値（回帰の係数など）を<strong>パラメータ</strong>と呼びます。一方、決定木の深さ <code>max_depth</code> やSVMの <code>C</code> のように、<mark>学習の前に人が決める値</mark>を<dfn id="t196">ハイパーパラメータ</dfn>と呼びます。</p>
+<p>候補の値の組み合わせをすべて試して、最も評価が良いものを選ぶ方法を<dfn id="t197">グリッドサーチ</dfn>と呼びます。scikit-learn では <mark><dfn id="t198">GridSearchCV</dfn></mark> を使い、各候補を<mark>交差検証で評価</mark>します。候補を無作為に選んで試す <code>RandomizedSearchCV</code> もあります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_wine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.svm</span><span class="w"> </span><span class="kn">import</span> <span class="n">SVC</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_wine</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"C"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="s2">"kernel"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"linear"</span><span class="p">,</span> <span class="s2">"rbf"</span><span class="p">]}</span>   <span class="c1"># 3 × 2 = 6通りを試す</span>
+<span class="n">gs</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">SVC</span><span class="p">(),</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>          <span class="c1"># 5分割交差検証で評価</span>
+<span class="n">gs</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gs</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>            <span class="c1"># 最も良かった組み合わせ</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">gs</span><span class="o">.</span><span class="n">best_score_</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>   <span class="c1"># そのときの交差検証の平均スコア</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">gs</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span>   <span class="c1"># 最良の設定で学習し直したモデルのテスト正解率</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>{&#x27;C&#x27;: 0.1, &#x27;kernel&#x27;: &#x27;linear&#x27;}
+0.963
+0.956</code></pre>
+<ul>
+<li>最適値は、必ず <code>param_grid</code> で与えた候補の中から選ばれます。</li>
+<li><code>cv=5</code> なら5分割、<code>cv=10</code> なら10分割の交差検証です。</li>
+<li>最適化した後の <code>predict</code> は、最良のハイパーパラメータで学習し直したモデルで予測します。</li>
+</ul>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>GridSearchCV ＝ Grid（格子）＋ Search（探索）＋ CV（Cross Validation ＝ 交差検証）</strong>。候補を縦横の格子に並べて全部の交点を試し、それぞれを交差検証で評価する、と名前がそのまま中身を説明しています。<code>best_params_</code> が最良の組み合わせ、<code>best_score_</code> がそのときのスコアです。</p></div>
+<h5><span>結果の再現性</span></h5>
+<p>決定木やランダムフォレストのように、<mark>アルゴリズム自体に乱数を使う</mark>モデルがあります。<code>train_test_split</code> の <code>random_state</code> だけを固定しても、モデル側の <code>random_state</code> を固定しなければ、実行するたびに結果（選ばれる最適値など）が変わることがあります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_wine</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span><span class="p">,</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_wine</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"max_depth"</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]}</span>
+<span class="n">free</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>           <span class="c1"># モデルの random_state を固定しない</span>
+    <span class="n">gs</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">DecisionTreeClassifier</span><span class="p">(),</span> <span class="n">grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">free</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gs</span><span class="o">.</span><span class="n">best_params_</span><span class="p">[</span><span class="s2">"max_depth"</span><span class="p">])</span>
+<span class="n">fixed</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>           <span class="c1"># モデルの random_state を固定する</span>
+    <span class="n">gs</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">fixed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gs</span><span class="o">.</span><span class="n">best_params_</span><span class="p">[</span><span class="s2">"max_depth"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"固定しない:"</span><span class="p">,</span> <span class="n">free</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"固定する  :"</span><span class="p">,</span> <span class="n">fixed</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>固定しない: [3, 3, 4, 6, 5, 5, 3, 6]
+固定する  : [3, 3, 3, 3, 3, 3, 3, 3]</code></pre>
+<p>固定しない方は、実行するたびに並びが変わる可能性があります。「▶ 実行」を何度か押して確かめてみましょう。</p>
+
+<h4 id="s4-4-7"><span class="subno">4.4.7</span>クラスタリング</h4>
+<p><dfn>クラスタリング</dfn>は、ある基準でデータ同士の類似性（距離など）を計算し、似たデータを<dfn id="t200">クラスタ</dfn>（グループ）にまとめるタスクです。<mark>教師なし学習の典型的なタスク</mark>です。</p>
+<h5><span>階層的クラスタリング</span></h5>
+<div class="cmp">
+<div><b>凝集型</b>まず似ているデータ同士をまとめて小さなクラスタを作り、似ているクラスタ同士をさらにまとめる。<mark>最終的にすべてが1つのクラスタになるまで繰り返す</mark>。一般的によく使われるのはこちら。</div>
+<div><b>分割型</b>最初にすべてのデータが1つのクラスタに属すると考え、順にクラスタを分割していく。<mark>計算量が多くなる</mark>ため、凝集型ほどは使われない。</div>
+</div>
+<p><dfn id="t201">階層的クラスタリング</dfn>は、<dfn id="t202">凝集型</dfn>と<dfn id="t203">分割型</dfn>に分かれます。まとめていく過程は、<dfn id="t204">デンドログラム</dfn>（樹形図）で表せます。</p>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>凝集型 ＝ ボトムアップ</strong>（1件ずつの小さなまとまりから、だんだん集まって1つになる）。<strong>分割型 ＝ トップダウン</strong>（全体の1つから、だんだん割っていく）。全体から割り方を考える分割型の方が計算が重く、一般には凝集型がよく使われます。scikit-learn のクラス名も <code>AgglomerativeClustering</code>（agglomerative ＝ 凝集する）です。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">AgglomerativeClustering</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">ac</span> <span class="o">=</span> <span class="n">AgglomerativeClustering</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>    <span class="c1"># 凝集型</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ac</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[1 1 1 0 0 0]</code></pre>
+<h5><span>k-means</span></h5>
+<div class="flow">
+<div><i>1</i><b>中心をランダムに置く</b>クラスタの数 k を決め、k 個のクラスタ中心をランダムに置く。</div>
+<div><i>2</i><b>近い中心に割り当て</b>各データを、最も近いクラスタ中心のクラスタに入れる。</div>
+<div><i>3</i><b>中心を更新</b>各クラスタのデータの平均の位置に中心を移す。</div>
+<div><i>4</i><b>収束まで繰り返す</b>中心が動かなくなるまで2と3を繰り返す。</div>
+</div>
+<p><dfn id="t205">k-means</dfn> を scikit-learn で行うには、<mark><code>sklearn.cluster</code> モジュールの <code>KMeans</code> クラス</mark>を使います。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_blobs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">X</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>   <span class="c1"># 3つの塊があるデータを作る</span>
+<span class="n">km</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">km</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">labels</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">km</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>    <span class="c1"># 求めたクラスタ中心</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">km</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">km</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"*"</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s2">"red"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[2 1 2 0 0 0 2 2 2 2]
+[[ 8.17  8.16]
+ [-4.3   0.27]
+ [ 0.83  4.12]]</code></pre>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-17.webp"></figure>
+<p>クラスタの数 k は、人が事前に決めるハイパーパラメータです。k を変えながら、クラスタ内の距離の合計（<code>inertia_</code>）が下がりにくくなる点を探して k を決める方法を、<dfn id="t206">エルボー法</dfn>と呼びます。</p>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>k-means ＝ k 個の mean（平均）</strong>。クラスタ中心を「所属するデータの平均の位置」に動かし続ける手法なので、この名前です。グラフが肘（elbow）のように折れ曲がる点で k を決めるのがエルボー法です。</p></div>
+<p>このほか、データの密度にもとづいてクラスタを作る DBSCAN もあります。DBSCANは、クラスタの数を事前に決める必要がありません。</p>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>前処理：エンコーディング（Label / One-hot）、<span class="gl" tabindex="0" data-g="正規化">正規化</span>（StandardScaler＝平均0・標準偏差1、MinMaxScaler＝0〜1）。</li>
+<li>分類：既知のラベルで学習する。SVM はマージン最大化と<span class="gl" tabindex="0" data-g="カーネル法">カーネル法</span>、決定木は情報利得、ランダムフォレストはブートストラップ＋多数決。</li>
+<li>回帰：説明変数1つなら単回帰、2つ以上なら重回帰。次元削減：PCA は分散が大きい方向を主成分にする（decomposition.PCA）。</li>
+<li>評価：適合率・再現率・F値・正解率は分類の指標。グリッドサーチは GridSearchCV で、交差検証で評価する。</li>
+<li>クラスタリング：教師なし学習。凝集型がよく使われる。k-means は cluster.KMeans。</li>
+</ul></div>
+
+<div class="quizzes">

@@ -1,0 +1,263 @@
+<h3 id="s4-3"><span class="secno">4.3</span>Matplotlib <span class="scope">6問</span></h3>
+<div class="lead">グラフを描く Matplotlib で、描画の仕組み、グラフの種類と出力方法、スタイルの指定を説明します。</div>
+<h4 id="s4-3-1"><span class="subno">4.3.1</span>Matplotlibの概要</h4>
+<p><dfn>Matplotlib</dfn> はグラフを描くパッケージです。<code>matplotlib.pyplot</code> を <code>plt</code> という名前でimportして使います。Jupyterでは、<code>%matplotlib inline</code> を実行するとノートブック内にグラフが表示されます（JupyterLab では通常、指定しなくても表示されます）。</p>
+<p>書き方は2通りありますが、主教材と試験は<mark>オブジェクト指向の書き方</mark>が中心です。</p>
+<div class="cmp">
+<div><b>pyplot の関数で描く</b><code>plt.plot(x, y)</code> のように書く手軽な書き方。</div>
+<div><b>オブジェクト指向で描く</b><code>fig, ax = plt.subplots()</code> で描画の土台を作り、<code>ax.plot(...)</code> のようにメソッドで描く。細かい設定がしやすい。</div>
+</div>
+
+<h4 id="s4-3-2"><span class="subno">4.3.2</span>描画オブジェクト</h4>
+<ul>
+<li><dfn id="t135">描画オブジェクト</dfn>（Figure）：グラフ全体を載せる1枚の紙。</li>
+<li><dfn id="t136">サブプロット</dfn>（Axes）：紙の上に置く、1つ1つのグラフ領域。1つの描画オブジェクトに複数置ける。</li>
+<li>タイトルは、<mark>描画オブジェクト全体には <code>fig.suptitle()</code></mark>、<mark>サブプロットごとには <code>ax.set_title()</code></mark> で付けます。</li>
+</ul>
+<div class="dg">
+<div class="col"><div class="fig-box"><div class="tt">fig.suptitle("全体のタイトル")</div><div class="axs"><div class="ax">ax.set_title("A")<br>サブプロット</div><div class="ax">ax.set_title("B")<br>サブプロット</div><div class="ax">ax.set_title("C")<br>サブプロット</div><div class="ax">ax.set_title("D")<br>サブプロット</div></div></div>
+<div class="cap"><b>fig, axes = plt.subplots(2, 2)</b><br>実線の枠＝描画オブジェクト（Figure）、点線の枠＝サブプロット（Axes）</div></div>
+</div>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>suptitle ＝ super title（上位のタイトル）</strong>：描画オブジェクト全体に1つ。<strong>set_title</strong>：サブプロットそれぞれに「タイトルを set する」。</p></div>
+<div class="box java"><span class="bh">Javaと比べると</span><p>Swingで言えば、描画オブジェクト（Figure）は <code>JFrame</code>、サブプロット（Axes）はその中に並べる <code>JPanel</code> のような関係です。<code>plt.subplots(2, 2)</code> は <code>GridLayout(2, 2)</code> でパネルを4つ置くイメージです。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>   <span class="c1"># 2行2列のサブプロット</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">axes</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"plot"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"bar"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"scatter"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"hist"</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">"Figure title"</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Figure (2, 2)</code></pre>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-04.webp"></figure>
+<p><code>subplots()</code> を引数なしで呼ぶと、サブプロットは<mark>1つ</mark>です。<code>fig = plt.figure()</code> で描画オブジェクトを作り、<code>ax = fig.add_subplot(2, 1, 1)</code>（2行1列の1番目）のようにサブプロットを追加する書き方もあります。</p>
+
+<h4 id="s4-3-3"><span class="subno">4.3.3</span>グラフの種類と出力方法</h4>
+<h5><span>折れ線グラフ（plot）と凡例</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"sin"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">"cos"</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"x"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"y"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">"best"</span><span class="p">)</span>             <span class="c1"># label= の文字で凡例を表示</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-05.webp"></figure>
+<ul>
+<li>折れ線グラフは <mark><dfn id="t137">plot</dfn></mark> で描きます。1つのサブプロットに何本でも重ねられます。</li>
+<li><mark><dfn id="t138">legend</dfn></mark> で<dfn id="t139">凡例</dfn>を表示します。各線の名前は <code>plot</code> の <code>label=</code> で指定します。<code>loc="best"</code>（既定）にすると、<mark>データとの重なりが最も少ない位置</mark>に表示されます。<code>loc="upper right"</code> のように位置を指定することもできます。</li>
+<li>軸ラベルは <code>set_xlabel</code> / <code>set_ylabel</code>、表示範囲は <code>set_xlim</code> / <code>set_ylim</code> で指定します。</li>
+</ul>
+<h5><span>棒グラフ（bar）と積み上げ棒グラフ</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tick_label</span><span class="o">=</span><span class="p">[</span><span class="s2">"Mon"</span><span class="p">,</span> <span class="s2">"Tue"</span><span class="p">,</span> <span class="s2">"Wed"</span><span class="p">,</span> <span class="s2">"Thu"</span><span class="p">])</span>   <span class="c1"># tick_label で目盛りにラベル</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-06.webp"></figure>
+<p>棒グラフは <mark><dfn id="t140">bar</dfn></mark> で描きます（横向きは <code>barh</code>）。<dfn id="t141">積み上げ棒グラフ</dfn>は、次のどちらかの方法で描きます。</p>
+<ul>
+<li>下の段を描いた後、上の段を <code>bottom=</code>（下の段の値）を指定して描く。</li>
+<li>先に「下の段＋上の段」の合計の高さで棒を描き、その上から下の段の棒を重ねて描く。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">lunch</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">dinner</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"A"</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">,</span> <span class="s2">"C"</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="c1"># 方法1：bottom で上の段を積む</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lunch</span><span class="p">,</span> <span class="n">tick_label</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"lunch"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dinner</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">lunch</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"dinner"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="c1"># 方法2：合計を先に描き、下の段を重ねる</span>
+<span class="n">total</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">lunch</span><span class="p">,</span> <span class="n">dinner</span><span class="p">)]</span>   <span class="c1"># 要素ごとの合計</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">tick_label</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"dinner"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">lunch</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"lunch"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">total</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[11, 9, 11]</code></pre>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-07.webp"></figure>
+<p>2つのリストから要素を1つずつ組にして取り出すには、<mark><code>zip()</code></mark> を使います。<code>[a + b for a, b in zip(lunch, dinner)]</code> で、要素ごとの合計のリストが作れます。</p>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>zip ＝ ファスナー</strong>。左右の歯を1つずつ噛み合わせるように、2つのリストの要素を1組ずつペアにします。積み上げ棒グラフの <code>bottom</code> は「この棒の底（bottom）をどこに置くか」です。</p></div>
+<h5><span>散布図（scatter）</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">"^"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"green"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-08.webp"></figure>
+<p>散布図は <mark><dfn id="t142">scatter</dfn></mark> で描きます。<code>marker</code> で点の形を変えられます。</p>
+<h5><span>ヒストグラム（hist）</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">10</span>                          <span class="c1"># 平均と標準偏差</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">patches</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>   <span class="c1"># 20個の階級に分ける</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">"horizontal"</span><span class="p">)</span>   <span class="c1"># 横向き</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">bins</span><span class="p">))</span>     <span class="c1"># 度数は20個、階級の境界は21個</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">{:.1f}</span><span class="s2"> - </span><span class="si">{:.1f}</span><span class="s2"> : </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">bins</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>20 21
+22.1 - 25.0 : 3.0
+25.0 - 27.9 : 4.0
+27.9 - 30.8 : 9.0</code></pre>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-09.webp"></figure>
+<ul>
+<li>ヒストグラムは <mark><dfn id="t143">hist</dfn></mark> で描きます。<code>bins=20</code> でデータを20個の区間（<span class="gl" tabindex="0" data-g="階級">階級</span>）に分けます。</li>
+<li><code>hist</code> は <mark>(各区間の度数 n, 区間の境界 bins, 図形 patches)</mark> を返します。区間が20個なら<mark>境界は21個</mark>です。</li>
+<li><mark><code>orientation="horizontal"</code> で横向き</mark>のヒストグラムになります。</li>
+<li>乱数のシードを固定しているので、何度実行しても同じグラフになります。</li>
+</ul>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>bins ＝ 箱（ビン）の数</strong>。データを何個の箱に振り分けるか、です。境界の数は<mark>「箱の数 ＋ 1」</mark>になります（柵の間が n 区間なら、杭は n+1 本必要、という植木算と同じ）。</p></div>
+<h5><span>箱ひげ図（boxplot）</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s2">"s=1"</span><span class="p">,</span> <span class="s2">"s=2"</span><span class="p">,</span> <span class="s2">"s=3"</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-10.webp"></figure>
+<p class="vnote">目盛りのラベルを指定する引数 <code>labels</code> は、Matplotlib 3.9 以降 <code>tick_labels</code> という名前に変わりました（<code>labels</code> も当面は使えます）。</p>
+<h5><span>円グラフ（pie）</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"rice"</span><span class="p">,</span> <span class="s2">"bread"</span><span class="p">,</span> <span class="s2">"noodle"</span><span class="p">,</span> <span class="s2">"other"</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">45</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>                     <span class="c1"># 既定：右（3時）から反時計回り</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"default"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">pie</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">startangle</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">counterclock</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">autopct</span><span class="o">=</span><span class="s2">"</span><span class="si">%1.1f%%</span><span class="s2">"</span><span class="p">,</span> <span class="n">explode</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"customized"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-11.webp"></figure>
+<p>円グラフは <mark><dfn id="t144">pie</dfn></mark> で描きます。主な引数は次のとおりです。</p>
+<div class="tbl"><table>
+<tr><th>引数</th><th>意味</th></tr>
+<tr><td><code>labels</code></td><td>各要素のラベル</td></tr>
+<tr><td><code>startangle</code></td><td>開始位置の角度。既定は0（右・3時の位置）、<mark>90 で真上（12時）から</mark>始まる</td></tr>
+<tr><td><code>counterclock</code></td><td>既定の True は<mark>反時計回り</mark>、<mark>False で時計回り</mark></td></tr>
+<tr><td><code>shadow=True</code></td><td>影を付ける</td></tr>
+<tr><td><code>autopct</code></td><td>割合をパーセントで表示する。<code>"%1.1f%%"</code> は小数1桁（<code>%%</code> で % 記号）</td></tr>
+<tr><td><code>explode</code></td><td>要素を中心から切り離して強調する</td></tr>
+</table></div>
+<div class="box memo"><span class="bh">覚え方</span><ul>
+<li><strong>counterclock ＝ counter-clockwise（反時計回り）</strong>。True（既定）で反時計回り、<mark>False にすると時計回り</mark>。</li>
+<li><strong>startangle は角度</strong>：0°＝右（3時）、<mark>90°＝真上（12時）</mark>。時計の文字盤ではなく、数学の角度の向きです。</li>
+<li><strong>autopct ＝ auto percent</strong>。<code>%1.1f</code> は小数1桁の書式、後ろの <code>%%</code> で「%」記号を1つ表示します。</li>
+<li><strong>explode ＝ 爆発</strong>。扇形を外へ飛び出させます。</li>
+</ul></div>
+<p class="vnote">古い Matplotlib では、円グラフを真円にするために <code>ax.axis("equal")</code> で<span class="gl" tabindex="0" data-g="アスペクト比">アスペクト比</span>をそろえる必要がありました。現在の版（3.3 以降）では、pie を描くと自動で真円になります。</p>
+<h5><span>グラフの種類とメソッドのまとめ</span></h5>
+<div class="tbl"><table>
+<tr><th>グラフ</th><th>メソッド</th></tr>
+<tr><td>折れ線グラフ</td><td><mark><code>plot</code></mark></td></tr>
+<tr><td>棒グラフ</td><td><mark><code>bar</code></mark>（横棒は <code>barh</code>）</td></tr>
+<tr><td>散布図</td><td><mark><code>scatter</code></mark></td></tr>
+<tr><td>ヒストグラム</td><td><mark><code>hist</code></mark></td></tr>
+<tr><td>箱ひげ図</td><td><code>boxplot</code></td></tr>
+<tr><td>円グラフ</td><td><mark><code>pie</code></mark></td></tr>
+</table></div>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>plot ＝ 点を打って線で結ぶ</strong>、<strong>bar ＝ 棒</strong>、<strong>scatter ＝ まき散らす（点を散らす → 散布図）</strong>、<strong>hist ＝ histogram</strong>、<strong>boxplot ＝ 箱（box）の図</strong>、<strong>pie ＝ パイを切り分ける → 円グラフ</strong>。グラフの見た目を思い浮かべると、名前から逆算できます。</p></div>
+<h5><span>ファイルへの出力（savefig）</span></h5>
+<p>作成したグラフは <mark><dfn id="t145">savefig</dfn>("ファイル名")</mark> でファイルに出力できます。拡張子によって形式が決まり、<mark>png・pdf・svg</mark> などが選べます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"graph.png"</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">"graph.pdf"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">"graph.png"</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">"graph.pdf"</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>True True</code></pre>
+
+<h4 id="s4-3-4"><span class="subno">4.3.4</span>スタイル</h4>
+<h5><span>スタイルの適用</span></h5>
+<p><mark><code>matplotlib.style</code></mark>（<code>plt.style.use()</code>）で、線の色や太さ、背景色などを含むグラフ全体の表示スタイルを切り替えられます。使えるスタイルの一覧は <code>plt.style.available</code> で確認できます。</p>
+<h5><span>色・線・テキスト</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"ggplot"</span><span class="p">)</span>           <span class="c1"># スタイルを適用</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">":"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Title"</span><span class="p">,</span> <span class="n">family</span><span class="o">=</span><span class="s2">"monospace"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">"bold"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="s2">"text here"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>   <span class="c1"># (x, y) を左下にテキストを描く</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">available</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>True</code></pre>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-12.webp"></figure>
+<ul>
+<li>線の色は <mark><code>color="red"</code></mark>、幅は <mark><code>linewidth</code></mark>（ポイント単位）、種類は <code>linestyle</code>（<code>"--"</code> 破線、<code>":"</code> 点線など）で指定します。</li>
+<li>タイトルなどの文字には、<mark><code>family</code></mark>（フォントファミリー、例：<code>"monospace"</code>）、<code>size</code>、<code>weight</code>（太さ）を指定できます。</li>
+<li><mark><code>text(x, y, 文字列)</code></mark> で、座標 (x, y) を<mark>左下</mark>としてテキストを描けます。フォントの指定も同じ引数でできます。</li>
+</ul>
+<h5><span>フォント設定をまとめて指定する（fontdict）</span></h5>
+<p>同じフォント設定を何度も使うときは、設定を<mark>辞書（dict）</mark>にまとめて <mark><dfn id="t146">fontdict</dfn></mark> 引数に渡します。辞書なので、後から値を変更（上書き）することもできます。</p>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>fontdict</code> は、設定を <code>Map&lt;String, Object&gt;</code> にまとめてメソッドに渡すイメージです。名前のとおり <strong>font の dict（辞書）</strong>を渡します。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"family"</span><span class="p">:</span> <span class="s2">"monospace"</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s2">"weight"</span><span class="p">:</span> <span class="s2">"bold"</span><span class="p">}</span>   <span class="c1"># 辞書で作る</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"title"</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="n">font</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"x label"</span><span class="p">,</span> <span class="n">fontdict</span><span class="o">=</span><span class="n">font</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-13.webp"></figure>
+
+<h4 id="s4-3-5"><span class="subno">4.3.5</span>pandasのオブジェクトからグラフ描画</h4>
+<p>DataFrame や Series には <code>plot</code> メソッドがあり、内部で Matplotlib を使ってグラフを描きます。<code>kind=</code> でグラフの種類（<code>"line"</code>、<code>"bar"</code>、<code>"hist"</code>、<code>"scatter"</code>、<code>"pie"</code> など）を選べます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"A"</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="s2">"B"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">"Q1"</span><span class="p">,</span> <span class="s2">"Q2"</span><span class="p">,</span> <span class="s2">"Q3"</span><span class="p">,</span> <span class="s2">"Q4"</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">"line"</span><span class="p">)</span>              <span class="c1"># 既定は折れ線</span>
+<span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">"bar"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">title</span><span class="o">=</span><span class="s2">"bar"</span><span class="p">)</span>   <span class="c1"># kind で種類を指定</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-14.webp"></figure>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>描画オブジェクト（Figure）の上にサブプロット（Axes）を置く。全体のタイトルは suptitle、サブプロットは set_title。</li>
+<li>plot＝折れ線、bar＝棒、scatter＝散布図、hist＝ヒストグラム、boxplot＝箱ひげ図、pie＝円グラフ。</li>
+<li>legend(loc="best") は重なりの少ない位置に凡例を出す。savefig は png・pdf・svg などで保存する。</li>
+<li>スタイルは matplotlib.style、文字の設定はまとめて fontdict（辞書）に渡す。</li>
+</ul></div>
+
+<!-- ================================================================ scikit-learn -->

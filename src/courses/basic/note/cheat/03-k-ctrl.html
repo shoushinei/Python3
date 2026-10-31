@@ -1,0 +1,20 @@
+<h3 id="k-ctrl">制御構造と関数（4章）</h3>
+<div class="tbl"><table class="drill">
+<tr><th>問い</th><th>答え</th><th>メモ</th></tr>
+<tr><td><code>for ch in &#x27;abc&#x27;: print(ch)</code></td><td class="a">a、b、c を1行ずつ（print は毎回改行）</td><td><span class="qreal">本番</span></td></tr>
+<tr><td><code>list(range(0, 10, 3))</code></td><td class="a">[0, 3, 6, 9]（終点は含まない）</td><td></td></tr>
+<tr><td><code>print(range(5))</code></td><td class="a">range(0, 5)</td><td></td></tr>
+<tr><td><code>ループの else</code></td><td class="a">break せずに最後まで回ったときだけ実行</td><td></td></tr>
+<tr><td><code>pass</code></td><td class="a">何もしない文</td><td></td></tr>
+<tr><td><code>return のない関数の戻り値</code></td><td class="a">None</td><td></td></tr>
+<tr><td><code>デフォルト値の評価</code></td><td class="a">定義したときに1回だけ（ミュータブルは値がたまる）</td><td class="trap">None を使う</td></tr>
+<tr><td><code>f(a=1, 2)</code></td><td class="a">SyntaxError（キーワード引数の後に位置引数）</td><td></td></tr>
+<tr><td><code>f(110, voltage=220)</code></td><td class="a">TypeError（同じ引数に2回）</td><td></td></tr>
+<tr><td><code>def f(a, /, b, *, c)</code></td><td class="a">a は位置専用、b はどちらでも、c はキーワード専用</td><td></td></tr>
+<tr><td><code>*args / **kwargs</code></td><td class="a">タプル / 辞書で受け取る</td><td></td></tr>
+<tr><td><code>f(*lst) / f(**dic)</code></td><td class="a">リストを位置引数に / 辞書をキーワード引数に展開</td><td></td></tr>
+<tr><td><code>lambda x: x + n</code></td><td class="a">式1つの無名関数</td><td></td></tr>
+<tr><td><code>docstring の書き方</code></td><td class="a">1行目は要約、2行目は空行、3行目から説明</td><td></td></tr>
+<tr><td><code>関数注釈</code></td><td class="a">__annotations__ に辞書で入るだけ（実行に影響しない）</td><td></td></tr>
+<tr><td><code>PEP 8 の名前</code></td><td class="a">クラスは UpperCamelCase、関数は lowercase_with_underscores</td><td class="trap">4スペース・79文字</td></tr>
+</table></div>

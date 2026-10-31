@@ -1,0 +1,117 @@
+<h3 id="s7-1"><span class="secno">7.1</span>手の込んだ出力フォーマット</h3>
+<div class="lead">値を出力する方法は、式文、print()、ファイルオブジェクトの write() の3つです。出力を整える方法をまとめて見ていきます。</div>
+<h5><span>str() と repr()</span></h5>
+<p><dfn id="t46">str()</dfn> は<mark>人間が読みやすい</mark>表現を、<dfn id="t47">repr()</dfn> は<mark>インタープリタが読める</mark>表現（同じ値を作れる式）を返します。数値・リスト・辞書などは、どちらでも同じ表現になります。<mark>文字列では違いが出ます</mark>。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">s</span> <span class="o">=</span> <span class="s1">'Hello, world.'</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>                 <span class="c1"># 引用符が付く</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">7</span><span class="p">),</span> <span class="nb">repr</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">7</span><span class="p">))</span>     <span class="c1"># 数値は同じ</span>
+<span class="n">hello</span> <span class="o">=</span> <span class="s1">'hello, world</span><span class="se">\n</span><span class="s1">'</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">hello</span><span class="p">))</span>             <span class="c1"># エスケープもそのまま表示される</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">((</span><span class="mf">32.5</span><span class="p">,</span> <span class="mi">40000</span><span class="p">,</span> <span class="p">(</span><span class="s1">'spam'</span><span class="p">,</span> <span class="s1">'eggs'</span><span class="p">))))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Hello, world.
+&#x27;Hello, world.&#x27;
+0.14285714285714285 0.14285714285714285
+&#x27;hello, world\n&#x27;
+(32.5, 40000, (&#x27;spam&#x27;, &#x27;eggs&#x27;))</code></pre>
+<p>対話モードで式を入力したときの表示は repr()、print() したときの表示は str() です。</p>
+
+<h4 id="s7-1-1"><span class="subno">7.1.1</span>フォーマット済み文字列リテラル</h4>
+<p>文字列の前に <code>f</code> か <code>F</code> を付けた<dfn id="t48">f文字列</dfn>では、<code>{式}</code> の部分に式の値が埋め込まれます。<code>:</code> の後ろに書式を指定できます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'The value of pi is approximately </span><span class="si">{</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">.'</span><span class="p">)</span>   <span class="c1"># 小数点以下3桁</span>
+<span class="n">table</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Sjoerd'</span><span class="p">:</span> <span class="mi">4127</span><span class="p">,</span> <span class="s1">'Jack'</span><span class="p">:</span> <span class="mi">4098</span><span class="p">,</span> <span class="s1">'Dcab'</span><span class="p">:</span> <span class="mi">7678</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">phone</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s1">10</span><span class="si">}</span><span class="s1"> ==&gt; </span><span class="si">{</span><span class="n">phone</span><span class="si">:</span><span class="s1">10d</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>                      <span class="c1"># 最小の幅を10文字に</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>The value of pi is approximately 3.142.
+Sjoerd     ==&gt;       4127
+Jack       ==&gt;       4098
+Dcab       ==&gt;       7678</code></pre>
+<ul>
+<li><code>:</code> の後ろの整数は<mark>最小の文字幅</mark>です。列をそろえるのに使います。文字列は左寄せ、数値は右寄せが既定です。</li>
+<li><code>.3f</code> は小数点以下3桁の固定小数点表記です。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">animals</span> <span class="o">=</span> <span class="s1">'eels'</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'My hovercraft is full of </span><span class="si">{</span><span class="n">animals</span><span class="si">}</span><span class="s1">.'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'My hovercraft is full of </span><span class="si">{</span><span class="n">animals</span><span class="si">!r}</span><span class="s1">.'</span><span class="p">)</span>    <span class="c1"># !r で repr() を適用</span>
+<span class="n">bugs</span> <span class="o">=</span> <span class="s1">'roaches'</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">13</span>
+<span class="n">area</span> <span class="o">=</span> <span class="s1">'living room'</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Debugging </span><span class="si">{</span><span class="n">bugs</span><span class="si">=}</span><span class="s1"> </span><span class="si">{</span><span class="n">count</span><span class="si">=}</span><span class="s1"> </span><span class="si">{</span><span class="n">area</span><span class="si">=}</span><span class="s1">'</span><span class="p">)</span>       <span class="c1"># = で「式=値」の形に</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>My hovercraft is full of eels.
+My hovercraft is full of &#x27;eels&#x27;.
+Debugging bugs=&#x27;roaches&#x27; count=13 area=&#x27;living room&#x27;</code></pre>
+<div class="tbl"><table>
+<tr><th>書き方</th><th>意味</th></tr>
+<tr><td><code>{x!s}</code> / <code>{x!r}</code> / <code>{x!a}</code></td><td>値に <code>str()</code> / <code>repr()</code> / <code>ascii()</code> を適用してから埋め込む</td></tr>
+<tr><td><code>{x=}</code></td><td><mark><code>x=値</code> の形</mark>で出力する（式の文字列と値。デバッグ用）</td></tr>
+<tr><td><code>{x:10}</code></td><td>最小幅10文字</td></tr>
+<tr><td><code>{x:.3f}</code></td><td>小数点以下3桁</td></tr>
+</table></div>
+
+<h4 id="s7-1-2"><span class="subno">7.1.2</span>文字列の format()メソッド</h4>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="s1">'We are the </span><span class="si">{}</span><span class="s1"> who say "</span><span class="si">{}</span><span class="s1">!"'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">'knights'</span><span class="p">,</span> <span class="s1">'Ni'</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="si">{0}</span><span class="s1"> and </span><span class="si">{1}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">'spam'</span><span class="p">,</span> <span class="s1">'eggs'</span><span class="p">))</span>          <span class="c1"># 位置の番号で指定</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="si">{1}</span><span class="s1"> and </span><span class="si">{0}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">'spam'</span><span class="p">,</span> <span class="s1">'eggs'</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'This </span><span class="si">{food}</span><span class="s1"> is </span><span class="si">{adjective}</span><span class="s1">.'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">food</span><span class="o">=</span><span class="s1">'spam'</span><span class="p">,</span> <span class="n">adjective</span><span class="o">=</span><span class="s1">'absolutely horrible'</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'The story of </span><span class="si">{0}</span><span class="s1">, </span><span class="si">{1}</span><span class="s1">, and </span><span class="si">{other}</span><span class="s1">.'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">'Bill'</span><span class="p">,</span> <span class="s1">'Manfred'</span><span class="p">,</span> <span class="n">other</span><span class="o">=</span><span class="s1">'Georg'</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>We are the knights who say &quot;Ni!&quot;
+spam and eggs
+eggs and spam
+This spam is absolutely horrible.
+The story of Bill, Manfred, and Georg.</code></pre>
+<ul>
+<li><code>{}</code> は、渡した引数で順に置き換えられます。<code>{0}</code> <code>{1}</code> のように<mark>番号で位置を指定</mark>でき、<code>{food}</code> のように<mark>キーワード引数の名前</mark>でも指定できます。位置と名前は組み合わせられます。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">table</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Sjoerd'</span><span class="p">:</span> <span class="mi">4127</span><span class="p">,</span> <span class="s1">'Jack'</span><span class="p">:</span> <span class="mi">4098</span><span class="p">,</span> <span class="s1">'Dcab'</span><span class="p">:</span> <span class="mi">8637678</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Jack: </span><span class="si">{0[Jack]:d}</span><span class="s1">; Sjoerd: </span><span class="si">{0[Sjoerd]:d}</span><span class="s1">; Dcab: </span><span class="si">{0[Dcab]:d}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">table</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Jack: </span><span class="si">{Jack:d}</span><span class="s1">; Sjoerd: </span><span class="si">{Sjoerd:d}</span><span class="s1">; Dcab: </span><span class="si">{Dcab:d}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">table</span><span class="p">))</span>   <span class="c1"># ** で展開</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="si">{0:2d}</span><span class="s1"> </span><span class="si">{1:3d}</span><span class="s1"> </span><span class="si">{2:4d}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+ 1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125</code></pre>
+<p>辞書は、<code>{0[キー]}</code> の形で参照するか、<mark><code>**table</code> でキーワード引数として展開</mark>して渡せます。組み込み関数 <code>vars()</code> は、ローカル変数を入れた辞書を返すので、組み合わせると便利です。</p>
+
+<h4 id="s7-1-3"><span class="subno">7.1.3</span>手動での文字列フォーマッティング</h4>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="nb">repr</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'['</span> <span class="o">+</span> <span class="s1">'ab'</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="s1">']'</span><span class="p">,</span> <span class="s1">'['</span> <span class="o">+</span> <span class="s1">'ab'</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="s1">']'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'abcdefg'</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>            <span class="c1"># 長い文字列は切り詰めない</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'12'</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="s1">'-3.14'</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="s1">'3.14159265359'</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code> 1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125
+[ab   ] [  ab  ]
+abcdefg
+00012 -003.14 3.14159265359</code></pre>
+<div class="tbl"><table>
+<tr><th>メソッド</th><th>動き</th></tr>
+<tr><td><code>str.rjust(幅)</code></td><td>左に空白を詰めて<mark>右寄せ</mark>。文字列の方が長ければ<mark>切り詰めずにそのまま</mark>返す</td></tr>
+<tr><td><code>str.ljust(幅)</code> / <code>str.center(幅)</code></td><td>左寄せ / 中央寄せ</td></tr>
+<tr><td><code>str.zfill(幅)</code></td><td>左に<mark>0（ゼロ）</mark>を詰める。<mark>プラス・マイナスの符号を理解する</mark>（符号の後ろに0を入れる）</td></tr>
+</table></div>
+<p>print の引数の間に空白が入るので、上の表の列の間にも空白が1つずつ入っています。</p>
+
+<h4 id="s7-1-4"><span class="subno">7.1.4</span>従来形式の文字列フォーマッティング</h4>
+<p><code>%</code> 演算子でも整形できます。<code>'文字列' % 値</code> のように書くと、文字列の中の <code>%</code> 指定が値で置き換えられます（Cの sprintf と同じ書き方）。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'The value of pi is approximately </span><span class="si">%5.3f</span><span class="s1">.'</span> <span class="o">%</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="si">%s</span><span class="s1"> is </span><span class="si">%d</span><span class="s1"> years old'</span> <span class="o">%</span> <span class="p">(</span><span class="s1">'Ann'</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>       <span class="c1"># 値が複数ならタプルで渡す</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>The value of pi is approximately 3.142.
+Ann is 30 years old</code></pre>
+

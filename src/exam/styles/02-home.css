@@ -1,0 +1,22 @@
+/* ---------- ホーム ---------- */
+.hero{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:28px 28px 24px;margin-top:8px}
+.hero .eyebrow{font-family:var(--f-num);font-weight:700;letter-spacing:.12em;color:var(--brand);font-size:.85rem}
+.hero h1{margin:4px 0 10px;font-size:1.6rem}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.facts div{background:var(--brand-softer);border:1px solid var(--brand-soft);border-radius:10px;padding:10px 12px;text-align:center}
+.facts b{display:block;font-family:var(--f-num);font-size:1.6rem;color:var(--brand-ink);line-height:1.2}
+.facts span{font-size:.8rem;color:var(--muted)}
+.rules{margin:0;padding-left:1.2em;color:var(--muted);font-size:.92rem}
+.hero .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.hist{margin-top:28px}
+.hist h2{font-size:1.15rem;margin:0 0 10px}
+.hist table{width:100%;border-collapse:collapse;background:var(--sheet);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:.92rem}
+.hist th,.hist td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left}
+.hist th{background:var(--brand-softer);font-weight:700;font-size:.82rem;color:var(--muted)}
+.hist td.n{font-family:var(--f-num);font-weight:700;font-size:1.05rem}
+.tag{display:inline-block;border-radius:999px;padding:0 10px;font-size:.8rem;font-weight:700}
+.tag.pass{background:var(--ok-soft);color:var(--ok)}
+.tag.fail{background:var(--ng-soft);color:var(--ng)}
+.linkbtn{background:none;border:0;color:var(--brand-ink);text-decoration:underline;padding:0}
+.empty{color:var(--muted);font-size:.92rem}
+

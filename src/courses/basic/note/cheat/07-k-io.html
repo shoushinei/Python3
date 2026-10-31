@@ -1,0 +1,17 @@
+<h3 id="k-io">入出力（7章）</h3>
+<div class="tbl"><table class="drill">
+<tr><th>問い</th><th>答え</th><th>メモ</th></tr>
+<tr><td><code>str() / repr()</code></td><td class="a">人向け / インタープリタ向け（文字列に引用符）</td><td></td></tr>
+<tr><td><code>f&#x27;{x:10}&#x27; / f&#x27;{x:.3f}&#x27;</code></td><td class="a">最小幅10 / 小数3桁</td><td></td></tr>
+<tr><td><code>f&#x27;{x!r}&#x27; / f&#x27;{x=}&#x27;</code></td><td class="a">repr を適用 / 「x=値」の形</td><td></td></tr>
+<tr><td><code>&#x27;{1} {0}&#x27;.format(&#x27;a&#x27;, &#x27;b&#x27;)</code></td><td class="a">&#x27;b a&#x27;</td><td class="trap">{name} は名前で</td></tr>
+<tr><td><code>&#x27;-3.14&#x27;.zfill(7)</code></td><td class="a">&#x27;-003.14&#x27;（符号を理解する）</td><td></td></tr>
+<tr><td><code>&#x27;python&#x27;.rjust(3)</code></td><td class="a">&#x27;python&#x27;（切り詰めない）</td><td></td></tr>
+<tr><td><code>open のモード</code></td><td class="a">r（既定）/ w（中身を消す）/ a（追記）/ r+ / b（バイナリ）</td><td></td></tr>
+<tr><td><code>f.read() の終わり</code></td><td class="a">&#x27;&#x27;（空文字列）</td><td></td></tr>
+<tr><td><code>f.readline()</code></td><td class="a">1行（末尾の \n は残る）</td><td></td></tr>
+<tr><td><code>f.write(s) の戻り値</code></td><td class="a">書き込んだ文字数</td><td></td></tr>
+<tr><td><code>f.seek(offset, whence)</code></td><td class="a">whence 0=先頭、1=現在、2=末尾</td><td></td></tr>
+<tr><td><code>json.dumps / json.loads</code></td><td class="a">データ→文字列 / 文字列→データ</td><td class="trap">s は string</td></tr>
+<tr><td><code>json.dump(x, f) / json.load(f)</code></td><td class="a">データをファイルへ / ファイルからデータへ</td><td><span class="qreal">本番</span></td></tr>
+</table></div>

@@ -1,0 +1,24 @@
+<h3 id="s12-2"><span class="secno">12.2</span>仮想環境の生成</h3>
+<p>仮想環境の作成と管理には、<dfn id="t101">venv</dfn> モジュールを使います。<mark>venv は、そのコマンドを実行したPythonのバージョン</mark>（<code>--version</code> で表示されるもの）をインストールします。</p>
+<pre class="shell"><code>% python -m venv tutorial-env       <span class="cm"># tutorial-env という仮想環境を作る</span></code></pre>
+<ul>
+<li><code>tutorial-env</code> ディレクトリがなければ作り、その中に<mark>Pythonインタープリタのコピーと、さまざまな補助ファイル</mark>を入れたディレクトリを作ります。</li>
+<li>仮想環境の置き場所としては、<mark><code>.venv</code></mark> というディレクトリ名がよく使われます。シェルでは隠しディレクトリになって邪魔にならず、環境変数の定義ファイル <code>.env</code> とも区別できるからです。</li>
+</ul>
+<h5><span>有効化と無効化</span></h5>
+<div class="tbl"><table>
+<tr><th>OS</th><th>有効化のコマンド</th></tr>
+<tr><td>Windows</td><td><mark><code>tutorial-env\Scripts\activate</code></mark></td></tr>
+<tr><td>Unix・macOS（bash）</td><td><mark><code>source tutorial-env/bin/activate</code></mark></td></tr>
+<tr><td>csh・fish シェル</td><td><code>activate.csh</code>・<code>activate.fish</code> を使う</td></tr>
+</table></div>
+<pre class="shell"><code>% source ~/envs/tutorial-env/bin/activate
+(tutorial-env) % python               <span class="cm"># 仮想環境のPythonが起動する</span>
+(tutorial-env) % deactivate           <span class="cm"># 無効化</span></code></pre>
+<ul>
+<li>有効化すると、<mark>シェルのプロンプトに仮想環境の名前が表示</mark>されます。</li>
+<li>環境変数も変更され、<code>python</code> と打つと仮想環境の（特定のバージョンの）Pythonが起動するようになります。</li>
+<li>無効化するには <mark><code>deactivate</code></mark> と入力します。</li>
+</ul>
+<div class="box java"><span class="bh">Javaと比べると</span><p>Mavenでは依存ライブラリがプロジェクトごとに pom.xml で管理されますが、Pythonでは pip でインストールした先が共有されてしまうので、仮想環境でプロジェクトごとに分けます。</p></div>
+

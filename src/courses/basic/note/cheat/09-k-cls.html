@@ -1,0 +1,17 @@
+<h3 id="k-cls">クラス（9章）</h3>
+<div class="tbl"><table class="drill">
+<tr><th>問い</th><th>答え</th><th>メモ</th></tr>
+<tr><td><code>名前を探す順</code></td><td class="a">ローカル → 外側の関数 → グローバル → 組み込み</td><td></td></tr>
+<tr><td><code>宣言なしで外側の名前に代入</code></td><td class="a">新しいローカル変数ができるだけ</td><td></td></tr>
+<tr><td><code>nonlocal / global</code></td><td class="a">外側の関数の変数 / モジュールの変数を書き換える</td><td></td></tr>
+<tr><td><code>x.f()</code></td><td class="a">MyClass.f(x) と同じ</td><td></td></tr>
+<tr><td><code>x.f / MyClass.f</code></td><td class="a">メソッドオブジェクト / 関数オブジェクト</td><td></td></tr>
+<tr><td><code>クラス変数のリスト</code></td><td class="a">全インスタンスで共有される</td><td class="trap">__init__ で self に</td></tr>
+<tr><td><code>同名の属性</code></td><td class="a">インスタンス属性が優先</td><td></td></tr>
+<tr><td><code>self</code></td><td class="a">慣習（特別な意味はない）</td><td></td></tr>
+<tr><td><code>多重継承の探索</code></td><td class="a">深さ優先・左から右</td><td></td></tr>
+<tr><td><code>issubclass(bool, int)</code></td><td class="a">True</td><td></td></tr>
+<tr><td><code>self.__spam</code></td><td class="a">_クラス名__spam に変わる（名前マングリング）</td><td></td></tr>
+<tr><td><code>イテレータ</code></td><td class="a">__iter__ と __next__、終わりは StopIteration</td><td></td></tr>
+<tr><td><code>ジェネレータ / ジェネレータ式</code></td><td class="a">yield で値を返す関数 / ( ) の内包</td><td></td></tr>
+</table></div>

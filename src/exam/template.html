@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{pageTitle}}</title>
+<meta name="description" content="{{description}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&family=Barlow:ital,wght@0,600;0,700;1,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+{{styles}}</style>
+</head>
+<body>
+
+<!-- ホーム -->
+<main id="home" class="wrap">
+  <nav class="crumbs" aria-label="現在地"><a href="../../index.html">トップ</a> › {{courseName}} › {{title}}</nav>
+  <div class="hero">
+{{intro}}    <div class="acts">
+      <button class="btn primary" id="startBtn" type="button">試験を開始する</button>
+      <button class="btn" id="resumeBtn" type="button" hidden>続きから再開する</button>
+      <a class="btn" href="{{noteHref}}">教材を開く</a>
+    </div>
+  </div>
+  <section class="hist">
+    <h2>受験の記録</h2>
+    <div id="histBox"></div>
+  </section>
+</main>
+
+<!-- 試験 -->
+<div id="exam" hidden>
+  <div class="exambar">
+    <span class="ttl">{{courseName}} {{title}}</span>
+    <span class="sp"></span>
+    <span class="cnt">回答済み <b id="ansCnt">0</b> / {{count}}</span>
+    <span class="timer" id="timer" aria-label="残り時間">{{limit}}:00</span>
+    <button class="btn listbtn" id="listBtn" type="button">一覧</button>
+  </div>
+  <div class="exam">
+    <article class="qcard" id="qcard" aria-live="polite"></article>
+    <aside class="side" id="side">
+      <h3>問題一覧</h3>
+      <div class="grid" id="grid"></div>
+      <div class="legend"><span><i class="a"></i>回答済み</span><span><i></i>未回答</span><span><i class="f"></i>見直し</span></div>
+      <button class="btn primary" id="endBtn" type="button">試験を終了して採点</button>
+      <p class="kbd">キー操作：1〜5 で選択、← → で前後の問題、F で見直しマーク</p>
+    </aside>
+  </div>
+</div>
+
+<!-- 結果 -->
+<main id="result" class="wrap" hidden></main>
+
+<!-- 終了確認 -->
+<div class="modal" id="confirm" hidden role="dialog" aria-modal="true" aria-labelledby="cfTitle">
+  <div class="box">
+    <h3 id="cfTitle">試験を終了しますか？</h3>
+    <div id="cfBody"></div>
+    <div class="acts">
+      <button class="btn" id="cfNo" type="button">問題に戻る</button>
+      <button class="btn primary" id="cfYes" type="button">終了して採点</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+{{script}}})();
+</script>
+</body>
+</html>

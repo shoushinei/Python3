@@ -1,0 +1,49 @@
+<h3 id="s5-7"><span class="secno">5.7</span>条件についての補足</h3>
+<div class="lead">while や if の条件には、比較だけでなく、いろいろな演算子が使えます。</div>
+<ul>
+<li><code>in</code> / <code>not in</code>：値がシーケンス（やコンテナ）に含まれるかを調べる。</li>
+<li><code>is</code> / <code>is not</code>：2つが<mark>同じオブジェクトかどうか</mark>を調べる（値が等しいかは <code>==</code>）。</li>
+<li>比較演算子は<mark>すべて同じ優先順位</mark>で、数値演算子より低い。</li>
+<li>比較は<mark>連鎖</mark>できる：<code>a &lt; b == c</code> は「a が b より小さく、かつ b と c が等しい」。</li>
+<li>ブール演算子 <code>and</code>・<code>or</code>・<code>not</code> は比較演算子より優先順位が低く、その中では <mark><code>not</code> が最も高く、<code>or</code> が最も低い</mark>。<code>A and not B or C</code> は <code>(A and (not B)) or C</code> と同じ。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">&lt;</span> <span class="n">b</span> <span class="o">==</span> <span class="n">c</span><span class="p">)</span>             <span class="c1"># (a &lt; b) and (b == c)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="mf">1.5</span><span class="p">)</span>            <span class="c1"># 連鎖は左右の比較を and でつないだもの</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">y</span><span class="p">)</span>         <span class="c1"># 値は等しいが、別のオブジェクト</span>
+<span class="nb">print</span><span class="p">(</span><span class="kc">True</span> <span class="ow">and</span> <span class="ow">not</span> <span class="kc">False</span> <span class="ow">or</span> <span class="kc">False</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>True
+True
+True False
+True</code></pre>
+<h5><span>and / or は「最後に評価した値」を返す</span></h5>
+<p><code>and</code> と <code>or</code> は<dfn id="t35">短絡演算子</dfn>です。左から順に評価し、結果が決まった時点で評価をやめます。真偽値として使うのではなく値として使うと、<mark>最後に評価した引数の値</mark>がそのまま返ります（True / False に変換されません）。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">string1</span><span class="p">,</span> <span class="n">string2</span><span class="p">,</span> <span class="n">string3</span> <span class="o">=</span> <span class="s1">''</span><span class="p">,</span> <span class="s1">'Trondheim'</span><span class="p">,</span> <span class="s1">'Hammer Dance'</span>
+<span class="n">non_null</span> <span class="o">=</span> <span class="n">string1</span> <span class="ow">or</span> <span class="n">string2</span> <span class="ow">or</span> <span class="n">string3</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">non_null</span><span class="p">)</span>            <span class="c1"># 最初の「真」の値</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">0</span> <span class="ow">or</span> <span class="p">[]</span> <span class="ow">or</span> <span class="s1">'x'</span><span class="p">)</span>      <span class="c1"># 真の値が見つかるまで進む</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">''</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">)</span>             <span class="c1"># 全部偽なら最後の値</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">1</span> <span class="ow">and</span> <span class="s1">'yes'</span><span class="p">)</span>         <span class="c1"># and は全部真なら最後の値</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">0</span> <span class="ow">and</span> <span class="s1">'yes'</span><span class="p">)</span>         <span class="c1"># 最初の「偽」の値</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Trondheim
+x
+0
+yes
+0</code></pre>
+<div class="tbl"><table>
+<tr><th>式</th><th>返す値</th></tr>
+<tr><td><code>x or y</code></td><td>x が真なら <mark>x</mark>、偽なら <mark>y</mark></td></tr>
+<tr><td><code>x and y</code></td><td>x が偽なら <mark>x</mark>、真なら <mark>y</mark></td></tr>
+</table></div>
+<p>CやJavaと違い、Pythonでは式の中での代入は、<mark>セイウチ演算子 <code>:=</code></mark> を使って明示的に書く必要があります（<code>if (n = len(a)) &gt; 10</code> のような書き方はできません）。これにより、<code>==</code> のつもりで <code>=</code> と書くミスを防げます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">a</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">12</span><span class="p">))</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"List is too long (</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> elements, expected &lt;= 10)"</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>List is too long (12 elements, expected &lt;= 10)</code></pre>
+<div class="box java"><span class="bh">Javaと比べると</span><p>Javaの <code>a || b</code> は必ず boolean を返しますが、Pythonの <code>a or b</code> は<mark>a か b のどちらかそのもの</mark>を返します。<code>name = input_name or "anonymous"</code> のように、デフォルト値を決めるのによく使われます。</p></div>
+

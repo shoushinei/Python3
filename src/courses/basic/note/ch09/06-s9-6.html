@@ -1,0 +1,30 @@
+<h3 id="s9-6"><span class="secno">9.6</span>プライベート変数</h3>
+<p>オブジェクトの内部からしかアクセスできない「プライベート」なインスタンス変数は、<mark>Pythonには存在しません</mark>。ただし、慣習として、<mark>アンダースコアで始まる名前（<code>_spam</code>）は、非公開の部分</mark>として扱われます。</p>
+<p>サブクラスで定義した名前との衝突を避けるために、<dfn id="t69">名前マングリング</dfn>という仕組みがあります。<mark><code>__spam</code>（先頭にアンダースコア2つ以上、末尾は1つ以下）という名前は、<code>_クラス名__spam</code> に置き換えられます</mark>。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">Mapping</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>          <span class="c1"># 内部では __update を使う</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">items_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="n">__update</span> <span class="o">=</span> <span class="n">update</span>                    <span class="c1"># 元の update をプライベートにコピー</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MappingSubclass</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>      <span class="c1"># update を別の引数で上書きしても</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>   <span class="c1"># __init__ の中の __update は壊れない</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">items_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">MappingSubclass</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">items_list</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">if</span> <span class="s1">'update'</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">_Mapping__update</span><span class="p">)</span>                <span class="c1"># マングリング後の名前ならアクセスできてしまう</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[1, 2]
+[&#x27;_Mapping__update&#x27;, &#x27;update&#x27;]
+&lt;bound method Mapping.update of &lt;__main__.MappingSubclass object at 0x7f14ca948440&gt;&gt;</code></pre>
+<p>名前マングリングは、事故を防ぐための仕組みで、<mark>アクセスや変更を完全に禁止するものではありません</mark>。<code>exec()</code> や <code>eval()</code> に渡したコードでは、呼び出したクラスのクラス名は考慮されません。</p>
+<div class="box java"><span class="bh">Javaと比べると</span><p>Javaの <code>private</code> のような強制力はありません。<code>_name</code> は「触らないで」という目印、<code>__name</code> は名前が <code>_クラス名__name</code> に変わるだけです。</p></div>
+

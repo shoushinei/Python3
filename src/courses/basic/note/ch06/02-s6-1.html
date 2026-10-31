@@ -1,0 +1,76 @@
+<h3 id="s6-1"><span class="secno">6.1</span>さらにモジュールについて</h3>
+<ul>
+<li>モジュールには、関数定義のほかに実行文も書けます。実行文はモジュールの初期化のためのもので、<mark>import 文で最初にそのモジュール名が出てきたときに1度だけ</mark>実行されます。</li>
+<li>モジュールごとに専用の名前空間があり、そのモジュールの関数からはグローバルとして見えます。そのため、利用者のグローバル変数と名前がぶつかる心配がありません。</li>
+</ul>
+<h5><span>import の書き方</span></h5>
+<div class="tbl"><table>
+<tr><th>書き方</th><th>使える名前</th></tr>
+<tr><td><code>import fibo</code></td><td><code>fibo.fib()</code>（モジュール名経由）</td></tr>
+<tr><td><code>from fibo import fib, fib2</code></td><td><code>fib()</code> を直接。<mark>モジュール名 <code>fibo</code> は定義されない</mark></td></tr>
+<tr><td><code>from fibo import *</code></td><td><mark>アンダースコア（_）で始まるもの以外</mark>の全部の名前</td></tr>
+<tr><td><code>import fibo as fib</code></td><td><code>fib.fib()</code>（別名でモジュールを使う）</td></tr>
+<tr><td><code>from fibo import fib as fibonacci</code></td><td><code>fibonacci()</code>（別名で関数を使う）</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"."</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fibo</span><span class="w"> </span><span class="kn">import</span> <span class="n">fib</span><span class="p">,</span> <span class="n">fib2</span>
+<span class="n">fib</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">fibo</span><span class="o">.</span><span class="n">fib</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">NameError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"NameError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">fibo</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">f</span>
+<span class="n">f</span><span class="o">.</span><span class="n">fib</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">fibo</span><span class="w"> </span><span class="kn">import</span> <span class="n">fib</span> <span class="k">as</span> <span class="n">fibonacci</span>
+<span class="n">fibonacci</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>0 1 1 2 3 5 8 13 21 34 55 89 
+NameError: name &#x27;fibo&#x27; is not defined
+0 1 1 2 3 5 8 13 21 34 
+0 1 1 2 3 5 8 13 21 </code></pre>
+<div class="box real"><span class="bh">本番で出た論点：from の後ろに書くもの</span>
+<p><code>from ○○ import △△</code> の <mark>○○ はモジュール（やパッケージ）の名前</mark>、<mark>△△ はその中にある名前</mark>（関数・クラス・変数・サブモジュール）です。日付を表す <code>date</code> クラスは <code>datetime</code> モジュールの中にあるので、<code>from datetime import date</code> と書きます（→ 10.8）。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>          <span class="c1"># datetime モジュールから date クラスを取り込む</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">date</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">31</span><span class="p">))</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>                    <span class="c1"># モジュールごと取り込むなら、モジュール名から書く</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span><span class="o">.</span><span class="n">weekday</span><span class="p">())</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>2026-10-31
+5</code></pre>
+<div class="box warn"><span class="bh">注意：from … import * は勧められない</span><p><code>from モジュール import *</code> は、どんな名前が入ってきたか分からず、すでに定義した名前を隠してしまうことがあるので、<mark>一般には使わない方がよい</mark>とされています。対話モードで入力を省くために使うのはかまいません。具体例は 10.1 の <code>from os import *</code> を見てください。</p></div>
+<h5><span>モジュールは1回しか読み込まれない</span></h5>
+<p>効率のため、各モジュールは<mark>インタープリタのセッションごとに1回しか import されません</mark>。モジュールを書き換えたら、インタープリタを再起動するか、<code>importlib.reload(モジュール名)</code> で読み込み直します。</p>
+
+<h4 id="s6-1-1"><span class="subno">6.1.1</span>モジュールをスクリプトとして実行する</h4>
+<p><code>python fibo.py 引数</code> のようにスクリプトとして実行すると、<mark><code>__name__</code> に <code>"__main__"</code> が入ります</mark>。モジュールの最後に次のように書いておくと、スクリプトとして実行したときだけ動き、import したときは動かないコードになります。</p>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+    <span class="n">fib</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span></code></pre>
+<pre class="shell"><code>% python fibo.py 50
+0 1 1 2 3 5 8 13 21 34</code></pre>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>if __name__ == "__main__":</code> は、Javaの <code>public static void main(String[] args)</code> にあたる「入口」です。import されたときは <code>__name__</code> がモジュール名（<code>"fibo"</code>）になるので、この部分は実行されません。</p></div>
+
+<h4 id="s6-1-2"><span class="subno">6.1.2</span>モジュールの検索パス</h4>
+<p><code>import spam</code> とすると、インタープリタは次の順で探します。</p>
+<ol>
+<li>まず、その名前の<mark>組み込みモジュール</mark>（<code>sys.builtin_module_names</code> にあるもの）</li>
+<li>なければ、<mark><code>sys.path</code></mark> のディレクトリのリストから <code>spam.py</code> を探す</li>
+</ol>
+<p><dfn id="t39">sys.path</dfn> は、次の場所から初期化されます。</p>
+<ul>
+<li><mark>入力スクリプトのあるディレクトリ</mark>（ファイルを指定していないときはカレントディレクトリ）</li>
+<li>環境変数 <mark><dfn id="t40">PYTHONPATH</dfn></mark>（ディレクトリ名のリスト。書き方はシェル変数 PATH と同じ）</li>
+<li>インストールごとのデフォルト（<code>site-packages</code> など。<code>site</code> モジュールが処理する）</li>
+</ul>
+<div class="box warn"><span class="bh">注意</span><p>スクリプトのあるディレクトリは、<mark>標準ライブラリより前</mark>に検索されます。そのため、標準モジュールと同じ名前のファイル（例：<code>random.py</code>）を置くと、そちらが読み込まれてしまいます。シンボリックリンクに対応したファイルシステムでは、リンク先のスクリプト本体があるディレクトリが加えられ、リンクのあるディレクトリは加えられません。</p></div>
+
+<h4 id="s6-1-3"><span class="subno">6.1.3</span>「コンパイル済み」Pythonファイル</h4>
+<ul>
+<li>読み込みを速くするため、Pythonはコンパイル済みのモジュールを <mark><code>__pycache__</code> ディレクトリ</mark>に <code>モジュール名.バージョン.pyc</code> という名前でキャッシュします（例：<code>__pycache__/spam.cpython-313.pyc</code>）。</li>
+<li>ソースの更新日時とコンパイル済みファイルを比べ、古ければ再コンパイルします。コンパイル済みファイルはプラットフォームに依存しないので、異なるOS間で共有できます。</li>
+<li>次の2つの場合は、キャッシュを確認しません：①<mark>コマンドラインから直接実行したモジュール</mark>（毎回コンパイルし、結果も保存しない）、②ソースのモジュールがない場合（ソースなしで配布するには、.pyc をソースのディレクトリに置き、ソースは置かない）。</li>
+<li>コマンドラインの <mark><code>-O</code> は assert 文を除去</mark>し、<mark><code>-OO</code> は assert 文と <code>__doc__</code>（docstring）を除去</mark>します。</li>
+<li>.pyc ファイルから読み込んでも、<mark>プログラムの実行が速くなるわけではありません</mark>。速くなるのは読み込みだけです。</li>
+<li><code>compileall</code> モジュールで、ディレクトリ内の全モジュールの .pyc を作れます。</li>
+</ul>
+

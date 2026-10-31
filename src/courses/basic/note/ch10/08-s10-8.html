@@ -1,0 +1,15 @@
+<h3 id="s10-8"><span class="secno">10.8</span>日付と時間</h3>
+<p><dfn id="t80">datetime</dfn> モジュールは、日付と時刻を扱うクラスを提供します。日付と時刻の計算ができ、出力の書式設定や、タイムゾーンを考慮したオブジェクトも扱えます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span>               <span class="c1"># datetime モジュールの date クラス</span>
+<span class="n">now</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>                <span class="c1"># 実際には date.today() で今日の日付</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%m-</span><span class="si">%d</span><span class="s2">-%y. </span><span class="si">%d</span><span class="s2"> %b %Y is a %A on the </span><span class="si">%d</span><span class="s2"> day of %B."</span><span class="p">))</span>
+<span class="n">birthday</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">1964</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span>
+<span class="n">age</span> <span class="o">=</span> <span class="n">now</span> <span class="o">-</span> <span class="n">birthday</span>                    <span class="c1"># 日付の引き算 → timedelta</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">age</span><span class="o">.</span><span class="n">days</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>2026-10-31
+10-31-26. 31 Oct 2026 is a Saturday on the 31 day of October.
+timedelta 22737</code></pre>
+<div class="box real"><span class="bh">本番で出た論点</span><p><code>date</code> クラスは <mark><code>datetime</code> モジュール</mark>の中にあります。<code>from datetime import date</code> とすれば <code>date.today()</code>、<code>import datetime</code> とすれば <code>datetime.date.today()</code> と書きます（→ 6.1）。</p></div>
+

@@ -1,0 +1,21 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q1</span>インストール済みのパッケージを、<code>pip install -r</code> で読み込める形式で出力するコマンドはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">python -m pip list</li><li data-k="b" class="code">python -m pip show</li><li data-k="c" class="code">python -m pip freeze</li><li data-k="d" class="code">python -m pip export</li>
+</ol><div class="exp" hidden>freeze は「名前==バージョン」の形式で出力します。list は人が見るための一覧、show は1つのパッケージの詳細です。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q2</span>インストール済みのパッケージ requests を最新版に更新するコマンドはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">python -m pip install --upgrade requests</li><li data-k="b" class="code">python -m pip upgrade requests</li><li data-k="c" class="code">python -m pip update requests</li><li data-k="d" class="code">python -m pip install requests==latest</li>
+</ol><div class="exp" hidden>アップグレードは install --upgrade（-U）です。upgrade や update というサブコマンドはありません。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q3</span>仮想環境に関する説明として誤っているものはどれか。</p>
+<ol class="opts">
+<li data-k="a">特定のバージョンのPythonと追加パッケージを含む、自己完結したディレクトリツリーである。</li>
+<li data-k="b">Windowsでは tutorial-env\Scripts\activate で有効化する。</li>
+<li data-k="c">有効化すると、シェルのプロンプトに仮想環境の名前が表示される。</li>
+<li data-k="d">venv は、コマンドを実行したPythonとは別に、最新バージョンのPythonを自動でダウンロードしてインストールする。</li>
+</ol><div class="exp" hidden>venv は、そのコマンドを実行したPythonのバージョンを使います。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q4</span>パッケージ requests のバージョンや依存関係などの詳しい情報を表示するコマンドはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">python -m pip list requests</li><li data-k="b" class="code">python -m pip show requests</li><li data-k="c" class="code">python -m pip info requests</li><li data-k="d" class="code">python -m pip freeze requests</li>
+</ol><div class="exp" hidden>1つのパッケージの詳細を表示するのは pip show です。</div></div>
+</div>

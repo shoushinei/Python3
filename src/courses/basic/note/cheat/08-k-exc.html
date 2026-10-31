@@ -1,0 +1,15 @@
+<h3 id="k-exc">エラーと例外（8章）</h3>
+<div class="tbl"><table class="drill">
+<tr><th>問い</th><th>答え</th><th>メモ</th></tr>
+<tr><td><code>構文エラーと例外</code></td><td class="a">実行前に見つかる / 実行中に起きる</td><td></td></tr>
+<tr><td><code>except (A, B):</code></td><td class="a">複数の例外をタプルで</td><td></td></tr>
+<tr><td><code>except 基底クラス を先に書く</code></td><td class="a">派生クラスの except には届かない</td><td></td></tr>
+<tr><td><code>else 節</code></td><td class="a">例外が起きなかったときだけ</td><td></td></tr>
+<tr><td><code>finally 節</code></td><td class="a">必ず実行。処理されない例外は finally の後で再送出</td><td></td></tr>
+<tr><td><code>try と finally の両方に return</code></td><td class="a">finally の値が返る</td><td></td></tr>
+<tr><td><code>raise ValueError</code></td><td class="a">raise ValueError() の省略形</td><td></td></tr>
+<tr><td><code>except 内の raise</code></td><td class="a">同じ例外を再送出</td><td></td></tr>
+<tr><td><code>raise B from A / from None</code></td><td class="a">原因を明示して連鎖 / 連鎖を無効に</td><td></td></tr>
+<tr><td><code>e.args</code></td><td class="a">例外の引数のタプル</td><td></td></tr>
+<tr><td><code>ユーザー定義例外</code></td><td class="a">Exception から派生、名前は Error で終える</td><td></td></tr>
+</table></div>

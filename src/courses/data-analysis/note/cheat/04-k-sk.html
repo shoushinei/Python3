@@ -1,0 +1,49 @@
+<h3 id="k-sk">scikit-learn</h3>
+<h4 id="k-sk1">クラス・関数とモジュール</h4>
+<div class="tbl"><table class="drill">
+<tr><th>クラス・関数</th><th>答え（モジュール／用途）</th><th>注意点</th></tr>
+<tr><td><code>train_test_split</code></td><td class="a">model_selection／学習用とテスト用に分割</td><td></td></tr>
+<tr><td><code>cross_val_score</code></td><td class="a">model_selection／交差検証で評価</td><td></td></tr>
+<tr><td><code>GridSearchCV</code></td><td class="a">model_selection／グリッドサーチ（交差検証つき）</td><td></td></tr>
+<tr><td><code>StandardScaler</code></td><td class="a">preprocessing／平均0・標準偏差1に変換</td><td class="trap">0と1を逆にしない</td></tr>
+<tr><td><code>MinMaxScaler</code></td><td class="a">preprocessing／最小0・最大1に変換</td><td></td></tr>
+<tr><td><code>LabelEncoder</code> / <code>OneHotEncoder</code></td><td class="a">preprocessing／カテゴリ変数を数値化 / One-hot化</td><td></td></tr>
+<tr><td><code>SimpleImputer</code></td><td class="a">impute／欠損値を補完</td><td></td></tr>
+<tr><td><code>SVC</code></td><td class="a">svm／サポートベクタマシン（分類）</td><td></td></tr>
+<tr><td><code>DecisionTreeClassifier</code></td><td class="a">tree／決定木（分類）</td><td></td></tr>
+<tr><td><code>RandomForestClassifier</code></td><td class="a">ensemble／ランダムフォレスト</td><td></td></tr>
+<tr><td><code>LinearRegression</code></td><td class="a">linear_model／線形回帰</td><td></td></tr>
+<tr><td><code>PCA</code></td><td class="a">decomposition／主成分分析（次元削減）</td><td></td></tr>
+<tr><td><code>KMeans</code> / <code>AgglomerativeClustering</code></td><td class="a">cluster／k-means / 凝集型階層的クラスタリング</td><td></td></tr>
+<tr><td><code>confusion_matrix</code> など評価関数</td><td class="a">metrics</td><td></td></tr>
+<tr><td><code>load_iris</code> などのデータセット</td><td class="a">datasets</td><td>Iris：150件・4特徴量・3品種</td></tr>
+</table></div>
+<h4 id="k-sk2">手法の特徴</h4>
+<div class="tbl"><table class="drill">
+<tr><th>手法・用語</th><th>答え</th><th>注意点</th></tr>
+<tr><td>fit / predict / transform</td><td class="a">学習 / 予測 / 変換（fit_transform は両方）</td><td></td></tr>
+<tr><td>分類</td><td class="a">既知のラベルを教師にする教師あり学習</td><td></td></tr>
+<tr><td>サポートベクタマシン</td><td class="a">マージン最大化。カーネル法で高次元に写して線形分離。外れ値検出にも使える</td><td></td></tr>
+<tr><td>決定木</td><td class="a">情報利得（親の不純度 − 子の不純度）で分割。子のないノードはリーフ</td><td></td></tr>
+<tr><td>ランダムフォレスト</td><td class="a">ブートストラップで作った多数の決定木の多数決・平均（アンサンブル学習）</td><td></td></tr>
+<tr><td>単回帰 / 重回帰</td><td class="a">説明変数が1つ / 2つ以上</td><td></td></tr>
+<tr><td>次元削減</td><td class="a">説明変数（特徴量）の数を減らす</td><td></td></tr>
+<tr><td>主成分分析</td><td class="a">分散が大きい方向を主成分にし、元の次元以下に変換</td><td>寄与率で情報量を確認</td></tr>
+<tr><td>ハイパーパラメータ</td><td class="a">学習前に人が決める値（max_depth、C、k など）</td><td></td></tr>
+<tr><td>グリッドサーチ</td><td class="a">候補の全組み合わせを交差検証で評価し、最良を選ぶ</td><td>結果は best_params_</td></tr>
+<tr><td>k分割交差検証</td><td class="a">k個に分け、テスト用を入れ替えて k 回評価し平均</td><td>cv=10 なら10分割</td></tr>
+<tr><td>random_state</td><td class="a">乱数の種。固定しないと実行ごとに結果が変わりうる</td><td></td></tr>
+<tr><td>凝集型 / 分割型</td><td class="a">小さくまとめて1つへ（ボトムアップ）/ 全体から分割（トップダウン、計算量が多い）</td><td class="trap">よく使われるのは凝集型</td></tr>
+<tr><td>k-means</td><td class="a">ランダムな中心から始め、割り当てと中心更新を収束まで繰り返す</td><td></td></tr>
+</table></div>
+<h4 id="k-sk3">評価指標の式</h4>
+<div class="tbl"><table class="drill">
+<tr><th>指標</th><th>答え（式）</th><th>重視する場面</th></tr>
+<tr><td>正解率</td><td class="a">(TP + TN) / (TP + FP + FN + TN)</td><td>全体の当たりの割合</td></tr>
+<tr><td>適合率</td><td class="a">TP / (TP + FP)</td><td>正の予測を間違えたくない</td></tr>
+<tr><td>再現率</td><td class="a">TP / (TP + FN)</td><td>見逃したくない</td></tr>
+<tr><td>F値</td><td class="a">2 × 適合率 × 再現率 / (適合率 + 再現率)</td><td>調和平均。適合率と再現率はトレードオフ</td></tr>
+<tr><td>上の4つの指標が使えるモデル</td><td class="a">分類モデル（混同行列から計算）</td><td>回帰は MSE や R² など</td></tr>
+<tr><td>AUC</td><td class="a">ROC曲線の下の面積（1に近いほど良い、ランダムは0.5）</td><td></td></tr>
+</table></div>
+

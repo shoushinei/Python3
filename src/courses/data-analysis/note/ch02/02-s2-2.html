@@ -1,0 +1,259 @@
+<h3 id="s2-2"><span class="secno">2.2</span>Pythonの基礎 <span class="scope">3問</span></h3>
+<div class="lead">Pythonの文法的な特徴と基本的な構文に加えて、内包表記などの覚えておくと便利な機能、pickle や pathlib といった標準ライブラリを紹介します。</div>
+
+<h4 id="s2-2-1"><span class="subno">2.2.1</span>Pythonの文法</h4>
+<h5><span>文法の考え方</span></h5>
+<p>Pythonは「<mark>シンプルで読みやすいコードが書けること</mark>」を設計思想として、文法が作られています。同じ動作をするプログラムは、誰が書いても似たコードになるように考えられています。</p>
+<h5><span>インデント</span></h5>
+<p>Pythonの大きな特徴は、コードのブロック構造を、カッコではなく<dfn id="t39">インデント</dfn>（字下げ）で表すことです。次のコードでは、for文の繰り返しの範囲は、インデントしている2〜7行目です。if-elif-else の各ブロックもインデントで表しています。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"ham"</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"eggs"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"spam"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Finish!"</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>ham
+spam
+spam
+eggs
+spam
+ham
+eggs
+spam
+spam
+eggs
+Finish!</code></pre>
+<div class="box java"><span class="bh">Javaと比べると</span><p>Javaの <code>{ }</code> の役割をインデントが担います。インデントを揃えないとエラー（IndentationError）になります。</p></div>
+<h5><span>コーディング規約</span></h5>
+<p>Pythonには、<dfn id="t40">PEP 8</dfn>（ペップエイト）という標準のコーディング規約があります。代表的なルールは次のとおりです。</p>
+<ul>
+<li><mark>複数のモジュールをimportするときは、1行に1つずつ書く</mark></li>
+<li>インデントはスペース4つ</li>
+<li>1行は79文字以内</li>
+<li>関数名・変数名は小文字とアンダースコア（<code>snake_case</code>）、クラス名は <code>CapWords</code></li>
+</ul>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>   <span class="c1"># PEP 8に違反した書き方</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>       <span class="c1"># PEP 8に準拠した書き方</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span></code></pre>
+<p>PEP 8に違反していないかは、<dfn id="t41">pycodestyle</dfn> というツールでチェックできます。</p>
+<pre class="shell"><code>(env) % pip install pycodestyle
+(env) % pycodestyle sample.py
+sample.py:1:11: E401 multiple imports on one line</code></pre>
+
+<h4 id="s2-2-2"><span class="subno">2.2.2</span>基本構文</h4>
+<h5><span>変数とデータ型</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">n</span> <span class="o">=</span> <span class="mi">10</span>            <span class="c1"># int（整数）</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mf">3.14</span>          <span class="c1"># float（浮動小数点数）</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">"Python"</span>   <span class="c1"># str（文字列）</span>
+<span class="n">flag</span> <span class="o">=</span> <span class="kc">True</span>       <span class="c1"># bool（真偽値）</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="nb">type</span><span class="p">(</span><span class="n">flag</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> は </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> 文字以内"</span><span class="p">)</span>   <span class="c1"># f文字列で値を埋め込む</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&lt;class &#x27;int&#x27;&gt; &lt;class &#x27;float&#x27;&gt; &lt;class &#x27;str&#x27;&gt; &lt;class &#x27;bool&#x27;&gt;
+Python は 10 文字以内</code></pre>
+<p>Javaと違い、変数の型を宣言する必要はありません（動的型付け）。</p>
+<h5><span>リスト・タプル・辞書・集合</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>            <span class="c1"># リスト（変更できる）</span>
+<span class="n">point</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>            <span class="c1"># タプル（変更できない）</span>
+<span class="n">price</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"apple"</span><span class="p">:</span> <span class="mi">120</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">:</span> <span class="mi">80</span><span class="p">}</span>   <span class="c1"># 辞書（キーと値）</span>
+<span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">}</span>      <span class="c1"># 集合（重複しない）</span>
+<span class="n">nums</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nums</span><span class="p">,</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nums</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">nums</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">price</span><span class="p">[</span><span class="s2">"apple"</span><span class="p">],</span> <span class="n">tags</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[3, 1, 2, 5] 3 5 [1, 2]
+20 120 {&#x27;a&#x27;, &#x27;b&#x27;}</code></pre>
+<h5><span>関数と条件・繰り返し</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">grade</span><span class="p">(</span><span class="n">score</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">80</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"A"</span>
+    <span class="k">elif</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"B"</span>
+    <span class="k">return</span> <span class="s2">"C"</span>
+
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">92</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">40</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">grade</span><span class="p">(</span><span class="n">s</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>92 A
+75 B
+40 C</code></pre>
+<h5><span>内包表記</span></h5>
+<p>「リストの各要素に処理をして、新しいリストを作る」処理を1行で書けるのが<dfn id="t42">リスト内包表記</dfn>です。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">scores</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">88</span><span class="p">]</span>
+
+<span class="c1"># for文で書いた場合</span>
+<span class="n">bonus</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">:</span>
+    <span class="n">bonus</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span> <span class="o">+</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bonus</span><span class="p">)</span>
+
+<span class="c1"># リスト内包表記で書いた場合（結果は同じ）</span>
+<span class="n">bonus</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="o">+</span> <span class="mi">10</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">scores</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">bonus</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[60, 82, 98]
+[60, 82, 98]</code></pre>
+<p>書き方は <code>[ 作る値の式 for 変数 in 取り出し元 ]</code> です。for文の <code>append</code> の中身を先頭に持ってくる、と考えると覚えやすいでしょう。</p>
+<ul>
+<li>後ろに <code>if 条件</code> を付けると、条件に合う要素だけを残せます。</li>
+<li><mark><code>[ ]</code> で囲むとリスト、<code>{ }</code> で囲むと集合（set）</mark>、<code>{キー: 値 for …}</code> と書くと辞書になります。集合は順序を持たず、重複も消えます。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"data"</span><span class="p">,</span> <span class="s2">"AI"</span><span class="p">,</span> <span class="s2">"python"</span><span class="p">,</span> <span class="s2">"ml"</span><span class="p">,</span> <span class="s2">"data"</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">w</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">])</span>   <span class="c1"># 3文字以上だけ大文字に</span>
+<span class="nb">print</span><span class="p">({</span><span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">})</span>                     <span class="c1"># 集合内包表記（重複なし）</span>
+<span class="nb">print</span><span class="p">({</span><span class="n">w</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">})</span>                  <span class="c1"># 辞書内包表記</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;DATA&#x27;, &#x27;PYTHON&#x27;, &#x27;DATA&#x27;]
+{2, 4, 6}
+{&#x27;data&#x27;: 4, &#x27;AI&#x27;: 2, &#x27;python&#x27;: 6, &#x27;ml&#x27;: 2}</code></pre>
+<h5><span>with文とファイル操作</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"memo.txt"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>   <span class="c1"># 書き込み</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"1行目</span><span class="se">\n</span><span class="s2">2行目</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"memo.txt"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>        <span class="c1"># 読み込み</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>1行目
+2行目</code></pre>
+<p><code>with</code> を使うと、ブロックを抜けるときにファイルが自動で閉じられます。Javaの try-with-resources と同じ考え方です。</p>
+
+<h4 id="s2-2-3"><span class="subno">2.2.3</span>標準ライブラリ</h4>
+<h5><span>正規表現（re）</span></h5>
+<p>「こういう形の文字列」というパターンで検索・置換する仕組みを<dfn id="t43">正規表現</dfn>と呼びます。標準ライブラリの <code>re</code> モジュールを使います。</p>
+<div class="tbl"><table>
+<tr><th>記号</th><th>意味</th><th>例</th></tr>
+<tr><td><code>.</code></td><td>任意の1文字</td><td><code>a.c</code> は abc、a1c に一致</td></tr>
+<tr><td><code>?</code></td><td>直前の文字が<mark>0回か1回</mark></td><td><code>colou?r</code> は color、colour に一致</td></tr>
+<tr><td><code>*</code></td><td>直前の文字が0回以上</td><td><code>ab*</code> は a、ab、abb…</td></tr>
+<tr><td><code>+</code></td><td>直前の文字が1回以上</td><td><code>ab+</code> は ab、abb…</td></tr>
+<tr><td><code>[abc]</code></td><td>カッコ内の<mark>どれか1文字</mark></td><td><code>gr[ae]y</code> は gray、grey</td></tr>
+<tr><td><code>[a-z]</code></td><td>範囲内の1文字</td><td>小文字1文字</td></tr>
+<tr><td><code>(A|B)</code></td><td><mark>AまたはB</mark>（グループ）</td><td><code>(cat|dog)s</code> は cats、dogs</td></tr>
+<tr><td><code>^</code> / <code>$</code></td><td>先頭 / 末尾</td><td><code>^py</code> は py で始まる</td></tr>
+<tr><td><code>\d</code></td><td>数字1文字</td><td><code>\d+</code> は 2026</td></tr>
+</table></div>
+<p>パターンは <mark><code>r'...'</code>（<span class="gl" tabindex="0" data-g="raw文字列">raw文字列</span>）</mark>で書きます。<code>\</code> がPythonのエスケープとして解釈されず、そのまま re に渡ります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">prog</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\d+"</span><span class="p">)</span>            <span class="c1"># パターンを準備（何度も使うときに便利）</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">prog</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s2">"abc123def45"</span><span class="p">)</span>       <span class="c1"># 最初に一致した部分を探す</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>                             <span class="c1"># Matchオブジェクト</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">())</span>               <span class="c1"># 一致した文字列</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prog</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">"abc123"</span><span class="p">))</span>          <span class="c1"># match は先頭から一致するかを調べる</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prog</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">"abc123def45"</span><span class="p">))</span>   <span class="c1"># 一致した部分をすべてリストで</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"\d+"</span><span class="p">,</span> <span class="s2">"#"</span><span class="p">,</span> <span class="s2">"a1b22c"</span><span class="p">))</span> <span class="c1"># 一致した部分を置換</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&lt;re.Match object; span=(3, 6), match=&#x27;123&#x27;&gt;
+123 123
+None
+[&#x27;123&#x27;, &#x27;45&#x27;]
+a#b#c</code></pre>
+<ul>
+<li><dfn id="t44">search</dfn> は、文字列の<mark>どこか</mark>に一致する部分があれば Match オブジェクトを返します。<mark>なければ <code>None</code></mark> を返します。</li>
+<li><dfn id="t45">match</dfn> は、文字列の<mark>先頭から</mark>一致するかどうかを調べます。</li>
+<li>Match オブジェクトの <code>[0]</code> または <code>group()</code> で、一致した文字列全体を取り出せます。</li>
+<li>findall は一致したすべての部分をリストで返し、sub は一致した部分を置換します。</li>
+<li><code>re.IGNORECASE</code> を指定すると、大文字と小文字を区別しません。</li>
+</ul>
+<p>複数の記号を組み合わせたパターンは、左から部品に分けて読みます。</p>
+<div class="tbl"><table>
+<tr><th>部品</th><th>意味</th></tr>
+<tr><td><code>colo</code></td><td>colo（そのまま）</td></tr>
+<tr><td><code>u?</code></td><td>u があってもなくてもよい</td></tr>
+<tr><td><code>r</code></td><td>r（必須）</td></tr>
+<tr><td><code>(s|ed|ful)?</code></td><td>s / ed / ful のどれか。なくてもよい</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+
+<span class="n">prog</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">"colou?r(s|ed|ful)?"</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"color"</span><span class="p">,</span> <span class="s2">"Colours"</span><span class="p">,</span> <span class="s2">"a COLORFUL day"</span><span class="p">,</span> <span class="s2">"coloured pen"</span><span class="p">,</span> <span class="s2">"colr"</span><span class="p">]:</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">prog</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">"→ 一致なし"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">"→"</span><span class="p">,</span> <span class="n">ret</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>color → color
+Colours → Colours
+a COLORFUL day → COLORFUL
+coloured pen → coloured
+colr → 一致なし</code></pre>
+<p><code>colr</code> は、必須の <code>o</code> が足りないのでどこにも一致せず、<code>None</code> になります。<code>a COLORFUL day</code> は、search が途中の位置からでも探すことと、IGNORECASE で大文字も一致することから、COLORFUL の部分が見つかります。</p>
+
+<h5><span>ログ出力（logging）</span></h5>
+<p><dfn id="t46">logging</dfn> は、ログ（プログラムの途中経過や異常の記録）を出力するモジュールです。<mark>ログレベルを指定でき、出力先のファイルや出力形式（フォーマット）も指定できます</mark>。バッチ処理の途中経過を残す用途などに使います。</p>
+<div class="tbl"><table>
+<tr><th>ログレベル（重要度の低い順）</th><th>用途</th></tr>
+<tr><td><code>DEBUG</code></td><td>開発中の詳しい情報</td></tr>
+<tr><td><code>INFO</code></td><td>想定どおりに動いていることの記録</td></tr>
+<tr><td><code>WARNING</code></td><td>想定外のことが起きた（<mark>何も設定しないときの既定レベル</mark>）</td></tr>
+<tr><td><code>ERROR</code></td><td>一部の処理ができなかった</td></tr>
+<tr><td><code>CRITICAL</code></td><td>プログラムを続けられない重大な問題</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"詳細"</span><span class="p">)</span>        <span class="c1"># INFO より低いので出力されない</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"処理を開始"</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"残りわずか"</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>INFO:処理を開始
+WARNING:残りわずか</code></pre>
+<p>指定したレベル以上のログだけが出力されます。<code>basicConfig(filename="app.log")</code> とすると、ログをファイルに書き出せます。</p>
+
+<h5><span>オブジェクトの保存（pickle）</span></h5>
+<p><dfn id="t47">pickle</dfn> は、Pythonのオブジェクトを<dfn id="t48">シリアライズ</dfn>（直列化）してファイルなどに保存し、あとで元のオブジェクトに戻すためのモジュールです。リストや辞書、学習済みのモデルなどの保存に使います。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"iris"</span><span class="p">,</span> <span class="s2">"scores"</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">]}</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data.pkl"</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>   <span class="c1"># バイナリ書き込み "wb"</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data.pkl"</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>   <span class="c1"># バイナリ読み込み "rb"</span>
+    <span class="n">restored</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">restored</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>{&#x27;name&#x27;: &#x27;iris&#x27;, &#x27;scores&#x27;: [0.9, 0.95]}</code></pre>
+<p>保存は <code>dump</code>、読み込みは <code>load</code> で、ファイルは<mark>バイナリモード</mark>で開きます。</p>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>Serializable</code> と <code>ObjectOutputStream</code> によるオブジェクトの直列化にあたります。</p></div>
+
+<h5><span>パスの操作（pathlib）</span></h5>
+<p><dfn id="t49">pathlib</dfn> は、ファイルのパスをオブジェクトとして扱うモジュールです。<code>/</code> 演算子でパスをつなげられます。<mark><code>glob</code> メソッドでは、ワイルドカード <code>*</code> を使ってファイルを検索できます</mark>。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">work</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"sample_dir"</span><span class="p">)</span>
+<span class="n">work</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="p">(</span><span class="n">work</span> <span class="o">/</span> <span class="s2">"a.txt"</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">"A"</span><span class="p">)</span>
+<span class="p">(</span><span class="n">work</span> <span class="o">/</span> <span class="s2">"b.txt"</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">"B"</span><span class="p">)</span>
+<span class="p">(</span><span class="n">work</span> <span class="o">/</span> <span class="s2">"c.csv"</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">"C"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">work</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"*.txt"</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">work</span> <span class="o">/</span> <span class="s2">"a.txt"</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="p">(</span><span class="n">work</span> <span class="o">/</span> <span class="s2">"a.txt"</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;a.txt&#x27;, &#x27;b.txt&#x27;]
+True .txt</code></pre>
+
+<h5><span>日付と時刻（datetime）</span></h5>
+<p><dfn id="t50">datetime</dfn> は日付と時刻を扱うモジュールです。<mark>日付どうしを引き算すると <code>timedelta</code>（期間）になり</mark>、経過日数を計算できます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="n">d1</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2026</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">29</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">d2</span> <span class="o">-</span> <span class="n">d1</span><span class="p">)</span><span class="o">.</span><span class="n">days</span><span class="p">)</span>                    <span class="c1"># 経過日数</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d1</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">30</span><span class="p">))</span>           <span class="c1"># 30日後</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s2">"2026/10/29 15:30"</span><span class="p">,</span> <span class="s2">"%Y/%m/</span><span class="si">%d</span><span class="s2"> %H:%M"</span><span class="p">)</span>  <span class="c1"># 文字列→日時</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y年%m月</span><span class="si">%d</span><span class="s2">日"</span><span class="p">))</span>        <span class="c1"># 日時→文字列</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>211
+2026-05-01
+2026年10月29日</code></pre>
+<p>今日の日付は <code>date.today()</code>、現在の日時は <code>datetime.now()</code> で取得できます。</p>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>re：search はどこかに一致すれば Match、なければ None。<code>?</code> は0回か1回、<code>|</code> はどちらか、<code>[ ]</code> はどれか1文字。</li>
+<li>logging：低い順に DEBUG &lt; INFO &lt; WARNING &lt; ERROR &lt; CRITICAL。既定は WARNING。</li>
+<li>pickle：オブジェクトのシリアライズ（dump / load、バイナリモード）。</li>
+<li>pathlib：パスのオブジェクト。glob でワイルドカード検索。datetime：日付の差は timedelta。</li>
+</ul></div>
+

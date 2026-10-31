@@ -1,0 +1,56 @@
+<h3 id="s8-7"><span class="secno">8.7</span>クリーンアップ動作の定義</h3>
+<p><dfn id="t58">finally 節</dfn>は、<mark>例外が起きても起きなくても、必ず最後に実行されます</mark>。外部のリソース（ファイルやネットワーク接続）を解放するのに使います。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span>
+    <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"division by zero!"</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"result is"</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"executing finally clause"</span><span class="p">)</span>
+
+<span class="n">divide</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">divide</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">divide</span><span class="p">(</span><span class="s2">"2"</span><span class="p">,</span> <span class="s2">"1"</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"TypeError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>result is 2.0
+executing finally clause
+division by zero!
+executing finally clause
+executing finally clause
+TypeError: unsupported operand type(s) for /: &#x27;str&#x27; and &#x27;str&#x27;</code></pre>
+<p>3つ目の呼び出しの TypeError は except 節で処理されないので、<mark>finally 節を実行した後で、もう一度送出</mark>されます。</p>
+<div class="tbl"><table>
+<tr><th>状況</th><th>finally の動き</th></tr>
+<tr><td>例外が except で処理されない</td><td>finally を実行した<mark>後で</mark>例外が再送出される</td></tr>
+<tr><td>except 節や else 節の中で例外が起きた</td><td>finally を実行した後で、その例外が再送出される</td></tr>
+<tr><td>try 節で break・continue・return を実行</td><td>それが実行される<mark>直前に</mark> finally が実行される</td></tr>
+<tr><td>finally 節に break・continue・return がある</td><td>例外は再送出されない</td></tr>
+<tr><td><mark>try と finally の両方に return がある</mark></td><td><mark>finally の return の値</mark>が戻り値になる</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">bool_return</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">bool_return</span><span class="p">())</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"try"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"try の戻り値"</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"finally（return の直前に実行される）"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">())</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>False
+try
+finally（return の直前に実行される）
+try の戻り値</code></pre>
+

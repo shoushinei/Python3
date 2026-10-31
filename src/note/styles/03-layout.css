@@ -1,0 +1,27 @@
+/* ---------- レイアウト ---------- */
+.layout{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:32px;padding:24px max(16px,2vw) 80px}
+.side{position:sticky;top:calc(var(--bar-h) + 16px);max-height:calc(100vh - var(--bar-h) - 32px);overflow:auto;padding-right:4px}
+.side .s-ch{font-family:var(--f-num);font-weight:700;font-size:.78rem;letter-spacing:.16em;color:var(--brand)}
+.side .s-title{font-family:var(--f-head);font-weight:700;font-size:1.05rem;line-height:1.45;margin:2px 0 10px}
+.readbar{height:4px;border-radius:2px;background:var(--line);overflow:hidden;margin-bottom:12px}
+.readbar i{display:block;height:100%;width:0;background:var(--brand);transition:width .15s}
+.tree{list-style:none;margin:0;padding:0}
+.tree>li{margin-bottom:6px}
+.tree a{display:block;text-decoration:none;color:inherit;border-radius:7px;line-height:1.45}
+.tree a.l3{font-weight:700;font-size:.9rem;padding:7px 10px;display:flex;gap:8px;align-items:baseline}
+.tree a.l3 .no{font-family:var(--f-num);color:var(--brand);font-weight:700;min-width:2.1em}
+.tree a.l3 .q{margin-left:auto;font-size:.7rem;font-weight:700;color:var(--brand-ink);background:var(--brand-soft);border-radius:999px;padding:0 7px;white-space:nowrap}
+.tree ol{list-style:none;margin:2px 0 0 18px;padding:0 0 0 10px;border-left:2px solid var(--line)}
+.tree a.l4{font-size:.82rem;color:var(--muted);padding:4px 8px}
+.tree a.l4 .no{font-family:var(--f-num);font-weight:600;margin-right:6px;font-size:.78rem}
+.tree a:hover{background:var(--brand-softer);color:var(--ink)}
+.tree a.on{background:var(--brand-soft);color:var(--brand-ink)}
+.tree a.l4.on{font-weight:700}
+.tree li.on>ol{border-left-color:var(--brand)}
+.side-foot{display:flex;gap:6px;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.side-foot button{flex:1;border:1px solid var(--line);background:var(--sheet);border-radius:8px;padding:6px 8px;font-size:.8rem;cursor:pointer}
+.side-foot button:hover{border-color:var(--brand);color:var(--brand-ink)}
+.side-foot button[disabled]{opacity:.4;cursor:default}
+.scrim{display:none}
+main{min-width:0}
+

@@ -1,0 +1,19 @@
+<h3 id="s11-3"><span class="secno">11.3</span>バイナリデータレコードの処理</h3>
+<p><dfn id="t90">struct</dfn> モジュールの <code>pack()</code>・<code>unpack()</code> で、可変長のバイナリレコードを扱えます。書式文字の <mark><code>"H"</code> は2バイト、<code>"I"</code> は4バイトの符号なし整数</mark>、<mark><code>"&lt;"</code> は標準サイズのリトルエンディアン</mark>を表します。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="s1">'&lt;IIH'</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>      <span class="c1"># 4 + 4 + 2 = 10 バイト</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">'&lt;IIH'</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>10 b&#x27;\x01\x00\x00\x00\x02\x00\x00\x00\x03\x00&#x27;
+(1, 2, 3)</code></pre>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'myfile.zip'</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>                      <span class="c1"># 最初の3つのファイルのヘッダを表示</span>
+    <span class="n">start</span> <span class="o">+=</span> <span class="mi">14</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s1">'&amp;lt;IIIHH'</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span><span class="o">+</span><span class="mi">16</span><span class="p">])</span>
+    <span class="n">crc32</span><span class="p">,</span> <span class="n">comp_size</span><span class="p">,</span> <span class="n">uncomp_size</span><span class="p">,</span> <span class="n">filenamesize</span><span class="p">,</span> <span class="n">extra_size</span> <span class="o">=</span> <span class="n">fields</span>
+    <span class="o">...</span></code></pre>
+

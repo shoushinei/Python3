@@ -1,0 +1,23 @@
+/* 暗記シート */
+.drillbar{position:sticky;top:calc(var(--bar-h) + 6px);z-index:5;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--sheet);border:1.5px solid var(--brand);border-radius:999px;padding:6px 8px 6px 16px;margin:18px 0;box-shadow:0 4px 14px rgba(0,0,0,.06);font-size:.86rem}
+.drillbar b{color:var(--brand-ink)}
+.drillbar button{border:1.5px solid var(--brand);background:var(--sheet);color:var(--brand-ink);border-radius:999px;padding:3px 14px;cursor:pointer;font-weight:700;font-size:.82rem}
+.drillbar button[aria-pressed="true"]{background:var(--brand);color:#fff}
+.drillbar .tip2{color:var(--muted);font-size:.78rem}
+table.drill{width:100%}
+table.drill td{vertical-align:middle}
+table.drill td:first-child{font-weight:700;white-space:nowrap}
+table.drill td.trap{font-size:.84rem;color:var(--warn)}
+.drilling table.drill td.a{cursor:pointer;color:transparent;background:repeating-linear-gradient(45deg,var(--brand-soft),var(--brand-soft) 6px,var(--brand-softer) 6px,var(--brand-softer) 12px);user-select:none}
+.drilling table.drill td.a *{visibility:hidden}
+.drilling table.drill td.a.show{color:inherit;background:var(--hl-soft,#fff8d6)}
+.drilling table.drill td.a.show *{visibility:visible}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .drilling table.drill td.a.show{background:#2b2612}}
+
+.gl{border-bottom:1.5px dotted var(--brand);cursor:help;border-radius:2px}
+.gl:hover,.gl:focus,.gl.on{background:var(--brand-soft);outline:none}
+#glpop{position:fixed;z-index:60;max-width:min(340px,calc(100vw - 24px));background:var(--ink);color:var(--paper);border-radius:10px;padding:10px 14px 11px;font-size:.86rem;line-height:1.7;box-shadow:0 8px 28px rgba(0,0,0,.25);pointer-events:auto}
+#glpop b{display:block;font-family:var(--f-head);font-size:.95rem;margin-bottom:2px;color:#8fd0ff}
+#glpop .jv{display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.18);font-size:.8rem;opacity:.92}
+#glpop .jv::before{content:"Javaでいうと";display:inline-block;font-size:.7rem;font-weight:700;background:#9b6fd6;color:#fff;border-radius:999px;padding:0 8px;margin-right:6px}
+

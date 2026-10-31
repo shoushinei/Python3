@@ -1,0 +1,33 @@
+<h3 id="s10-1"><span class="secno">10.1</span>OSインターフェイス</h3>
+<p><dfn id="t73">os</dfn> モジュールには、オペレーティングシステムとやり取りする関数が数多くあります。</p>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>                    <span class="c1"># 現在の作業ディレクトリを返す</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">'/server/accesslogs'</span><span class="p">)</span> <span class="c1"># 作業ディレクトリを変える</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">'mkdir today'</span><span class="p">)</span>       <span class="c1"># システムのシェルでコマンドを実行する</span></code></pre>
+<div class="box real"><span class="bh">本番で出た論点：from os import * を使ってはいけない理由</span>
+<p>チュートリアルには、<mark><code>from os import *</code> ではなく <code>import os</code> の形を使うように</mark>と書かれています。理由は、<mark><code>os.open()</code> が組み込み関数の <code>open()</code> を隠してしまう（上書きしてしまう）から</mark>です。この2つは動作がまったく違います。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">open</span><span class="p">)</span>                         <span class="c1"># 組み込みの open</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>                    <span class="c1"># os の名前が全部入ってくる</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">open</span> <span class="ow">is</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">)</span>              <span class="c1"># open が os.open に置き換わった</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'memo.txt'</span><span class="p">)</span>            <span class="c1"># いつものつもりで呼ぶと…</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"TypeError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&lt;built-in function open&gt;
+True
+TypeError: open() missing required argument &#x27;flags&#x27; (pos 2)</code></pre>
+<p><code>os.open()</code> は低レベルのファイル操作の関数で、フラグ（開き方）を指定する引数が必須です。<code>from os import *</code> のあとでは、<code>open('memo.txt')</code> と書いたつもりが <code>os.open('memo.txt')</code> になり、エラーになってしまいます。<code>import os</code> なら、<code>open()</code>（組み込み）と <code>os.open()</code> をはっきり区別できます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">builtins</span>
+<span class="nb">open</span> <span class="o">=</span> <span class="n">builtins</span><span class="o">.</span><span class="n">open</span>                <span class="c1"># 上の例で上書きした open を元に戻す</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">os</span><span class="p">)</span> <span class="k">if</span> <span class="n">n</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'get'</span><span class="p">)][:</span><span class="mi">5</span><span class="p">])</span>   <span class="c1"># dir(os) で関数の一覧が見られる</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;get_blocking&#x27;, &#x27;get_exec_path&#x27;, &#x27;get_inheritable&#x27;, &#x27;get_terminal_size&#x27;, &#x27;getcwd&#x27;]</code></pre>
+<p>os のように大きなモジュールを使うときは、組み込み関数 <mark><code>dir()</code>（関数の一覧）と <code>help()</code>（説明）</mark>が役に立ちます。</p>
+<p>ファイルやディレクトリの日常的な管理には、より高水準のインターフェイスを持つ <dfn id="t74">shutil</dfn> モジュールが使いやすいです。</p>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="n">shutil</span><span class="o">.</span><span class="n">copyfile</span><span class="p">(</span><span class="s1">'data.db'</span><span class="p">,</span> <span class="s1">'archive.db'</span><span class="p">)</span>        <span class="c1"># ファイルのコピー</span>
+<span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="s1">'/build/executables'</span><span class="p">,</span> <span class="s1">'installdir'</span><span class="p">)</span> <span class="c1"># 移動</span></code></pre>
+

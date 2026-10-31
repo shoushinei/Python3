@@ -1,0 +1,36 @@
+/* コード（In / Out） */
+pre{font-family:var(--f-code);font-size:.85rem;line-height:1.7;margin:6px 0 10px;overflow-x:auto;tab-size:4;border-radius:8px;padding:12px 16px}
+pre code{background:none;border:0;padding:0;font-size:inherit}
+pre.py,pre.pynr{background:var(--code);border:1px solid var(--code-line);position:relative}
+.inlbl,.outlbl{display:block;font-family:var(--f-num);font-weight:700;font-size:.8rem;letter-spacing:.06em;color:var(--brand);margin:16px 0 0}
+.outlbl{margin-top:4px}
+pre.out{background:var(--out);border:0}
+pre.shell{background:var(--brand-softer);border:1px solid var(--brand-soft);font-weight:600}
+pre.shell .cm{color:var(--c);font-weight:400}
+pre code .k,pre code .kn,pre code .kc,pre code .ow,pre code .kd,pre code .kr{color:var(--k);font-weight:600}
+pre code .s,pre code .s1,pre code .s2,pre code .sa,pre code .sd,pre code .si,pre code .se,pre code .sb,pre code .sc,pre code .dl{color:var(--s)}
+pre code .c,pre code .c1,pre code .cm,pre code .ch{color:var(--c);font-style:italic}
+pre code .mi,pre code .mf,pre code .mh,pre code .il{color:var(--n)}
+pre code .nb,pre code .bp{color:var(--b)}
+pre code .nf,pre code .nc,pre code .fm{color:var(--b);font-weight:600}
+.dfout,.figout{background:var(--out);border-radius:8px;padding:12px 16px;margin:4px 0 10px;overflow-x:auto}
+.figout{text-align:center}
+.figout img,.runfig img{max-width:min(100%,520px);height:auto;background:#fff;border-radius:4px}
+table.dataframe{min-width:0;font-family:var(--f-code);font-size:.8rem;margin:0;background:var(--sheet);border-collapse:collapse}
+table.dataframe th,table.dataframe td{padding:3px 10px;text-align:right;white-space:nowrap;border:1px solid var(--line)}
+table.dataframe thead th{background:var(--brand-soft)}
+.runbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:-2px 0 6px}
+.runbar button{all:unset;cursor:pointer;font-size:.78rem;padding:3px 12px;border-radius:999px;border:1px solid var(--brand);color:var(--brand-ink)}
+.runbar button.run{background:var(--brand);color:#fff;font-weight:700}
+.runbar button:hover{filter:brightness(1.08)}
+.runbar button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.runbar .st{font-size:.78rem;color:var(--muted)}
+.runwrap{border:2px dashed var(--brand);border-radius:10px;padding:2px 12px 8px;margin:4px 0 12px}
+.runwrap::before{content:"ここで動かした結果";display:block;font-size:.72rem;font-weight:700;color:var(--brand-ink);margin:4px 0}
+pre.run-out{background:var(--out);margin:4px 0}
+pre.run-out.err{background:var(--ng-soft)}
+.run-df{overflow-x:auto;margin:4px 0}
+.runfig{text-align:center;margin:4px 0}
+pre[data-run] code[contenteditable]{outline:none;display:block}
+pre[data-run]:focus-within{box-shadow:0 0 0 2px var(--brand)}
+

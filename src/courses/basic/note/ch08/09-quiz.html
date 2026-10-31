@@ -1,0 +1,50 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q1</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>try:
+    print("A")
+    x = 1 / 0
+    print("B")
+except ZeroDivisionError:
+    print("C")
+else:
+    print("D")
+finally:
+    print("E")</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">A B C E</li><li data-k="b" class="code">A C D E</li><li data-k="c" class="code">A C E</li><li data-k="d" class="code">A B D E</li>
+</ol><div class="exp" hidden>1/0 で例外が起きるので B は飛ばされ、C が実行されます。例外が起きたので else は実行されず、finally の E は必ず実行されます（実際の出力は1行ずつ）。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q2</span>次の関数 f() の戻り値はどれか。</p>
+<pre class="pynr"><code>def f():
+    try:
+        return 1
+    finally:
+        return 2</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">2</li><li data-k="b" class="code">1</li><li data-k="c" class="code">(1, 2)</li><li data-k="d" class="code">None</li>
+</ol><div class="exp" hidden>try と finally の両方に return があると、finally の return の値が戻り値になります。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q3</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>try:
+    raise KeyError("k")
+except LookupError:
+    print("lookup")
+except KeyError:
+    print("key")</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">key</li><li data-k="b" class="code">lookup（改行）key</li><li data-k="c" class="code">KeyError で停止する</li><li data-k="d" class="code">lookup</li>
+</ol><div class="exp" hidden>KeyError は LookupError の派生クラスなので、先に書かれた except LookupError で捕まります。実行される except は1つだけです。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q4</span>例外に関する説明として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">else 節は、例外が起きたときに実行される。</li>
+<li data-k="b">複数の例外を1つの except 節で処理するには、例外をタプルで並べる。</li>
+<li data-k="c">ZeroDivisionError などの標準の例外名は予約語である。</li>
+<li data-k="d">ユーザー定義例外は、object クラスから直接派生させる。</li>
+</ol><div class="exp" hidden>else は例外が起きなかったときに実行されます。標準の例外名は予約語ではなく組み込みの識別子で、ユーザー定義例外は Exception から派生させます。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q5</span>例外を処理している except 節の中で、別の例外を送出したとき、元の例外を表示させないための書き方はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">raise RuntimeError from exc</li><li data-k="b" class="code">raise</li><li data-k="c" class="code">raise RuntimeError from None</li><li data-k="d" class="code">raise None</li>
+</ol><div class="exp" hidden>from None で自動の連鎖を無効にできます。from exc は原因を明示した連鎖、引数なしの raise は今の例外の再送出です。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q6</span><code>try: raise Exception('a', 1)</code> に対する <code>except Exception as e: print(e.args)</code> の出力はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">('a', 1)</li><li data-k="b" class="code">['a', 1]</li><li data-k="c" class="code">a 1</li><li data-k="d" class="code">Exception('a', 1)</li>
+</ol><div class="exp" hidden>例外を作ったときの引数は args 属性にタプルで入ります。</div></div>
+</div>

@@ -1,0 +1,49 @@
+<h3 id="s4-2"><span class="secno">4.2</span>for文</h3>
+<div class="lead">Pythonの for文は、数値の範囲ではなく、リストや文字列などの<strong>シーケンスの要素を、並んでいる順に1つずつ</strong>取り出して回します。</div>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">words</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'cat'</span><span class="p">,</span> <span class="s1">'window'</span><span class="p">,</span> <span class="s1">'defenestrate'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">w</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>cat 3
+window 6
+defenestrate 12</code></pre>
+<div class="box real"><span class="bh">本番で出た論点：文字列を for で回す</span>
+<p>文字列もシーケンスなので、for で回すと<mark>1文字ずつ</mark>取り出されます。<code>print()</code> は毎回最後に<mark>改行</mark>するので、1文字ずつ別の行に出力されます。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="s2">"Python"</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>P
+y
+t
+h
+o
+n</code></pre>
+<p>同じ行に続けて出したいときは、<code>end</code> で改行を別の文字に変えます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="s2">"Python"</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>     <span class="c1"># 改行しない → 1行に続けて出る</span>
+<span class="nb">print</span><span class="p">()</span>                   <span class="c1"># 最後に改行だけ出す</span>
+<span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="s2">"Python"</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">"-"</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Python
+P-y-t-h-o-n-</code></pre>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>for ch in "Python":</code> は、Javaの <code>for (char ch : "Python".toCharArray()) System.out.println(ch);</code> と同じです。<code>print</code> は <code>println</code>（改行あり）、<code>print(…, end="")</code> は <code>print</code>（改行なし）にあたります。</p></div>
+<h5><span>回している最中にコレクションを変更しない</span></h5>
+<p>ループの中で、回しているコレクション自体を変更すると、うまく動かないことがあります。<mark>コピーを回すか、新しいコレクションを作る</mark>のが確実です。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">users</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Hans'</span><span class="p">:</span> <span class="s1">'active'</span><span class="p">,</span> <span class="s1">'Éléonore'</span><span class="p">:</span> <span class="s1">'inactive'</span><span class="p">,</span> <span class="s1">'景太郎'</span><span class="p">:</span> <span class="s1">'active'</span><span class="p">}</span>
+<span class="c1"># 方法1：コピーを回しながら、元の辞書を変更する</span>
+<span class="k">for</span> <span class="n">user</span><span class="p">,</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">users</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="s1">'inactive'</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">users</span><span class="p">[</span><span class="n">user</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">users</span><span class="p">)</span>
+<span class="c1"># 方法2：新しいコレクションを作る</span>
+<span class="n">users</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'Hans'</span><span class="p">:</span> <span class="s1">'active'</span><span class="p">,</span> <span class="s1">'Éléonore'</span><span class="p">:</span> <span class="s1">'inactive'</span><span class="p">,</span> <span class="s1">'景太郎'</span><span class="p">:</span> <span class="s1">'active'</span><span class="p">}</span>
+<span class="n">active_users</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">user</span><span class="p">,</span> <span class="n">status</span> <span class="ow">in</span> <span class="n">users</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="s1">'active'</span><span class="p">:</span>
+        <span class="n">active_users</span><span class="p">[</span><span class="n">user</span><span class="p">]</span> <span class="o">=</span> <span class="n">status</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">active_users</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>{&#x27;Hans&#x27;: &#x27;active&#x27;, &#x27;景太郎&#x27;: &#x27;active&#x27;}
+{&#x27;Hans&#x27;: &#x27;active&#x27;, &#x27;景太郎&#x27;: &#x27;active&#x27;}</code></pre>
+

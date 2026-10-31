@@ -1,0 +1,45 @@
+<h3 id="s10-11"><span class="secno">10.11</span>品質管理</h3>
+<p>質の高いソフトウェアを作るには、関数ごとにテストを書き、開発中に頻繁に実行することが大切です。</p>
+<div class="cmp">
+<div><b>doctest</b>モジュールを走査して、<mark>docstring の中に書いたテスト</mark>を検証する。docstring の例を実際に動かして、書いてある結果と一致するか調べる。</div>
+<div><b>unittest</b>doctest より包括的なテストを、<mark>別のファイル</mark>で管理できる。</div>
+</div>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">average</span><span class="p">(</span><span class="n">values</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Computes the arithmetic mean of a list of numbers.</span>
+
+<span class="sd">    &gt;&gt;&gt; print(average([20, 30, 70]))</span>
+<span class="sd">    40.0</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">doctest</span>
+<span class="n">doctest</span><span class="o">.</span><span class="n">run_docstring_examples</span><span class="p">(</span><span class="n">average</span><span class="p">,</span> <span class="p">{</span><span class="s1">'average'</span><span class="p">:</span> <span class="n">average</span><span class="p">},</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Finding tests in NoName
+Trying:
+    print(average([20, 30, 70]))
+Expecting:
+    40.0
+ok</code></pre>
+<p>通常は、モジュールの最後で <mark><code>doctest.testmod()</code></mark> を呼ぶと、そのモジュールの docstring にあるテストが自動で検証されます。上の例は、この教材の実行環境で動かすために、1つの関数の docstring だけを検証する関数を使い、verbose=True で途中経過を表示しています（テストが失敗すると、期待した値と実際の値が表示されます）。</p>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">import</span><span class="w"> </span><span class="nn">unittest</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">TestStatisticalFunctions</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">test_average</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">average</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">]),</span> <span class="mf">40.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">average</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]),</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">4.3</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">ZeroDivisionError</span><span class="p">):</span>
+            <span class="n">average</span><span class="p">([])</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">assertRaises</span><span class="p">(</span><span class="ne">TypeError</span><span class="p">):</span>
+            <span class="n">average</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">70</span><span class="p">)</span>
+
+<span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>  <span class="c1"># コマンドラインから呼び出すと、すべてのテストを実行する</span></code></pre>
+<pre class="out"><code>.
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK</code></pre>
+<p><code>unittest.TestCase</code> を継承したクラスに <code>test_</code> で始まるメソッドを書き、<code>assertEqual</code> や <code>assertRaises</code> で結果を確かめます。</p>
+<div class="box java"><span class="bh">Javaと比べると</span><p>unittest は JUnit とほぼ同じ作りです（TestCase クラス、assertEqual、assertRaises ≒ assertThrows）。doctest にあたるものは Java にはなく、「ドキュメントに書いた使用例がそのままテストになる」のが特徴です。</p></div>
+

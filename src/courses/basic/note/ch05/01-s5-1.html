@@ -1,0 +1,152 @@
+<h3 id="s5-1"><span class="secno">5.1</span>リストについての補足</h3>
+<div class="lead">リストのメソッドの一覧です。名前・引数・戻り値の3点をセットで覚えます。</div>
+<div class="tbl"><table>
+<tr><th>メソッド</th><th>動き</th><th>戻り値</th></tr>
+<tr><td><code>append(x)</code></td><td>末尾に x を1つ追加（<code>a[len(a):] = [x]</code> と同じ）</td><td>None</td></tr>
+<tr><td><code>extend(iterable)</code></td><td>イテラブルの<mark>要素を全部</mark>末尾に追加（<code>a[len(a):] = iterable</code>）</td><td>None</td></tr>
+<tr><td><code>insert(i, x)</code></td><td>位置 i の<mark>前</mark>に x を挿入。<code>insert(0, x)</code> は先頭、<code>insert(len(a), x)</code> は append と同じ</td><td>None</td></tr>
+<tr><td><code>remove(x)</code></td><td>値が x の<mark>最初の</mark>要素を削除。<mark>なければ ValueError</mark></td><td>None</td></tr>
+<tr><td><code>pop([i])</code></td><td>位置 i の要素を削除して<mark>返す</mark>。i を省略すると<mark>末尾</mark></td><td>取り出した要素</td></tr>
+<tr><td><code>clear()</code></td><td>全要素を削除（<code>del a[:]</code> と同じ）</td><td>None</td></tr>
+<tr><td><code>index(x[, start[, end]])</code></td><td>値が x の最初の要素の位置（0始まり）。なければ ValueError</td><td>位置</td></tr>
+<tr><td><code>count(x)</code></td><td>x の出現回数</td><td>回数</td></tr>
+<tr><td><code>sort(*, key=None, reverse=False)</code></td><td>その場で並べ替える</td><td><mark>None</mark></td></tr>
+<tr><td><code>reverse()</code></td><td>その場で逆順にする</td><td>None</td></tr>
+<tr><td><code>copy()</code></td><td>浅いコピーを作る（<code>a[:]</code> と同じ）</td><td>新しいリスト</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'pear'</span><span class="p">,</span> <span class="s1">'banana'</span><span class="p">,</span> <span class="s1">'kiwi'</span><span class="p">,</span> <span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'banana'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fruits</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">'apple'</span><span class="p">),</span> <span class="n">fruits</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">'tangerine'</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fruits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">'banana'</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fruits</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">'banana'</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>    <span class="c1"># 位置4から探す</span>
+<span class="n">fruits</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>
+<span class="n">fruits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'grape'</span><span class="p">)</span>
+<span class="n">fruits</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fruits</span><span class="o">.</span><span class="n">pop</span><span class="p">())</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>2 0
+3
+6
+[&#x27;banana&#x27;, &#x27;apple&#x27;, &#x27;kiwi&#x27;, &#x27;banana&#x27;, &#x27;pear&#x27;, &#x27;apple&#x27;, &#x27;orange&#x27;]
+[&#x27;apple&#x27;, &#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;banana&#x27;, &#x27;grape&#x27;, &#x27;kiwi&#x27;, &#x27;orange&#x27;, &#x27;pear&#x27;]
+pear</code></pre>
+<div class="box warn"><span class="bh">注意：変更するメソッドは None を返す</span><p><code>insert</code>・<code>remove</code>・<code>sort</code> のように、リストをその場で変更するメソッドは、<mark>戻り値を表示しない（None を返す）</mark>。これはPythonの変更可能なデータ構造全体の設計方針です。<code>b = a.sort()</code> とすると、b は None になります。並べ替えた新しいリストが欲しいときは <code>sorted(a)</code> を使います。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">nums</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>      <span class="c1"># リストそのものが1要素として入る</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+<span class="n">nums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">nums</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>      <span class="c1"># 要素がばらされて入る</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>None [1, 2, 3]
+[1, 2, [3, 4]]
+[1, 2, 3, 4]</code></pre>
+<h5><span>並べ替えられないデータ</span></h5>
+<p>どんなデータでも並べ替え・比較できるわけではありません。<code>[None, 'hello', 10]</code> は、整数と文字列を比べられず、None も他の型と比べられないので <code>sort()</code> できません。複素数にも大小の順序はありません。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s1">'hello'</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>1行目: TypeError: &#x27;&lt;&#x27; not supported between instances of &#x27;str&#x27; and &#x27;NoneType&#x27;</code></pre>
+
+<h4 id="s5-1-1"><span class="subno">5.1.1</span>リストをスタックとして使う</h4>
+<p>最後に入れた要素を最初に取り出す（<dfn id="t25">LIFO</dfn>：last-in, first-out）のが<dfn id="t26">スタック</dfn>です。<mark>入れるのは <code>append()</code>、取り出すのは引数なしの <code>pop()</code></mark> です。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">stack</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">(),</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stack</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[3, 4, 5, 6, 7]
+7 6
+[3, 4, 5]</code></pre>
+<h4 id="s5-1-2"><span class="subno">5.1.2</span>リストをキューとして使う</h4>
+<p>最初に入れた要素を最初に取り出す（<dfn id="t27">FIFO</dfn>：first-in, first-out）のが<dfn id="t28">キュー</dfn>です。リストでもできますが、<mark>リストの先頭での挿入・削除は遅い</mark>（残りの要素を全部1つずつずらす必要があるため）。キューには、両端で高速に追加・削除できる <mark><dfn id="t29">collections.deque</dfn></mark> を使います。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span>
+
+<span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="s2">"Eric"</span><span class="p">,</span> <span class="s2">"John"</span><span class="p">,</span> <span class="s2">"Michael"</span><span class="p">])</span>
+<span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Terry"</span><span class="p">)</span>           <span class="c1"># 末尾に追加</span>
+<span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Graham"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">())</span>          <span class="c1"># 先頭から取り出す</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">queue</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Eric
+John
+deque([&#x27;Michael&#x27;, &#x27;Terry&#x27;, &#x27;Graham&#x27;])</code></pre>
+<div class="box java"><span class="bh">Javaと比べると</span><p>スタックは <code>Deque.push/pop</code>、キューは <code>ArrayDeque</code> の <code>offer/poll</code> にあたります。deque は「デック」と読み、double-ended queue（両端キュー）の略です。</p></div>
+
+<h4 id="s5-1-3"><span class="subno">5.1.3</span>リスト内包</h4>
+<p><dfn id="t30">リスト内包</dfn>は、角カッコの中に <code>式</code> と <code>for</code> 節、さらに0個以上の <code>for</code> 節や <code>if</code> 節を書いたものです。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">squares</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">squares</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">squares</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))))</span>   <span class="c1"># map と lambda でも書ける</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>               <span class="c1"># リスト内包が最も読みやすい</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</code></pre>
+<h5><span>for 節を2つ書く</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">([(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">y</span><span class="p">])</span>
+<span class="c1"># 上のリスト内包は、次の入れ子のループと同じ（for と if の順番も同じ）</span>
+<span class="n">combs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">y</span><span class="p">:</span>
+            <span class="n">combs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">combs</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]
+[(1, 3), (1, 4), (2, 3), (2, 1), (2, 4), (3, 1), (3, 4)]</code></pre>
+<p><mark>for と if の順番は、入れ子のループで書いたときと同じ順番</mark>です。左の for が外側のループです。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">vec</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vec</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vec</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">])</span>        <span class="c1"># 負の数を取り除く</span>
+<span class="nb">print</span><span class="p">([</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">vec</span><span class="p">])</span>             <span class="c1"># 関数を適用する</span>
+<span class="n">freshfruit</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'  banana'</span><span class="p">,</span> <span class="s1">'  loganberry '</span><span class="p">,</span> <span class="s1">'passion fruit  '</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">weapon</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">weapon</span> <span class="ow">in</span> <span class="n">freshfruit</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">([(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)])</span>   <span class="c1"># タプルを作るときはカッコが必須</span>
+<span class="n">vec</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">num</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">vec</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">elem</span><span class="p">])</span>   <span class="c1"># 平らにする</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">math</span><span class="w"> </span><span class="kn">import</span> <span class="n">pi</span>
+<span class="nb">print</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">pi</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)])</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[-8, -4, 0, 4, 8]
+[0, 2, 4]
+[4, 2, 0, 2, 4]
+[&#x27;banana&#x27;, &#x27;loganberry&#x27;, &#x27;passion fruit&#x27;]
+[(0, 0), (1, 1), (2, 4), (3, 9), (4, 16), (5, 25)]
+[1, 2, 3, 4, 5, 6, 7, 8, 9]
+[&#x27;3.1&#x27;, &#x27;3.14&#x27;, &#x27;3.142&#x27;, &#x27;3.1416&#x27;, &#x27;3.14159&#x27;]</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>1行目: SyntaxError: did you forget parentheses around the comprehension target?</code></pre>
+<p>式がタプルのときは、<mark><code>(x, x ** 2)</code> のようにカッコで囲む必要があります</mark>。囲まないと SyntaxError です。</p>
+
+<h4 id="s5-1-4"><span class="subno">5.1.4</span>入れ子のリスト内包</h4>
+<p>リスト内包の先頭の式に、別のリスト内包を書くこともできます。3行4列の行列を転置（行と列の入れ替え）してみます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">matrix</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">],</span>
+<span class="p">]</span>
+<span class="nb">print</span><span class="p">([[</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)])</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]</code></pre>
+<p>内側のリスト内包は、外側の for（i）の各回で評価されます。次のコードと同じです。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">matrix</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">]]</span>
+<span class="n">transposed</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">transposed</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">row</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">matrix</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">transposed</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">matrix</span><span class="p">)))</span>       <span class="c1"># 組み込み関数を使うのが一番よい</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[[1, 5, 9], [2, 6, 10], [3, 7, 11], [4, 8, 12]]
+[(1, 5, 9), (2, 6, 10), (3, 7, 11), (4, 8, 12)]</code></pre>
+<div class="box warn"><span class="bh">注意</span><p><code>list(zip(*matrix))</code> の結果は、<mark>リストのリストではなく、タプルのリスト</mark>です。<code>*matrix</code> は引数リストのアンパック（→ 4.7.5）で、3つの行を別々の引数として zip に渡しています。</p></div>
+

@@ -1,0 +1,20 @@
+@media (max-width:1560px){.chtab:not([aria-current="true"]) .t{display:none}.chtab:not([aria-current="true"]){padding:4px}}
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr;padding-top:16px}
+  .menu-btn{display:block}
+  .side{position:fixed;z-index:40;top:0;left:0;bottom:0;width:min(320px,86vw);max-height:none;background:var(--sheet);padding:18px 16px;box-shadow:4px 0 24px rgba(0,0,0,.18);transform:translateX(-105%);transition:transform .2s}
+  body.drawer .side{transform:none}
+  body.drawer .scrim{display:block;position:fixed;inset:0;z-index:35;background:rgba(0,0,0,.35)}
+  .chtab .t{display:none}
+  .chtab{padding:4px}
+  .brand .full{display:none}
+}
+@media (max-width:560px){
+  .opener{grid-template-columns:1fr}
+  .hex{width:70px;height:78px}.hex b{font-size:2rem}
+  section.ch h3 .secno{width:52px;height:48px;font-size:1.1rem}
+  .prog{display:none}
+  .brand .bt{display:none}
+  .appbar{gap:8px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}

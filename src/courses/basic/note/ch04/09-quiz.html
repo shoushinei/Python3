@@ -1,0 +1,67 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q1</span><span class="qreal">本番</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>for c in "abc":
+    print(c)</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">abc</li><li data-k="b" class="code">a b c</li><li data-k="c" class="code">a（改行）b（改行）c</li><li data-k="d" class="code">['a', 'b', 'c']</li>
+</ol><div class="exp" hidden>文字列を for で回すと1文字ずつ取り出され、print が毎回改行するので、1文字ずつ別の行に出力されます。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q2</span><code>list(range(10, 0, -3))</code> の結果はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">[10, 7, 4, 1, -2]</li><li data-k="b" class="code">[10, 7, 4, 1]</li><li data-k="c" class="code">[10, 7, 4]</li><li data-k="d" class="code">[]</li>
+</ol><div class="exp" hidden>10 から -3 ずつ、0 を含まない手前まで進むので [10, 7, 4, 1] です。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q3</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>for n in [3, 5, 8]:
+    if n % 2 == 0:
+        print("even")
+        break
+else:
+    print("done")</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">even</li><li data-k="b" class="code">done</li><li data-k="c" class="code">even（改行）done</li><li data-k="d" class="code">何も出力されない</li>
+</ol><div class="exp" hidden>8 で break するので、ループの else は実行されません。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q4</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>def add(x, items=[]):
+    items.append(x)
+    return items
+
+add(1)
+print(add(2))</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">[2]</li><li data-k="b" class="code">[1]</li><li data-k="c" class="code">[2, 1]</li><li data-k="d" class="code">[1, 2]</li>
+</ol><div class="exp" hidden>デフォルト値のリストは定義時に1つだけ作られ、呼び出しのたびに同じリストが使われるので、値がたまっていきます。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q5</span><code>def f(a, b, /, c, *, d):</code> と定義された関数の呼び出しで、正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">f(1, b=2, c=3, d=4)</li><li data-k="b" class="code">f(1, 2, 3, 4)</li><li data-k="c" class="code">f(1, 2, c=3, d=4)</li><li data-k="d" class="code">f(a=1, b=2, c=3, d=4)</li>
+</ol><div class="exp" hidden>a と b は位置専用、d はキーワード専用、c はどちらでもよいので、C だけが正しい呼び出しです。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q6</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>def show(*args, **kwargs):
+    print(args, kwargs)
+
+show(1, 2, x=3)</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">[1, 2] {'x': 3}</li><li data-k="b" class="code">(1, 2) {'x': 3}</li><li data-k="c" class="code">(1, 2, 3) {}</li><li data-k="d" class="code">(1, 2) ('x', 3)</li>
+</ol><div class="exp" hidden>*args は余った位置引数をタプルで、**kwargs は余ったキーワード引数を辞書で受け取ります。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q7</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>x = 10
+def f(y=x):
+    return y
+x = 20
+print(f())</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">10</li><li data-k="b" class="code">20</li><li data-k="c" class="code">None</li><li data-k="d" class="code">NameError</li>
+</ol><div class="exp" hidden>デフォルト値は def が実行された時点の x（10）で決まります。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q8</span>関数注釈に関する説明として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">注釈と違う型の値を渡すと TypeError になる。</li>
+<li data-k="b">注釈は関数の __doc__ 属性に保存される。</li>
+<li data-k="c">戻り値の注釈は def f() : -&gt; int のように書く。</li>
+<li data-k="d">注釈は __annotations__ 属性に辞書として保存され、実行には影響しない。</li>
+</ol><div class="exp" hidden>注釈は __annotations__ に入るだけで、型のチェックはしません。戻り値は def f() -&gt; int: と書きます。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q9</span>docstring の書き方として、チュートリアルが勧めているものはどれか。</p>
+<ol class="opts">
+<li data-k="a">1行目に関数名と引数の型を書く。</li>
+<li data-k="b">要約の直後の2行目から詳しい説明を書き始める。</li>
+<li data-k="c">1行目は大文字で始めピリオドで終わる簡潔な要約にし、続きがあれば2行目は空行にする。</li>
+<li data-k="d">docstring は関数の最後の行に書く。</li>
+</ol><div class="exp" hidden>1行目は簡潔な要約、2行目は空行、3行目以降に説明です。</div></div>
+</div>

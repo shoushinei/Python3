@@ -1,0 +1,73 @@
+/* ---------- 結果 ---------- */
+.report{background:var(--sheet);border:1px solid var(--line);border-radius:14px;padding:24px 26px}
+.report .eyebrow{font-family:var(--f-num);font-weight:700;letter-spacing:.12em;color:var(--muted);font-size:.8rem}
+.scorebox{display:flex;align-items:center;gap:28px;flex-wrap:wrap;margin:10px 0 6px}
+.score{font-family:var(--f-num);font-weight:700;line-height:1}
+.score b{font-size:4rem}
+.score span{font-size:1.2rem;color:var(--muted)}
+.verdict{font-family:var(--f-head);font-weight:700;font-size:1.6rem;padding:4px 22px;border-radius:10px}
+.verdict.pass{background:var(--ok-soft);color:var(--ok)}
+.verdict.fail{background:var(--ng-soft);color:var(--ng)}
+.meta{color:var(--muted);font-size:.92rem}
+.meta b{color:var(--ink);font-family:var(--f-num)}
+.meterline{position:relative;height:10px;background:var(--line);border-radius:5px;margin:14px 0 4px;max-width:520px}
+.meterline i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--brand)}
+.meterline em{position:absolute;left:70%;top:-5px;bottom:-5px;width:2px;background:var(--ink)}
+.meterlbl{position:relative;max-width:520px;font-size:.75rem;color:var(--muted);height:1.2em}
+.meterlbl span{position:absolute;left:70%;transform:translateX(-50%)}
+.secan{margin-top:22px}
+.secan h3{font-size:1.05rem;margin:0 0 8px}
+.secan table{width:100%;border-collapse:collapse;font-size:.92rem}
+.secan th,.secan td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.secan th{font-size:.8rem;color:var(--muted);background:var(--brand-softer)}
+.secan td.n{font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.bar{display:flex;align-items:center;gap:8px}
+.bar .tr{flex:1;height:8px;background:var(--line);border-radius:4px;min-width:60px;overflow:hidden}
+.bar .tr i{display:block;height:100%;border-radius:4px;background:var(--ok)}
+.bar .tr i.mid{background:var(--flag)}
+.bar .tr i.low{background:var(--ng)}
+.bar b{font-family:var(--f-num);width:44px;text-align:right}
+.r-acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.rv{margin-top:28px}
+.rv h2{font-size:1.2rem;margin:0 0 10px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.filters button{border:1px solid var(--line);background:var(--sheet);border-radius:999px;padding:3px 14px;font-size:.88rem;font-weight:700}
+.filters button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.ritem{background:var(--sheet);border:1px solid var(--line);border-left:5px solid var(--ok);border-radius:10px;padding:16px 20px;margin-bottom:12px}
+.ritem.ng{border-left-color:var(--ng)}
+.ritem .rh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.ritem .rh .qno{font-size:1.1rem}
+.mark{font-weight:700;font-size:.85rem;border-radius:999px;padding:0 10px}
+.mark.ok{background:var(--ok-soft);color:var(--ok)}
+.mark.ng{background:var(--ng-soft);color:var(--ng)}
+.mark.fl{background:var(--flag-soft);color:var(--flag)}
+.ritem .optlist{gap:6px;margin-top:10px}
+.ritem .opt{cursor:default;padding:6px 12px}
+.ritem .opt:hover{border-color:var(--line)}
+.ritem .opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.ritem .opt.right .l{background:var(--ok);border-color:var(--ok);color:#fff}
+.ritem .opt.wrong{border-color:var(--ng);background:var(--ng-soft)}
+.ritem .opt.wrong .l{background:var(--ng);border-color:var(--ng);color:#fff}
+.ritem .opt .you{flex:none;font-size:.75rem;font-weight:700;color:var(--muted);align-self:center}
+.exp{margin-top:12px;background:var(--brand-softer);border-radius:8px;padding:10px 14px;font-size:.94rem}
+.exp .eh{font-weight:700;color:var(--brand-ink);margin-right:6px}
+.exp a{display:inline-block;margin-top:4px;font-weight:700;font-size:.88rem}
+
+@media (max-width:860px){
+  .exam{grid-template-columns:1fr}
+  .side{display:none;position:fixed;z-index:40;top:auto;bottom:0;left:0;right:0;border-radius:14px 14px 0 0;max-height:80vh;overflow:auto;box-shadow:0 -6px 30px rgba(0,0,0,.2)}
+  body.showgrid .side{display:block}
+  .listbtn{display:inline-block}
+  .grid{grid-template-columns:repeat(8,1fr)}
+  .cell{aspect-ratio:auto;height:40px}
+  .kbd{display:none}
+}
+@media (max-width:560px){
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .exambar .ttl{display:none}
+  .qcard{padding:18px 16px}
+  .hero{padding:22px 18px}
+  .report{padding:20px 16px}
+  .score b{font-size:3.2rem}
+  .hist .hide-s{display:none}
+}

@@ -1,0 +1,19 @@
+/* ---------- 上部バー ---------- */
+.appbar{position:sticky;top:0;z-index:30;height:var(--bar-h);display:flex;align-items:center;gap:14px;padding:0 max(16px,2vw);
+  background:var(--sheet);border-bottom:1px solid var(--line);box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.brand{font-family:var(--f-head);font-weight:700;font-size:1.02rem;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.brand i{font-style:normal;font-family:var(--f-code);font-size:.78rem;color:var(--sheet);background:var(--brand);border-radius:5px;padding:1px 6px}
+.menu-btn{white-space:nowrap;flex:none;display:none;border:1px solid var(--line);background:var(--sheet);border-radius:8px;padding:5px 12px;cursor:pointer;font-weight:700;font-size:.88rem}
+.chtabs{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.chtabs::-webkit-scrollbar{display:none}
+.chtab{all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;padding:6px 12px 6px 6px;border-radius:999px;font-size:.86rem;white-space:nowrap;border:1px solid transparent}
+.chtab:hover{background:var(--brand-softer);border-color:var(--line)}
+.chtab:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+.chtab .num{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--brand-soft);color:var(--brand-ink);font-family:var(--f-num);font-weight:700;font-size:.9rem;flex:none}
+.chtab[aria-current="true"]{background:var(--brand);color:#fff}
+.chtab[aria-current="true"] .num{background:#fff;color:var(--brand-ink)}
+.chtab .chk{color:var(--ok);font-weight:700;font-size:.8rem}
+.chtab[aria-current="true"] .chk{color:#fff}
+.prog{font-size:.8rem;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.prog b{color:var(--ink)}
+

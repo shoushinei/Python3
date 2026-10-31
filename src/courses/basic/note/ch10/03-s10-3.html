@@ -1,0 +1,16 @@
+<h3 id="s10-3"><span class="secno">10.3</span>コマンドライン引数</h3>
+<p>コマンドライン引数は、<code>sys</code> モジュールの <code>argv</code> 属性にリストで入っています（→ 2.1.1）。<code>python demo.py one two three</code> と実行すると、<code>sys.argv</code> は <code>['demo.py', 'one', 'two', 'three']</code> です。</p>
+<p>より高度なコマンドライン処理には <dfn id="t76">argparse</dfn> モジュールを使います。</p>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+
+<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+    <span class="n">prog</span><span class="o">=</span><span class="s1">'top'</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">'Show top lines from each file'</span><span class="p">)</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'filenames'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">'+'</span><span class="p">)</span>                  <span class="c1"># 1つ以上の位置引数</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">'-l'</span><span class="p">,</span> <span class="s1">'--lines'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>   <span class="c1"># オプション引数</span>
+<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></code></pre>
+<pre class="shell"><code>% python top.py --lines=5 alpha.txt beta.txt
+Namespace(filenames=[&#x27;alpha.txt&#x27;, &#x27;beta.txt&#x27;], lines=5)</code></pre>
+<p><code>args.lines</code> は <code>5</code>、<code>args.filenames</code> は <code>['alpha.txt', 'beta.txt']</code> になります。<code>--lines</code> を省略すると、<code>default=10</code> が使われます。</p>
+

@@ -1,0 +1,34 @@
+<h3 id="k-mpl">Matplotlib</h3>
+<h4 id="k-mpl1">描画オブジェクトとグラフの種類</h4>
+<div class="tbl"><table class="drill">
+<tr><th>書き方・グラフ</th><th>答え</th><th>注意点</th></tr>
+<tr><td><code>fig, ax = plt.subplots()</code></td><td class="a">描画オブジェクト1つとサブプロット1つを作る</td><td>(2, 2) なら axes は2×2</td></tr>
+<tr><td>全体のタイトル</td><td class="a"><code>fig.suptitle()</code></td><td class="trap">入れ替えに注意</td></tr>
+<tr><td>サブプロットのタイトル</td><td class="a"><code>ax.set_title()</code></td><td></td></tr>
+<tr><td>折れ線グラフ</td><td class="a"><code>plot</code></td><td></td></tr>
+<tr><td>棒グラフ</td><td class="a"><code>bar</code>（横棒は <code>barh</code>）</td><td>積み上げは bottom=</td></tr>
+<tr><td>散布図</td><td class="a"><code>scatter</code></td><td></td></tr>
+<tr><td>ヒストグラム</td><td class="a"><code>hist</code></td><td></td></tr>
+<tr><td>箱ひげ図</td><td class="a"><code>boxplot</code></td><td></td></tr>
+<tr><td>円グラフ</td><td class="a"><code>pie</code></td><td></td></tr>
+<tr><td><code>ax.legend(loc="best")</code></td><td class="a">凡例を、データとの重なりが最小の位置に表示</td><td>名前は plot の label=</td></tr>
+<tr><td><code>fig.savefig("a.png")</code></td><td class="a">ファイルに出力（png・pdf・svg など）</td><td></td></tr>
+</table></div>
+<h4 id="k-mpl2">引数</h4>
+<div class="tbl"><table class="drill">
+<tr><th>引数</th><th>答え</th><th>注意点</th></tr>
+<tr><td><code>hist(x, bins=25)</code></td><td class="a">25個の区間に分ける。戻り値は (n, bins, patches)</td><td class="trap">境界 bins は26個</td></tr>
+<tr><td><code>orientation="horizontal"</code></td><td class="a">ヒストグラムを横向きにする</td><td></td></tr>
+<tr><td><code>startangle=90</code></td><td class="a">円グラフを真上（12時）から始める</td><td>既定0は右（3時）</td></tr>
+<tr><td><code>counterclock=False</code></td><td class="a">時計回りに配置</td><td class="trap">既定 True が反時計回り</td></tr>
+<tr><td><code>shadow=True</code></td><td class="a">影を付ける</td><td></td></tr>
+<tr><td><code>autopct="%1.1f%%"</code></td><td class="a">割合をパーセント表示（小数1桁）</td><td></td></tr>
+<tr><td><code>explode</code></td><td class="a">扇形を切り離して強調する</td><td></td></tr>
+<tr><td><code>color</code> / <code>linewidth</code> / <code>linestyle</code></td><td class="a">線の色 / 線の太さ / 線の種類</td><td></td></tr>
+<tr><td><code>family="monospace"</code></td><td class="a">フォントファミリーを指定</td><td></td></tr>
+<tr><td><code>fontdict=…</code></td><td class="a">フォント設定を辞書（dict）でまとめて渡す</td><td></td></tr>
+<tr><td><code>ax.text(x, y, "文字")</code></td><td class="a">(x, y) を左下としてテキストを描く</td><td></td></tr>
+<tr><td><code>plt.style.use("ggplot")</code></td><td class="a">グラフ全体のスタイルを適用（matplotlib.style）</td><td></td></tr>
+<tr><td><code>tick_label=[…]</code></td><td class="a">棒グラフの目盛りにラベルを付ける</td><td></td></tr>
+</table></div>
+

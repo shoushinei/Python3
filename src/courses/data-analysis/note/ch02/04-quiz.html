@@ -1,0 +1,39 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q1</span>venvに関する記述として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">仮想環境ごとに、異なるバージョンのPythonを自由に選べる。</li>
+<li data-k="b">プロジェクトごとにインストールするパッケージを分けられる。</li>
+<li data-k="c">Anaconda社が開発したサードパーティ製のツールである。</li>
+<li data-k="d">macOS専用で、Windowsでは使えない。</li>
+</ol><div class="exp" hidden>venvは標準ライブラリで、OSを問わず使えます。仮想環境のPythonは、作成に使ったPythonと同じバージョンになります。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q2</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>nums = [4, 7, 10, 13]
+print([n // 2 for n in nums if n % 2 == 0])</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">[3, 6]</li>
+<li data-k="b" class="code">{2, 5}</li>
+<li data-k="c" class="code">[2, 5]</li>
+<li data-k="d" class="code">[2, 3, 5, 6]</li>
+</ol><div class="exp" hidden>if で偶数（4と10）だけを残し、それぞれを2で割った商（//）にします。[ ] で囲んでいるのでリストになります。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q3</span><code>re.compile(r"gr[ae]y(ish)?")</code> のパターンで <code>search</code> したとき、<code>None</code> が返る文字列はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">"groy"</li>
+<li data-k="b" class="code">"greyish"</li>
+<li data-k="c" class="code">"a gray cat"</li>
+<li data-k="d" class="code">"grey"</li>
+</ol><div class="exp" hidden><code>[ae]</code> は a か e のどちらか1文字なので、o の groy には一致しません。<code>(ish)?</code> はなくてもよく、search は途中からでも一致を探します。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q4</span>loggingで <code>basicConfig(level=logging.ERROR)</code> と設定したとき、出力されるものの組み合わせはどれか。</p>
+<ol class="opts">
+<li data-k="a">DEBUG と INFO</li>
+<li data-k="b">INFO と WARNING と ERROR</li>
+<li data-k="c">WARNING と ERROR</li>
+<li data-k="d">ERROR と CRITICAL</li>
+</ol><div class="exp" hidden>指定したレベル以上が出力されます。ERROR以上は ERROR と CRITICAL です。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q5</span>Jupyterに関する記述として誤っているものはどれか。</p>
+<ol class="opts">
+<li data-k="a">%%timeit はセル全体を繰り返し実行して時間を計測する。</li>
+<li data-k="b">ノートブックファイルの拡張子は .jnb で、中身はCSV形式である。</li>
+<li data-k="c">先頭に ! を付けるとOSのコマンドを実行できる。</li>
+<li data-k="d">セルの最後の式の値は、print しなくても表示される。</li>
+</ol><div class="exp" hidden>ノートブックの拡張子は .ipynb で、中身はJSON形式です。</div></div>
+</div>

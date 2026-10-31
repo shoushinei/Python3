@@ -1,0 +1,31 @@
+<h3 id="s4-3"><span class="secno">4.3</span>range()関数</h3>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">" "</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">30</span><span class="p">)))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>0 1 2 3 4 
+[5, 6, 7, 8, 9]
+[0, 3, 6, 9]
+[-10, -40, -70]</code></pre>
+<ul>
+<li><dfn id="t15">range</dfn>(終了)：0 から始まり、<mark>終了の値は含みません</mark>。<code>range(10)</code> は 0〜9 の10個です。</li>
+<li>range(開始, 終了, 刻み)：刻みは負の数でもかまいません。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Mary'</span><span class="p">,</span> <span class="s1">'had'</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">,</span> <span class="s1">'little'</span><span class="p">,</span> <span class="s1">'lamb'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)):</span>        <span class="c1"># インデックスで回す</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>               <span class="c1"># リストではなく range オブジェクト</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)),</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>0 Mary
+1 had
+2 a
+3 little
+4 lamb
+range(0, 10)
+6 [0, 1, 2, 3]</code></pre>
+<p><mark><code>print(range(10))</code> は <code>range(0, 10)</code> と表示されます</mark>。range はリストを作るのではなく、要求されるたびに次の値を返す<dfn id="t16">イテラブル</dfn>なオブジェクトです（メモリの節約になります）。<code>sum()</code> や <code>list()</code> のように、イテラブルを受け取る関数に渡せます。インデックスと要素の両方が欲しいときは <code>enumerate()</code> が便利です（→ 5.6）。</p>
+

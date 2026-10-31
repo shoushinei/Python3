@@ -1,0 +1,47 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q1</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>x = "global"
+def outer():
+    x = "outer"
+    def inner():
+        nonlocal x
+        x = "inner"
+    inner()
+    print(x)
+outer()
+print(x)</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">outer（改行）global</li><li data-k="b" class="code">inner（改行）global</li><li data-k="c" class="code">inner（改行）inner</li><li data-k="d" class="code">outer（改行）inner</li>
+</ol><div class="exp" hidden>nonlocal x は外側の関数 outer の x を書き換えます。モジュールの x は "global" のままです。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q2</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>class A:
+    items = []
+    def add(self, v):
+        self.items.append(v)
+a, b = A(), A()
+a.add(1); b.add(2)
+print(a.items)</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">[1]</li><li data-k="b" class="code">[2]</li><li data-k="c" class="code">[]</li><li data-k="d" class="code">[1, 2]</li>
+</ol><div class="exp" hidden>items はクラス変数なので、全インスタンスで同じリストを共有します。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q3</span>クラス Spam の中で <code>self.__eggs = 1</code> と代入した。インスタンス s から外部でこの値を参照できる書き方はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">s._Spam__eggs</li><li data-k="b" class="code">s.__eggs</li><li data-k="c" class="code">s.Spam.__eggs</li><li data-k="d" class="code">参照する方法はない</li>
+</ol><div class="exp" hidden>名前マングリングで __eggs は _Spam__eggs に置き換えられます。完全なプライベートではないので、この名前なら参照できます。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q4</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>def gen():
+    yield 1
+    yield 2
+g = gen()
+print(next(g), next(g), list(g))</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">1 2 [1, 2]</li><li data-k="b" class="code">1 1 [1, 2]</li><li data-k="c" class="code">1 2 []</li><li data-k="d" class="code">StopIteration</li>
+</ol><div class="exp" hidden>next を2回呼ぶと 1、2 が返り、ジェネレータは使い切られます。その後の list(g) は空のリストです（StopIteration は list の中で処理されます）。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q5</span>クラスとメソッドの説明として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">メソッドの第1引数には、必ず self という名前を付けなければならない。</li>
+<li data-k="b">x.f() は、MyClass.f(x) と同じ意味である。</li>
+<li data-k="c">インスタンス変数は、クラス定義の中で宣言しないと使えない。</li>
+<li data-k="d">同じ名前のクラス属性とインスタンス属性があると、クラス属性が優先される。</li>
+</ol><div class="exp" hidden>self は慣習です。インスタンス変数は代入したときに作られ、インスタンス属性が優先されます。</div></div>
+</div>

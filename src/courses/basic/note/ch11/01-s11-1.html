@@ -1,0 +1,35 @@
+<h3 id="s11-1"><span class="secno">11.1</span>出力整形</h3>
+<div class="tbl"><table>
+<tr><th>モジュール</th><th>用途</th></tr>
+<tr><td><dfn id="t85">reprlib</dfn></td><td>大きなコンテナや深く入れ子になったコンテナを、<mark>省略して短く表示</mark>する <code>repr()</code></td></tr>
+<tr><td><dfn id="t86">pprint</dfn></td><td>組み込み型や自分で定義したオブジェクトを、インタープリタが読める形で、<mark>見やすく改行・インデントして表示</mark>する</td></tr>
+<tr><td><dfn id="t87">textwrap</dfn></td><td>文章を、<mark>指定した幅に収まるように整形</mark>する</td></tr>
+<tr><td><dfn id="t88">locale</dfn></td><td>国や地域ごとのデータ表現（数値の桁区切り・通貨など）を扱う</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">reprlib</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reprlib</span><span class="o">.</span><span class="n">repr</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="s1">'supercalifragilisticexpialidocious'</span><span class="p">)))</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pprint</span>
+<span class="n">t</span> <span class="o">=</span> <span class="p">[[[[</span><span class="s1">'black'</span><span class="p">,</span> <span class="s1">'cyan'</span><span class="p">],</span> <span class="s1">'white'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'green'</span><span class="p">,</span> <span class="s1">'red'</span><span class="p">]],</span> <span class="p">[[</span><span class="s1">'magenta'</span><span class="p">,</span>
+    <span class="s1">'yellow'</span><span class="p">],</span> <span class="s1">'blue'</span><span class="p">]]]</span>
+<span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+<span class="n">doc</span> <span class="o">=</span> <span class="s2">"""The wrap() method is just like fill() except that it returns</span>
+<span class="s2">a list of strings instead of one big string with newlines to separate</span>
+<span class="s2">the wrapped lines."""</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">doc</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">40</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>{&#x27;a&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;e&#x27;, &#x27;f&#x27;, &#x27;g&#x27;, ...}
+[[[[&#x27;black&#x27;, &#x27;cyan&#x27;],
+   &#x27;white&#x27;,
+   [&#x27;green&#x27;, &#x27;red&#x27;]],
+  [[&#x27;magenta&#x27;, &#x27;yellow&#x27;],
+   &#x27;blue&#x27;]]]
+The wrap() method is just like fill()
+except that it returns a list of strings
+instead of one big string with newlines
+to separate the wrapped lines.</code></pre>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">import</span><span class="w"> </span><span class="nn">locale</span>
+<span class="n">locale</span><span class="o">.</span><span class="n">setlocale</span><span class="p">(</span><span class="n">locale</span><span class="o">.</span><span class="n">LC_ALL</span><span class="p">,</span> <span class="s1">'English_United States.1252'</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="mf">1234567.8</span>
+<span class="n">locale</span><span class="o">.</span><span class="n">format_string</span><span class="p">(</span><span class="s2">"</span><span class="si">%d</span><span class="s2">"</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">grouping</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>     <span class="c1"># → '1,234,567'</span></code></pre>
+

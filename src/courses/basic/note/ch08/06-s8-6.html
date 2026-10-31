@@ -1,0 +1,22 @@
+<h3 id="s8-6"><span class="secno">8.6</span>ユーザー定義例外</h3>
+<p>新しい例外クラスを作れば、自分で例外に名前を付けられます。例外クラスは、<mark>直接・間接に <code>Exception</code> クラスから派生</mark>させます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">InsufficientFundsError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""残高不足を表す例外"""</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">balance</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">balance</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="n">balance</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">amount</span> <span class="o">=</span> <span class="n">amount</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="n">InsufficientFundsError</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">InsufficientFundsError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"残高"</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span> <span class="s2">"円に対して"</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">amount</span><span class="p">,</span> <span class="s2">"円を引き出そうとした"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>残高 100 円に対して 300 円を引き出そうとした
+True</code></pre>
+<ul>
+<li>例外クラスは、普通のクラスと同じように何でもできますが、<mark>エラーの情報を取り出すための属性をいくつか持つだけの、簡単なもの</mark>にしておくのが普通です。</li>
+<li>標準の例外と同じく、名前は <mark>「Error」で終わる</mark>ようにするのが一般的です。</li>
+</ul>
+

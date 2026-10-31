@@ -1,0 +1,7 @@
+/* サイト内の移動（トップへ戻る・関連ページ） */
+.applink{white-space:nowrap;font-size:.86rem;font-weight:700;text-decoration:none}
+.applink:hover{text-decoration:underline}
+.side-links{display:flex;flex-wrap:wrap;gap:6px 14px;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:.84rem;font-weight:700}
+.side-links a{text-decoration:none}
+.side-links a:hover{text-decoration:underline}
+

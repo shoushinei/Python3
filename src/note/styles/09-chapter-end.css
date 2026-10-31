@@ -1,0 +1,8 @@
+/* 章末 */
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px;flex-wrap:wrap}
+.pager button{all:unset;cursor:pointer;padding:10px 18px;border:1.5px solid var(--brand);color:var(--brand-ink);border-radius:999px;font-size:.92rem;font-weight:700}
+.pager button:hover{background:var(--brand-soft)}
+.pager button:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.pager .done-btn{background:var(--brand);color:#fff}
+.pager .done-btn.is-done{background:transparent;color:var(--ok);border-color:var(--ok)}
+

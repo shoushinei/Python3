@@ -1,0 +1,51 @@
+<h3 id="s5-6"><span class="secno">5.6</span>ループのテクニック</h3>
+<div class="lead">for と組み合わせて使う関数・メソッドです。何がどんな形で取り出されるかを押さえます。</div>
+<div class="tbl"><table>
+<tr><th>書き方</th><th>取り出されるもの</th></tr>
+<tr><td><code>for k, v in d.items():</code></td><td>辞書の<mark>キーと値</mark>の組</td></tr>
+<tr><td><code>for i, v in enumerate(seq):</code></td><td><mark>位置（0から）と値</mark>の組</td></tr>
+<tr><td><code>for q, a in zip(xs, ys):</code></td><td>2つ以上のシーケンスから<mark>同じ位置の要素</mark>を組にしたもの</td></tr>
+<tr><td><code>for i in reversed(seq):</code></td><td><mark>逆順</mark>に1つずつ</td></tr>
+<tr><td><code>for f in sorted(seq):</code></td><td>並べ替えた順（<mark>元のシーケンスは変えない</mark>）</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">knights</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'gallahad'</span><span class="p">:</span> <span class="s1">'the pure'</span><span class="p">,</span> <span class="s1">'robin'</span><span class="p">:</span> <span class="s1">'the brave'</span><span class="p">}</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">knights</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s1">'tic'</span><span class="p">,</span> <span class="s1">'tac'</span><span class="p">,</span> <span class="s1">'toe'</span><span class="p">]):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'name'</span><span class="p">,</span> <span class="s1">'quest'</span><span class="p">,</span> <span class="s1">'favorite color'</span><span class="p">]</span>
+<span class="n">answers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'lancelot'</span><span class="p">,</span> <span class="s1">'the holy grail'</span><span class="p">,</span> <span class="s1">'blue'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">q</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">questions</span><span class="p">,</span> <span class="n">answers</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'What is your </span><span class="si">{0}</span><span class="s1">?  It is </span><span class="si">{1}</span><span class="s1">.'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">a</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">basket</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'pear'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'banana'</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">basket</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">basket</span><span class="p">)):</span>      <span class="c1"># 重複を除いて並べ替え</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>gallahad the pure
+robin the brave
+0 tic
+1 tac
+2 toe
+What is your name?  It is lancelot.
+What is your quest?  It is the holy grail.
+What is your favorite color?  It is blue.
+9 7 5 3 1 
+apple apple banana orange orange pear 
+apple banana orange pear </code></pre>
+<p>ループの中でリストを変更したくなったときは、<mark>新しいリストを作る</mark>方が簡単で安全です。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="n">raw_data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">56.2</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">'NaN'</span><span class="p">),</span> <span class="mf">51.7</span><span class="p">,</span> <span class="mf">55.3</span><span class="p">,</span> <span class="mf">52.5</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s1">'NaN'</span><span class="p">),</span> <span class="mf">47.8</span><span class="p">]</span>
+<span class="n">filtered_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">raw_data</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">filtered_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">filtered_data</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[56.2, 51.7, 55.3, 52.5, 47.8]</code></pre>
+

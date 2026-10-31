@@ -1,0 +1,196 @@
+<h3 id="s3-1"><span class="secno">3.1</span>Pythonを電卓として使う</h3>
+<div class="lead">対話モードで式を入力すると、その値が表示されます。この教材の Out も同じ仕組みで、最後の式の値を表示しています。</div>
+<h4 id="s3-1-1"><span class="subno">3.1.1</span>数値</h4>
+<h5><span>四則演算と除算</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">6</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">6</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">8</span> <span class="o">/</span> <span class="mi">5</span><span class="p">)</span>       <span class="c1"># / は常に float を返す</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">17</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>      <span class="c1"># 通常の除算</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">17</span> <span class="o">//</span> <span class="mi">3</span><span class="p">)</span>     <span class="c1"># 切り捨て除算（floor division）</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">17</span> <span class="o">%</span> <span class="mi">3</span><span class="p">)</span>      <span class="c1"># 剰余</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>   <span class="c1"># 商 × 除数 + 余り = 元の数</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>4 20 5.0
+1.6
+5.666666666666667
+5
+2
+17</code></pre>
+<ul>
+<li><mark><code>/</code> は割り切れても常に <code>float</code></mark> を返します（<code>6 / 2</code> は <code>3.0</code>）。</li>
+<li><dfn id="t9">切り捨て除算</dfn> <code>//</code> は、小数点以下を切り捨てた整数を返します。<mark>負の数では「0に近づける」のではなく「小さい方へ」切り捨て</mark>ます。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="o">-</span><span class="mi">17</span> <span class="o">//</span> <span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">17</span> <span class="o">%</span> <span class="mi">3</span><span class="p">)</span>    <span class="c1"># -5.67 を小さい方へ → -6、余りは 1</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">17</span> <span class="o">//</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mf">17.0</span> <span class="o">//</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># float が混ざると結果は float</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>-6 1
+-6 5.0</code></pre>
+<h5><span>べき乗と優先順位</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="mi">5</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span> <span class="o">**</span> <span class="mi">7</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>     <span class="c1"># ** は単項の - より優先順位が高い → -(3 ** 2)</span>
+<span class="nb">print</span><span class="p">((</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>25 128
+-9
+9</code></pre>
+<div class="box warn"><span class="bh">注意</span><p><mark><code>-3 ** 2</code> は <code>-9</code></mark> です。<code>**</code> が先に計算されてから、マイナスが付きます。<code>9</code> にしたいときは <code>(-3) ** 2</code> と書きます。</p></div>
+<h5><span>変数と代入、型の混在</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">width</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">height</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">9</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="n">height</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="mf">3.75</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>    <span class="c1"># int と float が混ざると float になる</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">n</span>
+<span class="k">except</span> <span class="ne">NameError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"NameError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>900
+14.0
+NameError: name &#x27;n&#x27; is not defined</code></pre>
+<p>代入（<code>=</code>）しても、対話モードでは何も表示されません。値を代入していない変数を使うと <code>NameError</code> になります。</p>
+<h5><span>対話モードの変数 _</span></h5>
+<p>対話モードでは、<mark>最後に表示された式の値が変数 <code>_</code>（アンダースコア）に入ります</mark>。電卓のように計算を続けるのに便利です。<code>_</code> は読み取り専用として扱い、自分で値を代入しないようにします（代入すると、組み込みの <code>_</code> を隠す別のローカル変数ができてしまいます）。</p>
+<pre class="pynr"><code>&gt;&gt;&gt; tax = 12.5 / 100
+&gt;&gt;&gt; price = 100.50
+&gt;&gt;&gt; price * tax
+12.5625
+&gt;&gt;&gt; price + _
+113.0625
+&gt;&gt;&gt; round(_, 2)
+113.06</code></pre>
+<p><code>int</code>・<code>float</code> のほかに、<code>Decimal</code>・<code>Fraction</code> や、<mark>虚数部に <code>j</code></mark> を付けて書く複素数（例：<code>3+5j</code>）も扱えます。</p>
+
+<h4 id="s3-1-2"><span class="subno">3.1.2</span>文字列</h4>
+<h5><span>引用符とエスケープ</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="s1">'spam eggs'</span><span class="p">,</span> <span class="s2">"spam eggs"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'doesn</span><span class="se">\'</span><span class="s1">t'</span><span class="p">,</span> <span class="s2">"doesn't"</span><span class="p">)</span>      <span class="c1"># \' でエスケープ、または " で囲む</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'"Yes," they said.'</span><span class="p">)</span>
+<span class="n">s</span> <span class="o">=</span> <span class="s1">'First line.</span><span class="se">\n</span><span class="s1">Second line.'</span>   <span class="c1"># \n は改行</span>
+<span class="n">s</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>spam eggs spam eggs
+doesn&#x27;t doesn&#x27;t
+&quot;Yes,&quot; they said.
+&#x27;First line.\nSecond line.&#x27;</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">s</span> <span class="o">=</span> <span class="s1">'First line.</span><span class="se">\n</span><span class="s1">Second line.'</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>          <span class="c1"># print すると \n が改行になり、外側の引用符も付かない</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>First line.
+Second line.</code></pre>
+<p>対話モードで式として表示すると、<mark>引用符付きで、エスケープもそのまま</mark>表示されます（repr の表示）。<code>print()</code> すると、引用符が取れて特殊文字が解釈されます。</p>
+<h5><span>raw文字列</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="s1">'C:\some</span><span class="se">\n</span><span class="s1">ame'</span><span class="p">)</span>    <span class="c1"># \n が改行として解釈されてしまう</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s1">'C:\some\name'</span><span class="p">)</span>   <span class="c1"># r を付けると \ をそのままの文字として扱う</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>SyntaxWarning: invalid escape sequence &#x27;\s&#x27;
+C:\some
+ame
+C:\some\name</code></pre>
+<p class="vnote">Python 3.12 以降では、<code>\s</code> のような意味のないエスケープを書くと、上のように SyntaxWarning（警告）が表示されます。実行自体は続きます。</p>
+<p>先頭に <code>r</code> を付けた<dfn id="t10">raw文字列</dfn>では、<code>\</code> がエスケープとして解釈されません。ただし、<mark>raw文字列の末尾に奇数個の <code>\</code> を置くことはできません</mark>。</p>
+<h5><span>三重引用符</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">Usage: thingy [OPTIONS]</span>
+<span class="s2">     -h                        Display this usage message</span>
+<span class="s2">"""</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Usage: thingy [OPTIONS]
+     -h                        Display this usage message</code></pre>
+<p><code>"""…"""</code> や <code>'''…'''</code> で囲むと、複数行の文字列を書けます。行末の改行も文字列に含まれます。<mark>行末に <code>\</code> を置くと、その改行は含まれません</mark>（上の例では、最初の改行が入っていません）。</p>
+<h5><span>連結と繰り返し</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="s1">'un'</span> <span class="o">+</span> <span class="s1">'ium'</span><span class="p">)</span>        <span class="c1"># * で繰り返し、+ で連結</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Py'</span> <span class="s1">'thon'</span><span class="p">)</span>             <span class="c1"># 隣り合った文字列リテラルは自動で連結される</span>
+<span class="n">text</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'Put several strings within parentheses '</span>
+        <span class="s1">'to have them joined together.'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="n">prefix</span> <span class="o">=</span> <span class="s1">'Py'</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">prefix</span> <span class="o">+</span> <span class="s1">'thon'</span><span class="p">)</span>         <span class="c1"># 変数との連結には + が必要</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>unununium
+Python
+Put several strings within parentheses to have them joined together.
+Python</code></pre>
+<div class="box warn"><span class="bh">注意</span><p>自動で連結されるのは、<mark>文字列リテラル同士</mark>だけです。<code>prefix 'thon'</code> のように変数と並べたり、<code>('un' * 3) 'ium'</code> のように式と並べたりすると <code>SyntaxError</code> になります。</p></div>
+<h5><span>インデックスとスライス</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">word</span> <span class="o">=</span> <span class="s1">'Python'</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">])</span>      <span class="c1"># 開始は含み、終了は含まない</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">word</span><span class="p">[</span><span class="mi">4</span><span class="p">:],</span> <span class="n">word</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">word</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">word</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>       <span class="c1"># s[:i] + s[i:] は常に s と等しい</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>P n n o P
+Py tho
+Py on on
+Python</code></pre>
+<div class="tbl"><table>
+<tr><th></th><td><code>P</code></td><td><code>y</code></td><td><code>t</code></td><td><code>h</code></td><td><code>o</code></td><td><code>n</code></td></tr>
+<tr><th>正のインデックス</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+<tr><th>負のインデックス</th><td>-6</td><td>-5</td><td>-4</td><td>-3</td><td>-2</td><td>-1</td></tr>
+</table></div>
+<p>スライスの位置は、文字と文字の<mark>「間」を指す番号</mark>と考えると分かりやすくなります。<code>-0</code> は <code>0</code> と同じなので、負のインデックスは -1 から始まります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">word</span> <span class="o">=</span> <span class="s1">'Python'</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">42</span><span class="p">]),</span> <span class="nb">repr</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="mi">42</span><span class="p">:]))</span>   <span class="c1"># スライスは範囲外でもエラーにならない</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">word</span><span class="p">[</span><span class="mi">42</span><span class="p">]</span>                                <span class="c1"># インデックスは範囲外だとエラー</span>
+<span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"IndexError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'J'</span>                           <span class="c1"># 文字列は変更できない（イミュータブル）</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"TypeError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'J'</span> <span class="o">+</span> <span class="n">word</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&#x27;on&#x27; &#x27;&#x27;
+IndexError: string index out of range
+TypeError: &#x27;str&#x27; object does not support item assignment
+Jython 6</code></pre>
+<ul>
+<li><mark>範囲外のインデックスは <code>IndexError</code></mark>、<mark>範囲外のスライスはエラーにならず</mark>、ある分だけ（なければ空文字列）を返します。</li>
+<li>文字列は<dfn id="t11">イミュータブル</dfn>（変更不可）です。要素に代入すると <code>TypeError</code> になります。変えたいときは新しい文字列を作ります。</li>
+<li><code>len()</code> は文字列の長さを返します。</li>
+</ul>
+
+<h4 id="s3-1-3"><span class="subno">3.1.3</span>リスト</h4>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">squares</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">squares</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">squares</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">squares</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">squares</span> <span class="o">+</span> <span class="p">[</span><span class="mi">36</span><span class="p">,</span> <span class="mi">49</span><span class="p">])</span>          <span class="c1"># 連結すると新しいリスト</span>
+<span class="n">cubes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">125</span><span class="p">]</span>        <span class="c1"># 4 ** 3 は 64 なのに 65 になっている</span>
+<span class="n">cubes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">64</span>                      <span class="c1"># リストは変更できる（ミュータブル）</span>
+<span class="n">cubes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">216</span><span class="p">)</span>                  <span class="c1"># 末尾に追加</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cubes</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>1 25 [9, 16, 25]
+[1, 4, 9, 16, 25, 36, 49]
+[1, 8, 27, 64, 125, 216]</code></pre>
+<p>リストは、文字列と違って<dfn id="t12">ミュータブル</dfn>（変更可能）です。インデックスとスライスの規則は文字列と同じで、<mark>スライスは新しいリスト（浅いコピー）</mark>を返します。<code>squares[:]</code> はリスト全体のコピーです。</p>
+<h5><span>代入はコピーではない</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">rgb</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Red"</span><span class="p">,</span> <span class="s2">"Green"</span><span class="p">,</span> <span class="s2">"Blue"</span><span class="p">]</span>
+<span class="n">rgba</span> <span class="o">=</span> <span class="n">rgb</span>                 <span class="c1"># 同じリストに別の名前を付けただけ</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span> <span class="o">==</span> <span class="nb">id</span><span class="p">(</span><span class="n">rgba</span><span class="p">))</span>
+<span class="n">rgba</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"Alph"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>                 <span class="c1"># rgb 側から見ても変わっている</span>
+<span class="n">correct_rgba</span> <span class="o">=</span> <span class="n">rgba</span><span class="p">[:]</span>     <span class="c1"># スライスでコピーを作る</span>
+<span class="n">correct_rgba</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Alpha"</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">correct_rgba</span><span class="p">,</span> <span class="n">rgba</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>True
+[&#x27;Red&#x27;, &#x27;Green&#x27;, &#x27;Blue&#x27;, &#x27;Alph&#x27;]
+[&#x27;Red&#x27;, &#x27;Green&#x27;, &#x27;Blue&#x27;, &#x27;Alpha&#x27;] [&#x27;Red&#x27;, &#x27;Green&#x27;, &#x27;Blue&#x27;, &#x27;Alph&#x27;]</code></pre>
+<div class="box java"><span class="bh">Javaと比べると</span><p>Javaで <code>List&lt;String&gt; b = a;</code> としても、同じリストを指す参照が2つになるだけなのと同じです。コピーしたいときは、スライス <code>a[:]</code> や <code>a.copy()</code>（Javaの <code>new ArrayList&lt;&gt;(a)</code>）を使います。</p></div>
+<h5><span>スライスへの代入と入れ子</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">letters</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">,</span> <span class="s1">'e'</span><span class="p">,</span> <span class="s1">'f'</span><span class="p">,</span> <span class="s1">'g'</span><span class="p">]</span>
+<span class="n">letters</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'C'</span><span class="p">,</span> <span class="s1">'D'</span><span class="p">,</span> <span class="s1">'E'</span><span class="p">]</span>     <span class="c1"># 一部を置き換え</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">letters</span><span class="p">)</span>
+<span class="n">letters</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>                  <span class="c1"># 一部を削除</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">letters</span><span class="p">)</span>
+<span class="n">letters</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[]</span>                    <span class="c1"># 全部を削除（空にする）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">letters</span><span class="p">))</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">]</span>
+<span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">]</span>                         <span class="c1"># リストの中にリスト</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;C&#x27;, &#x27;D&#x27;, &#x27;E&#x27;, &#x27;f&#x27;, &#x27;g&#x27;]
+[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;f&#x27;, &#x27;g&#x27;]
+[] 0
+[[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;], [1, 2, 3]] [&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;] b</code></pre>
+

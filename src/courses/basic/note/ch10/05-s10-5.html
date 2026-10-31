@@ -1,0 +1,16 @@
+<h3 id="s10-5"><span class="secno">10.5</span>文字列パターンマッチング</h3>
+<p><dfn id="t77">re</dfn> モジュールは、高度な文字列処理のための正規表現を提供します。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">'\bf[a-z]*'</span><span class="p">,</span> <span class="s1">'which foot or hand fell fastest'</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">'(\b[a-z]+) \1'</span><span class="p">,</span> <span class="sa">r</span><span class="s1">'\1'</span><span class="p">,</span> <span class="s1">'cat in the the hat'</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'tea for too'</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'too'</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">))</span>     <span class="c1"># 単純な置換なら文字列メソッドで十分</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;foot&#x27;, &#x27;fell&#x27;, &#x27;fastest&#x27;]
+cat in the hat
+tea for two</code></pre>
+<ul>
+<li><code>findall</code> は一致した部分をすべてリストで返します。<code>\b</code> は単語の境界です。</li>
+<li><code>sub</code> は置換です。<code>\1</code> は1番目のグループ（カッコ）に一致した文字列で、上の例は重複した単語を1つにしています。</li>
+<li>単純な処理なら、<mark>読みやすくデバッグしやすい文字列メソッドの方がよい</mark>とされています。</li>
+</ul>
+

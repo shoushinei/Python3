@@ -1,0 +1,29 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q1</span><span class="qreal">本番</span>リスト data を JSON 形式でファイルオブジェクト f に書き込むコードとして正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">json.dumps(data, f)</li><li data-k="b" class="code">json.dump(f, data)</li><li data-k="c" class="code">json.dump(data, f)</li><li data-k="d" class="code">f.write(json.load(data))</li>
+</ol><div class="exp" hidden>ファイルに書き込むのは json.dump(データ, ファイル) です。dumps は文字列を返す関数です。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q2</span><code>print(json.dumps({"a": True}))</code> の出力はどれか（json は import 済み）。</p>
+<ol class="opts">
+<li data-k="a" class="code">{'a': True}</li><li data-k="b" class="code">{"a": true}</li><li data-k="c" class="code">{"a": True}</li><li data-k="d" class="code">None</li>
+</ol><div class="exp" hidden>JSON では文字列はダブルクォート、真偽値は小文字の true になります。dumps は文字列を返します。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q3</span><code>x = 'abc'</code> のとき、<code>print(f'{x!r:>7}|')</code> の出力はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">  'abc'|</li><li data-k="b" class="code">    abc|</li><li data-k="c" class="code">'abc'  |</li><li data-k="d" class="code">abc|</li>
+</ol><div class="exp" hidden>!r で repr が適用され 'abc'（5文字）になり、&gt;7 で幅7の右寄せになるので、左に空白2つが入ります。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q4</span><code>print('-42'.zfill(6), 'python'.rjust(3))</code> の出力はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">000-42 pyt</li><li data-k="b" class="code">-00042 pyt</li><li data-k="c" class="code">000-42 python</li><li data-k="d" class="code">-00042 python</li>
+</ol><div class="exp" hidden>zfill は符号の後ろに0を詰めます。rjust は文字列の方が長いとき、切り詰めずにそのまま返します。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q5</span>ファイル操作の説明として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">open() のモードを省略すると書き込みモードになる。</li>
+<li data-k="b">f.readline() は行末の改行文字を取り除いて返す。</li>
+<li data-k="c">f.write() は書き込んだ文字数を返す。</li>
+<li data-k="d">モード 'a' で開くと、既存の内容が消えてから書き込まれる。</li>
+</ol><div class="exp" hidden>モードの既定は 'r'、readline() は改行文字を残します。中身が消えるのは 'w'、'a' は末尾に追記します。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q6</span><code>print('{1}-{0}-{name}'.format('a', 'b', name='c'))</code> の出力はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">a-b-c</li><li data-k="b" class="code">b-a-c</li><li data-k="c" class="code">b-a-name</li><li data-k="d" class="code">IndexError</li>
+</ol><div class="exp" hidden>{1} は2番目の位置引数 'b'、{0} は 'a'、{name} はキーワード引数 'c' です。</div></div>
+</div>

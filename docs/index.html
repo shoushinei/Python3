@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Python 3 エンジニア認定試験 対策ノート</title>
+<meta name="description" content="Python 3 エンジニア認定基礎試験とデータ分析試験の教材と模擬試験">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&family=Barlow:wght@600;700&display=swap">
+<style>
+:root{
+  --paper:#f3f6f9; --sheet:#ffffff; --ink:#18212d; --muted:#5b6778; --line:#d9e1ea;
+  --brand:#0b86d6; --brand-ink:#075a9c; --brand-soft:#e5f3fd; --brand-softer:#f2f9fe;
+  --hl:#ffe17a; --code:#f4f7fa; --code-line:#c9d3de; --out:#eaf5fd;
+  --warn:#d9641e; --warn-soft:#fdf0e7; --tip:#16855a; --tip-soft:#e5f5ee; --java:#7b4bb7; --java-soft:#f2ecfa;
+  --ok:#16855a; --ok-soft:#e5f5ee; --ng:#c23b30; --ng-soft:#fbe8e6;
+  --k:#7a3fb0; --s:#16855a; --c:#8a94a6; --n:#c0611b; --b:#075a9c;
+  --f-head:"Zen Maru Gothic","Zen Kaku Gothic New",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-num:"Barlow","Zen Maru Gothic",sans-serif;
+  --f-code:"JetBrains Mono","Zen Kaku Gothic New",ui-monospace,Consolas,monospace;
+  --flag:#d9641e; --flag-soft:#fdf0e7;
+  --bar-h:58px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0e131a; --sheet:#151c25; --ink:#e4e9f0; --muted:#98a3b3; --line:#283342;
+  --brand:#45a8ec; --brand-ink:#8cc8f5; --brand-soft:#132a3e; --brand-softer:#111f2d;
+  --hl:#8a7420; --code:#1a222d; --code-line:#334152; --out:#12263a;
+  --warn:#f0965a; --warn-soft:#2e1d12; --tip:#5cc99b; --tip-soft:#12261d; --java:#b894ea; --java-soft:#221a30;
+  --ok:#5cc99b; --ok-soft:#12261d; --ng:#ef8a80; --ng-soft:#2e1715;
+  --k:#c79bf0; --s:#7fd1a5; --c:#6f7a8c; --n:#eba066; --b:#8cc8f5; --flag:#f0965a; --flag-soft:#2e1d12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0e131a; --sheet:#151c25; --ink:#e4e9f0; --muted:#98a3b3; --line:#283342;
+  --brand:#45a8ec; --brand-ink:#8cc8f5; --brand-soft:#132a3e; --brand-softer:#111f2d;
+  --hl:#8a7420; --code:#1a222d; --code-line:#334152; --out:#12263a;
+  --warn:#f0965a; --warn-soft:#2e1d12; --tip:#5cc99b; --tip-soft:#12261d; --java:#b894ea; --java-soft:#221a30;
+  --ok:#5cc99b; --ok-soft:#12261d; --ng:#ef8a80; --ng-soft:#2e1715;
+  --k:#c79bf0; --s:#7fd1a5; --c:#6f7a8c; --n:#eba066; --b:#8cc8f5; --flag:#f0965a; --flag-soft:#2e1d12; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.8}
+a{color:var(--brand-ink)}
+.wrap{max-width:900px;margin:0 auto;padding:48px 16px 24px}
+.eyebrow{font-family:var(--f-num);font-weight:700;font-size:.8rem;letter-spacing:.12em;color:var(--brand-ink)}
+h1{font-family:var(--f-head);font-size:2rem;line-height:1.35;margin:6px 0 8px}
+.intro{color:var(--muted);margin:0 0 36px}
+h2{font-family:var(--f-head);font-size:1.2rem;line-height:1.5;margin:0}
+
+/* ---------- 試験ごとのまとまり ---------- */
+.course{margin-bottom:36px;scroll-margin-top:16px}
+.facts{margin:2px 0 12px;font-size:.88rem;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.card{display:flex;flex-direction:column;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:16px 18px;color:inherit;text-decoration:none}
+.card:hover,.card:focus-visible{border-color:var(--brand);background:var(--brand-soft)}
+.kind{font-size:.76rem;font-weight:700;color:var(--brand-ink)}
+.card b{font-family:var(--f-head);font-size:1.08rem;margin:2px 0 4px}
+.desc{font-size:.9rem;color:var(--muted);line-height:1.65}
+.ext{font-family:var(--f-body);font-size:.85rem;color:var(--muted)}
+.state{font-size:.82rem;font-weight:700;color:var(--brand-ink);line-height:1.6;margin-top:auto;padding-top:8px}
+.state:empty{display:none}
+
+/* ---------- 下部 ---------- */
+footer{max-width:900px;margin:0 auto;padding:0 16px 40px;font-size:.82rem;color:var(--muted)}
+footer p{margin:0 0 4px}
+footer p:first-child{border-top:1px solid var(--line);padding-top:16px}
+
+/* ---------- このサイトについて ---------- */
+.crumbs{margin:0 0 16px;font-size:.86rem;color:var(--muted)}
+.crumbs a{font-weight:700;text-decoration:none}
+.article h1{font-size:1.7rem;margin-bottom:24px}
+.article h2{margin:28px 0 8px}
+.article ul{margin:0;padding-left:1.3em}
+.article p{margin:0}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="eyebrow">PYTHON 3 ENGINEER</div>
+  <h1>Python 3 エンジニア認定試験 対策ノート</h1>
+  <p class="intro">基礎試験とデータ分析試験の教材と模擬試験です。読み進めた章や受験の記録は、お使いのブラウザに保存されます。</p>
+
+  <section class="course" id="basic">
+    <h2>Python 3 エンジニア認定基礎試験</h2>
+    <p class="facts">40問・60分・選択式／正答率70%以上で合格</p>
+    <div class="cards">
+      <a class="card" href="basic/note/index.html">
+        <span class="kind">教材</span>
+        <b>チュートリアル総点検</b>
+        <span class="desc">全小節の論点を1つずつ点検します。コードはその場で実行できます。</span>
+        <span class="state" data-note="basic"></span>
+      </a>
+      <a class="card" href="basic/exam/index.html">
+        <span class="kind">模試</span>
+        <b>本番形式模試</b>
+        <span class="desc">40問・60分で受験し、採点と章ごとの正解率、解説を確認できます。</span>
+        <span class="state" data-exam="basic"></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="course" id="data-analysis">
+    <h2>Python 3 エンジニア認定データ分析試験</h2>
+    <p class="facts">40問・60分・選択式／正答率70%以上で合格</p>
+    <div class="cards">
+      <a class="card" href="data-analysis/note/index.html">
+        <span class="kind">教材</span>
+        <b>Pythonデータ分析 入門</b>
+        <span class="desc">NumPy・pandas・Matplotlib・scikit-learnを中心に、出題範囲を順に学びます。</span>
+        <span class="state" data-note="data-analysis"></span>
+      </a>
+      <a class="card" href="#links">
+        <span class="kind">模試</span>
+        <b>外部の模擬試験を使う</b>
+        <span class="desc">データ分析試験の模試は、下の外部サイトで受けられます。</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="course" id="links">
+    <h2>外部の対策サイト</h2>
+    <p class="facts">どれも基礎試験とデータ分析試験の両方に対応しています。このサイトとは別の運営です。</p>
+    <div class="cards">
+      <a class="card" href="https://cbt.odyssey-com.co.jp/pythonic-exam/" target="_blank" rel="noopener noreferrer">
+        <span class="kind">試験の案内</span>
+        <b>Odyssey CBT <span class="ext" aria-label="別のサイトが開きます">↗</span></b>
+        <span class="desc">Pythonエンジニア認定試験の案内ページです。試験ごとの概要や受験の案内を確認できます。</span>
+      </a>
+      <a class="card" href="https://study.prime-strategy.co.jp/" target="_blank" rel="noopener noreferrer">
+        <span class="kind">無料の模擬試験</span>
+        <b>PRIME STUDY <span class="ext" aria-label="別のサイトが開きます">↗</span></b>
+        <span class="desc">基礎試験とデータ分析試験の模擬試験を、各3回分、何度でも無料で受験できます。</span>
+      </a>
+      <a class="card" href="https://diver.diveintocode.jp/dive_into_exam/lp" target="_blank" rel="noopener noreferrer">
+        <span class="kind">模擬試験サービス</span>
+        <b>ディープロ EXAM <span class="ext" aria-label="別のサイトが開きます">↗</span></b>
+        <span class="desc">無料会員登録で模擬試験を受験できます。解説や学習教材は有料プランで提供されています。</span>
+      </a>
+    </div>
+  </section>
+</main>
+<footer>
+  <p><a href="about/index.html">このサイトについて</a></p>
+  <p>個人が作成した非公式の学習教材です。試験の実施団体や出版社とは関係ありません。</p>
+</footer>
+<script>
+(function(){
+  const COURSES={"basic":{"note":{"prefix":"ptut-","titles":["この教材の使い方","食欲をそそってみようか","Pythonインタープリタの使い方","気楽な入門編","制御構造ツール","データ構造","モジュール","入出力","エラーと例外","クラス","標準ライブラリめぐり","標準ライブラリめぐり─PartII","仮想環境とパッケージ","対話環境での入力行編集とヒストリ置換","暗記シート","重要用語チェック"],"chapters":["0","1","2","3","4","5","6","7","8","9","10","11","12","14"]},"exam":{"prefix":"pmock-"}},"data-analysis":{"note":{"prefix":"pda2-","titles":["この教材の使い方","データ分析エンジニアの役割","Pythonと環境","数学の基礎","ライブラリによる分析の実践","第4章 暗記シート","重要用語チェック"],"chapters":["0","1","2","3","4"]}}};
+  const read=(key,fallback)=>{try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v)}catch(e){return fallback}};
+
+  document.querySelectorAll("[data-note]").forEach(el=>{
+    const {prefix,titles,chapters}=COURSES[el.dataset.note].note;
+    const cur=read(prefix+"cur",null);
+    if(cur===null||!titles[cur])return;
+    const done=read(prefix+"done",{});
+    const count=chapters.filter(ch=>done[ch]).length;
+    el.textContent=`続きから：${titles[cur]}（読了 ${count} / ${chapters.length}）`;
+  });
+
+  document.querySelectorAll("[data-exam]").forEach(el=>{
+    const {prefix}=COURSES[el.dataset.exam].exam;
+    const hist=read(prefix+"hist",[]);
+    const parts=[];
+    if(read(prefix+"cur",null))parts.push("途中の試験があります");
+    if(hist.length){
+      const scores=hist.map(r=>r.score);
+      parts.push(`受験 ${hist.length} 回・前回 ${scores[scores.length-1]} 点・最高 ${Math.max(...scores)} 点`);
+    }
+    el.textContent=parts.join("／");
+  });
+})();
+</script>
+</body>
+</html>

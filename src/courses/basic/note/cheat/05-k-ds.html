@@ -1,0 +1,19 @@
+<h3 id="k-ds">データ構造（5.1〜5.8）</h3>
+<div class="tbl"><table class="drill">
+<tr><th>問い</th><th>答え</th><th>メモ</th></tr>
+<tr><td><code>[(x, y) for x in A for y in B]</code></td><td class="a">左の for が外側のループ</td><td></td></tr>
+<tr><td><code>[x, x**2 for x in r]</code></td><td class="a">SyntaxError（タプルはカッコ必須）</td><td></td></tr>
+<tr><td><code>list(zip(*matrix))</code></td><td class="a">転置したタプルのリスト</td><td></td></tr>
+<tr><td><code>del a[2:4] / del a</code></td><td class="a">範囲を削除 / 変数を削除（以後 NameError）</td><td class="trap">値は返さない</td></tr>
+<tr><td><code>要素1つのタプル</code></td><td class="a">&#x27;a&#x27;, または (&#x27;a&#x27;,)</td><td class="trap">(&#x27;a&#x27;) は文字列</td></tr>
+<tr><td><code>空の集合</code></td><td class="a">set()</td><td class="trap">{} は空の辞書</td></tr>
+<tr><td><code>a - b / a | b / a &amp; b / a ^ b</code></td><td class="a">差 / 和 / 積 / 対称差</td><td></td></tr>
+<tr><td><code>辞書のキーにできるもの</code></td><td class="a">イミュータブルな型（文字列・数値・中身がイミュータブルなタプル）</td><td class="trap">リストは不可</td></tr>
+<tr><td><code>list(d) / sorted(d)</code></td><td class="a">キーを挿入順に / キーを並べ替えて</td><td></td></tr>
+<tr><td><code>items() / enumerate() / zip() / reversed() / sorted()</code></td><td class="a">キーと値 / 位置と値 / 組 / 逆順 / 新しい並べ替えリスト</td><td></td></tr>
+<tr><td><code>x or y</code></td><td class="a">x が真なら x、偽なら y（値そのものを返す）</td><td></td></tr>
+<tr><td><code>x and y</code></td><td class="a">x が偽なら x、真なら y</td><td></td></tr>
+<tr><td><code>not / and / or の優先順位</code></td><td class="a">not が最も高く、or が最も低い</td><td></td></tr>
+<tr><td><code>(1, 2) &lt; (1, 2, -1)</code></td><td class="a">True（先頭が同じなら短い方が小さい）</td><td></td></tr>
+<tr><td><code>1 &lt; &#x27;a&#x27;</code></td><td class="a">TypeError（違う型は比べられない）</td><td class="trap">0 == 0.0 は True</td></tr>
+</table></div>

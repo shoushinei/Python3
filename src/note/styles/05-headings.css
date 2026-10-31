@@ -1,0 +1,22 @@
+/* 見出しの階層：節（h3）→ 小節（h4）→ 項目（h5） */
+section.ch h3{display:flex;align-items:center;gap:14px;margin:56px 0 10px;padding-bottom:10px;border-bottom:3px solid var(--brand);font-family:var(--f-head);font-size:clamp(1.3rem,2.6vw,1.6rem);line-height:1.35}
+section.ch h3 .secno{flex:none;display:grid;place-items:center;width:64px;height:58px;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);background:var(--brand-soft);color:var(--brand-ink);font-family:var(--f-num);font-style:italic;font-weight:700;font-size:1.35rem}
+section.ch h3 .scope{margin-left:auto;font-family:var(--f-body);font-size:.75rem;font-weight:700;color:var(--brand-ink);border:1.5px solid var(--brand);border-radius:999px;padding:1px 10px;white-space:nowrap}
+.lead{border-left:4px solid var(--brand);background:var(--brand-softer);padding:10px 16px;border-radius:0 8px 8px 0;font-weight:500;font-size:.95rem;margin:12px 0 20px}
+section.ch h4{display:flex;align-items:center;gap:10px;margin:38px 0 12px;padding:8px 14px;border:1.5px solid var(--brand);border-radius:8px;background:var(--brand-softer);font-family:var(--f-head);font-size:1.12rem;color:var(--brand-ink);line-height:1.4}
+section.ch h4::before{content:"";flex:none;width:22px;height:22px;border-radius:50%;background:var(--brand);box-shadow:inset 0 0 0 5px var(--brand-soft)}
+section.ch h4 .subno{font-family:var(--f-num);font-weight:700}
+section.ch h5{font-family:var(--f-head);font-size:1.02rem;color:var(--brand-ink);margin:26px 0 6px;display:flex;align-items:center;gap:8px}
+section.ch h5::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--brand);flex:none;box-shadow:0 0 0 3px var(--brand-soft)}
+section.ch h5 span{border-bottom:2px dotted var(--brand)}
+section.ch p,section.ch li{max-width:72ch}
+section.ch p{margin:8px 0}
+section.ch ul,section.ch ol{padding-left:1.4em}
+section.ch li{margin:3px 0}
+section.ch li::marker{color:var(--brand)}
+dfn{font-style:normal;font-weight:700;color:var(--brand-ink)}
+mark{background:linear-gradient(transparent 62%,var(--hl) 62%);color:inherit;font-weight:700;padding:0 1px}
+strong{font-weight:700}
+code{font-family:var(--f-code);font-size:.86em;background:var(--code);border:1px solid var(--line);padding:0 5px;border-radius:4px}
+kbd{font-family:var(--f-code);font-size:.82em;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 5px;background:var(--sheet)}
+

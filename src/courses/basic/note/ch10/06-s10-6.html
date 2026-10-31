@@ -1,0 +1,38 @@
+<h3 id="s10-6"><span class="secno">10.6</span>数学</h3>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>        <span class="c1"># 底2の対数</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">statistics</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.75</span><span class="p">,</span> <span class="mf">1.75</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.25</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>     <span class="c1"># 平均</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">statistics</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>   <span class="c1"># 中央値</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">statistics</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span><span class="n">data</span><span class="p">))</span> <span class="c1"># 分散（標本分散）</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>0.7071067811865476
+10.0
+1.6071428571428572
+1.25
+1.3720238095238095</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>                           <span class="c1"># 例を再現するためにシードを固定</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'pear'</span><span class="p">,</span> <span class="s1">'banana'</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="mi">10</span><span class="p">))</span>     <span class="c1"># 重複なしで10個を選ぶ</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>                   <span class="c1"># 0以上1未満の float</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>               <span class="c1"># range(6) から1つ選んだ整数</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>apple
+[72, 97, 8, 32, 15, 63, 57, 60, 83, 48]
+0.7887233511355132
+0</code></pre>
+<div class="tbl"><table>
+<tr><th>モジュール</th><th>関数</th><th>動き</th></tr>
+<tr><td rowspan="2"><code>math</code></td><td><code>cos</code>・<code>log</code> など</td><td>浮動小数点数の数学関数（Cライブラリの関数へのアクセス）</td></tr>
+<tr><td><code>log(x, base)</code></td><td>底を指定した対数</td></tr>
+<tr><td rowspan="4"><code>random</code></td><td><code>choice(seq)</code></td><td>シーケンスから1つ選ぶ</td></tr>
+<tr><td><code>sample(population, k)</code></td><td><mark>重複なし</mark>で k 個選ぶ</td></tr>
+<tr><td><code>random()</code></td><td>0.0以上1.0未満の float</td></tr>
+<tr><td><code>randrange(6)</code></td><td><code>range(6)</code> から選んだ整数（0〜5）</td></tr>
+<tr><td><code>statistics</code></td><td><code>mean</code>・<code>median</code>・<code>variance</code></td><td>平均・中央値・分散などの基本的な統計量</td></tr>
+</table></div>
+<p>より本格的な数値計算には、SciPy プロジェクトなどがあります。</p>
+

@@ -1,0 +1,20 @@
+<h3 id="s4-8"><span class="secno">4.8</span>幕間つなぎ：コーディングスタイル</h3>
+<div class="lead">PEP 8 のうち、チュートリアルが挙げている要点です。</div>
+<ul>
+<li>インデントは<mark>スペース4つ</mark>。タブは使わない。</li>
+<li>1行は<mark>79文字以内</mark>で折り返す。</li>
+<li>関数やクラス、関数内の大きめのブロックは、<mark>空行</mark>で区切る。</li>
+<li>可能なら、コメントは独立した行に書く。docstring を使う。</li>
+<li>演算子の前後とカンマの後ろには空白を入れ、カッコのすぐ内側には入れない：<code>a = f(1, 2) + g(3, 4)</code></li>
+<li>名前の付け方を統一する：<mark>クラスは <code>UpperCamelCase</code>、関数とメソッドは <code>lowercase_with_underscores</code></mark>。メソッドの第1引数は常に <code>self</code>。</li>
+<li>文字コードは UTF-8（または ASCII）。他の言語の人が読む可能性があるなら、識別子にASCII以外の文字を使わない。</li>
+</ul>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>for はシーケンスの要素を順に取り出す。文字列なら1文字ずつ。print は毎回改行する。</li>
+<li>range の終了は含まない。print(range(…)) は range(…) と表示。ループの else は break しなかったときだけ。</li>
+<li>デフォルト値は定義時に1回だけ評価（ミュータブルは値がたまる）。キーワード引数の後に位置引数は書けない。</li>
+<li>/ の前は位置専用、* の後はキーワード専用。*args はタプル、**kwargs は辞書。呼び出しの * / ** はアンパック。</li>
+<li>lambda は式1つ。docstring は要約→空行→説明。注釈は __annotations__ に入るだけ。</li>
+</ul></div>
+
+<div class="quizzes">

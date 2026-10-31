@@ -1,0 +1,49 @@
+<h3 id="s2-3"><span class="secno">2.3</span>JupyterLab <span class="scope">1問</span></h3>
+<div class="lead">データ分析で広く使われる、ブラウザ上の実行環境 JupyterLab について説明します。</div>
+<h4 id="s2-3-1"><span class="subno">2.3.1</span>JupyterLabとは</h4>
+<p><dfn id="t51">JupyterLab</dfn> とその前身の <dfn id="t52">Jupyter Notebook</dfn> は、<mark>オープンソースで開発されているWebアプリケーション</mark>です。データ分析・可視化・機械学習などに広く使われています。ブラウザ上で、コードとその実行結果、グラフ、説明文を1つのファイルにまとめながら作業できます。JupyterLab は Notebook の機能に加えて、タブやファイルブラウザなどを備えています。</p>
+<h4 id="s2-3-2"><span class="subno">2.3.2</span>JupyterLabのインストール</h4>
+<pre class="shell"><code>(env) % pip install jupyterlab
+(env) % jupyter lab        <span class="cm"># ブラウザでJupyterLabが開く</span></code></pre>
+<h4 id="s2-3-3"><span class="subno">2.3.3</span>基本的な使い方</h4>
+<h5><span>ノートブックとセル</span></h5>
+<ul>
+<li>作成するファイルを<dfn id="t53">ノートブック</dfn>と呼び、<mark>拡張子は <code>.ipynb</code></mark> です。</li>
+<li>ノートブックの中身は<mark>JSON形式</mark>のテキストで、コードや実行結果が記録されます。</li>
+<li>中身を見るには基本的にJupyterが必要ですが、<mark>GitHubなどはノートブックの表示に対応</mark>しているので、ブラウザで内容を確認できます。</li>
+<li>ノートブックは<dfn id="t54">セル</dfn>の集まりです。コードを書く<strong>コードセル</strong>と、説明文を書く<strong>Markdownセル</strong>があります。</li>
+</ul>
+<h5><span>セルの実行と2つのモード</span></h5>
+<ul>
+<li><kbd>Shift</kbd>+<kbd>Enter</kbd> でセルを実行し、次のセルに進みます。</li>
+<li>セルの<mark>最後の式の値は、print しなくても表示されます</mark>。この教材の Out も同じ仕組みで表示しています。</li>
+<li>セルの中を編集する<strong>編集モード</strong>（<kbd>Enter</kbd>）と、セル自体を操作する<strong>コマンドモード</strong>（<kbd>Esc</kbd>）があります。コマンドモードでは <kbd>A</kbd> で上に、<kbd>B</kbd> で下にセルを追加し、<kbd>D</kbd> <kbd>D</kbd> で削除、<kbd>M</kbd> でMarkdownセル、<kbd>Y</kbd> でコードセルに切り替えます。</li>
+</ul>
+<h4 id="s2-3-4"><span class="subno">2.3.4</span>便利な使い方</h4>
+<h5><span>マジックコマンド</span></h5>
+<p><dfn id="t55">マジックコマンド</dfn>は、<mark><code>%</code> または <code>%%</code> から始まる</mark>Jupyter専用の特別なコマンドです。<code>%</code> は1行に、<code>%%</code> はセル全体に作用します。</p>
+<div class="tbl"><table>
+<tr><th>コマンド</th><th>働き</th></tr>
+<tr><td><code>%timeit 式</code></td><td>式を<mark>複数回繰り返し実行して</mark>実行時間を計測する</td></tr>
+<tr><td><code>%%timeit</code></td><td>セル全体を複数回実行して計測する</td></tr>
+<tr><td><code>%time</code> / <code>%%time</code></td><td>1回だけ実行して時間を計測する</td></tr>
+<tr><td><code>%matplotlib inline</code></td><td>グラフをノートブック内に表示する</td></tr>
+<tr><td><code>%run script.py</code></td><td>Pythonファイルを実行する</td></tr>
+<tr><td><code>%lsmagic</code></td><td>使えるマジックコマンドの一覧を表示する</td></tr>
+</table></div>
+<h5><span>シェルコマンド</span></h5>
+<p>先頭に <mark><code>!</code></mark> を付けると、OSのコマンド（<dfn id="t56">シェルコマンド</dfn>）を実行できます。</p>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="err">!</span><span class="n">pip</span> <span class="nb">list</span>       <span class="c1"># インストール済みパッケージの一覧</span>
+<span class="err">!</span><span class="n">ls</span>             <span class="c1"># ファイルの一覧（Windowsでは !dir）</span></code></pre>
+<h5><span>補完とヘルプ</span></h5>
+<p><kbd>Tab</kbd> キーで名前の補完ができます。<code>np.arange?</code> のように名前の後ろに <code>?</code> を付けて実行すると、ヘルプが表示されます。</p>
+<h4 id="s2-3-5"><span class="subno">2.3.5</span>第4章以降で使用する環境の準備</h4>
+<p>第4章で使うライブラリを、仮想環境にインストールしておきます。</p>
+<pre class="shell"><code>(env) % pip install numpy pandas matplotlib scikit-learn</code></pre>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>オープンソースのWebアプリケーション。ノートブックの拡張子は .ipynb、中身はJSON形式で、GitHubでも表示できる。</li>
+<li>マジックコマンドは % / %% で始まる。%timeit は複数回試行して時間を計測する。</li>
+<li>! を付けるとシェルコマンド（例：!pip list）を実行できる。</li>
+</ul></div>
+
+<div class="quizzes">

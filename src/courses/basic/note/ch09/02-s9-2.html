@@ -1,0 +1,58 @@
+<h3 id="s9-2"><span class="secno">9.2</span>Pythonのスコープと名前空間</h3>
+<div class="lead">クラスを理解する前提として、名前空間とスコープの規則を押さえます。</div>
+<h5><span>名前空間</span></h5>
+<p><dfn id="t59">名前空間</dfn>は、名前からオブジェクトへの対応付け（マッピング）です。多くは辞書で実装されています。例：組み込み名の集まり、モジュールのグローバルな名前、関数呼び出しのローカルな名前。オブジェクトの属性の集まりも名前空間の一種です。<mark>異なる名前空間の名前同士には、まったく関係がありません</mark>（2つのモジュールに同じ名前の関数があっても衝突しない）。</p>
+<div class="tbl"><table>
+<tr><th>名前空間</th><th>作られるとき</th><th>なくなるとき</th></tr>
+<tr><td>組み込み名</td><td>インタープリタの起動時</td><td>なくならない</td></tr>
+<tr><td>モジュールのグローバル名</td><td>モジュールの定義が読み込まれたとき</td><td>通常はインタープリタの終了まで</td></tr>
+<tr><td>関数のローカル名</td><td>関数が呼ばれたとき</td><td>関数が return したとき、または処理されない例外を送出したとき</td></tr>
+</table></div>
+<p>インタープリタのトップレベルで実行される文は、<code>__main__</code> というモジュールの一部とみなされます。再帰呼び出しでは、呼び出しごとに別のローカル名前空間ができます。</p>
+<h5><span>スコープ</span></h5>
+<p><dfn id="t60">スコープ</dfn>は、ある名前空間に直接アクセスできる、プログラムの文面上の範囲です。実行中は、次のスコープが入れ子になっています。名前は<mark>内側から順に</mark>探されます。</p>
+<ol>
+<li>最も内側のスコープ：<mark>ローカル</mark>な名前</li>
+<li>外側の関数のスコープ：ローカルでもグローバルでもない名前（<code>nonlocal</code> の対象）</li>
+<li>最後から2番目のスコープ：現在のモジュールの<mark>グローバル</mark>な名前</li>
+<li>最も外側のスコープ：<mark>組み込み</mark>の名前</li>
+</ol>
+<ul>
+<li><dfn id="t61">global</dfn> 文で宣言した名前への参照と代入は、モジュールのグローバルスコープに対して行われます。</li>
+<li><dfn id="t62">nonlocal</dfn> 文で宣言した名前は、外側の関数のスコープの変数に再束縛されます。</li>
+<li>どちらの宣言もない場合、<mark>最も内側より外の変数は読み取り専用</mark>です。代入すると、内側に新しいローカル変数ができるだけで、外側の同じ名前の変数は変わりません。</li>
+<li>スコープは<mark>文面で（書いた場所で）決まります</mark>。代入はデータをコピーせず、名前をオブジェクトに結び付けるだけです。<code>del x</code> はローカル名前空間から x の結び付きを取り除きます。</li>
+</ul>
+<h4 id="s9-2-1"><span class="subno">9.2.1</span>スコープと名前空間の例</h4>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">scope_test</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_local</span><span class="p">():</span>
+        <span class="n">spam</span> <span class="o">=</span> <span class="s2">"local spam"</span>          <span class="c1"># do_local のローカル変数が新しくできるだけ</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_nonlocal</span><span class="p">():</span>
+        <span class="k">nonlocal</span> <span class="n">spam</span>                <span class="c1"># scope_test の spam を書き換える</span>
+        <span class="n">spam</span> <span class="o">=</span> <span class="s2">"nonlocal spam"</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">do_global</span><span class="p">():</span>
+        <span class="k">global</span> <span class="n">spam</span>                  <span class="c1"># モジュールの spam を書き換える</span>
+        <span class="n">spam</span> <span class="o">=</span> <span class="s2">"global spam"</span>
+
+    <span class="n">spam</span> <span class="o">=</span> <span class="s2">"test spam"</span>
+    <span class="n">do_local</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"After local assignment:"</span><span class="p">,</span> <span class="n">spam</span><span class="p">)</span>
+    <span class="n">do_nonlocal</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"After nonlocal assignment:"</span><span class="p">,</span> <span class="n">spam</span><span class="p">)</span>
+    <span class="n">do_global</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"After global assignment:"</span><span class="p">,</span> <span class="n">spam</span><span class="p">)</span>
+
+<span class="n">scope_test</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"In global scope:"</span><span class="p">,</span> <span class="n">spam</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>After local assignment: test spam
+After nonlocal assignment: nonlocal spam
+After global assignment: nonlocal spam
+In global scope: global spam</code></pre>
+<ul>
+<li><code>do_local</code> の代入は、scope_test の spam を<mark>変えない</mark>（ローカル変数を作るだけ）。</li>
+<li><code>do_nonlocal</code> の代入は、scope_test の spam を変える。</li>
+<li><code>do_global</code> の代入は、<mark>モジュールレベル</mark>の spam を作る（変える）。scope_test の spam は "nonlocal spam" のまま。</li>
+<li>グローバルの spam は、do_global を呼ぶ前には存在していませんでした。</li>
+</ul>
+

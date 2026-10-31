@@ -1,0 +1,25 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q1</span><code>Template('$a and $b').safe_substitute(a='X')</code> の結果はどれか（Template は import 済み）。</p>
+<ol class="opts">
+<li data-k="a" class="code">'X and '</li><li data-k="b" class="code">KeyError</li><li data-k="c" class="code">'X and $b'</li><li data-k="d" class="code">'X and None'</li>
+</ol><div class="exp" hidden>safe_substitute は、値がないプレースホルダをそのまま残します。substitute なら KeyError です。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q2</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>from heapq import heapify, heappop
+data = [5, 1, 4, 2]
+heapify(data)
+print(heappop(data), heappop(data))</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">1 2</li><li data-k="b" class="code">5 4</li><li data-k="c" class="code">5 1</li><li data-k="d" class="code">1 4</li>
+</ol><div class="exp" hidden>ヒープでは最も小さい値が位置0にあり、heappop は小さい順に取り出します。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q3</span>モジュールと用途の組み合わせとして誤っているものはどれか。</p>
+<ol class="opts">
+<li data-k="a">textwrap ― 文章を指定した幅に整形する</li><li data-k="b">bisect ― ソート済みリストを順序を保って操作する</li><li data-k="c">weakref ― 参照を作らずにオブジェクトを追跡する</li><li data-k="d">reprlib ― 出力を改行・インデントして見やすくする</li>
+</ol><div class="exp" hidden>改行・インデントで見やすく表示するのは pprint です。reprlib は大きなコンテナを省略して表示します。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q4</span>logging モジュールの既定の動作として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">すべてのレベルのメッセージを標準出力に出す。</li>
+<li data-k="b">debug と info のメッセージは出力せず、出力は標準エラー出力に送る。</li>
+<li data-k="c">ログは必ずファイルに書き込まれる。</li>
+<li data-k="d">critical 以外は出力しない。</li>
+</ol><div class="exp" hidden>既定では warning 以上が標準エラー出力に送られます。</div></div>
+</div>

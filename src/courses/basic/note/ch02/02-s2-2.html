@@ -1,0 +1,19 @@
+<h3 id="s2-2"><span class="secno">2.2</span>インタープリタとその環境</h3>
+<h4 id="s2-2-1"><span class="subno">2.2.1</span>ソースコード・エンコーディング</h4>
+<ul>
+<li>Pythonのソースファイルは、<mark>デフォルトでは UTF-8</mark> でエンコードされているものとして扱われます。</li>
+<li>標準ライブラリは、識別子（名前）にASCII文字だけを使っています。</li>
+<li>別の文字コードを使うときは、<mark>ファイルの1行目</mark>に次のような特別なコメントを書きます。</li>
+</ul>
+<pre class="pynr"><code># -*- coding: cp1252 -*-</code></pre>
+<p>例外として、1行目がUnixの「シバン（shebang）行」の場合は、<mark>文字コードの宣言は2行目</mark>に書きます。</p>
+<pre class="pynr"><code>#!/usr/bin/env python3
+# -*- coding: cp1252 -*-</code></pre>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>終了は Ctrl+D（Unix）／Ctrl+Z（Windows）、または quit()。</li>
+<li>-c はコマンド文字列、-m はモジュールをスクリプトとして実行、-i は実行後に対話モード。</li>
+<li>sys.argv[0]：通常はスクリプト名、引数なしは ''、標準入力は '-'、-c は '-c'、-m はモジュールのフルパス。</li>
+<li>&gt;&gt;&gt; が一次、... が二次プロンプト。デフォルトの文字コードは UTF-8、宣言は1行目（シバンがあれば2行目）。</li>
+</ul></div>
+
+<div class="quizzes">

@@ -1,0 +1,97 @@
+{
+  "id": "data-analysis",
+  "name": "Python 3 エンジニア認定データ分析試験",
+  "shortName": "データ分析試験",
+  "note": {
+    "title": "Pythonデータ分析 入門",
+    "description": "Python 3 エンジニア認定データ分析試験の教材。NumPy・pandas・Matplotlib・scikit-learnを中心に学びます。",
+    "brand": "<i>In [1]</i><span class=\"bt\">Pythonデータ分析</span><span class=\"full\">&nbsp;入門</span>",
+    "storagePrefix": "pda2-",
+    "links": [
+      {
+        "label": "サイトのトップ",
+        "href": "../../index.html"
+      },
+      {
+        "label": "外部の模擬試験",
+        "href": "../../index.html#links"
+      }
+    ],
+    "chapters": [
+      {
+        "dir": "ch00",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "0",
+          "data-title": "この教材の使い方",
+          "data-short": "はじめに",
+          "data-tab": "はじめに"
+        }
+      },
+      {
+        "dir": "ch01",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "1",
+          "data-title": "データ分析エンジニアの役割",
+          "data-short": "第1章",
+          "data-tab": "データ分析エンジニアの役割"
+        }
+      },
+      {
+        "dir": "ch02",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "2",
+          "data-title": "Pythonと環境",
+          "data-short": "第2章",
+          "data-tab": "Pythonと環境"
+        }
+      },
+      {
+        "dir": "ch03",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "3",
+          "data-title": "数学の基礎",
+          "data-short": "第3章",
+          "data-tab": "数学の基礎"
+        }
+      },
+      {
+        "dir": "ch04",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "4",
+          "data-title": "ライブラリによる分析の実践",
+          "data-short": "第4章",
+          "data-tab": "ライブラリによる分析の実践"
+        }
+      },
+      {
+        "dir": "cheat",
+        "attrs": {
+          "class": "ch cheat",
+          "data-ch": "cheat",
+          "data-app": "1",
+          "data-icon": "表",
+          "data-title": "第4章 暗記シート",
+          "data-short": "暗記シート",
+          "data-tab": "暗記シート"
+        }
+      },
+      {
+        "dir": "terms",
+        "attrs": {
+          "class": "ch terms",
+          "data-ch": "terms",
+          "data-app": "1",
+          "data-icon": "✓",
+          "data-title": "重要用語チェック",
+          "data-short": "用語チェック",
+          "data-tab": "用語チェック"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+<h3 id="k-env">インタープリタ・環境（2・12・14章）</h3>
+<div class="tbl"><table class="drill">
+<tr><th>問い</th><th>答え</th><th>メモ</th></tr>
+<tr><td><code>対話モードの終了</code></td><td class="a">Unix は Ctrl+D、Windows は Ctrl+Z、または quit()</td><td></td></tr>
+<tr><td><code>python -c &quot;…&quot;</code></td><td class="a">文字列のコマンドを実行する</td><td class="trap">sys.argv[0] は &#x27;-c&#x27;</td></tr>
+<tr><td><code>python -m モジュール</code></td><td class="a">モジュールをスクリプトとして実行</td><td class="trap">sys.argv[0] はフルパス</td></tr>
+<tr><td><code>python -i script.py</code></td><td class="a">実行後に対話モードに入る</td><td></td></tr>
+<tr><td><code>引数なしで起動したときの sys.argv[0]</code></td><td class="a">&#x27;&#x27;（空文字列）</td><td class="trap">標準入力 - なら &#x27;-&#x27;</td></tr>
+<tr><td><code>一次 / 二次プロンプト</code></td><td class="a">&gt;&gt;&gt; / ...</td><td></td></tr>
+<tr><td><code>ソースの既定の文字コード</code></td><td class="a">UTF-8。宣言は1行目（シバンがあれば2行目）</td><td class="trap"># -*- coding: cp1252 -*-</td></tr>
+<tr><td><code>仮想環境の作成</code></td><td class="a">python -m venv 名前</td><td class="trap">実行した Python の版を使う</td></tr>
+<tr><td><code>有効化（Windows / Unix）</code></td><td class="a">名前\Scripts\activate ／ source 名前/bin/activate</td><td class="trap">無効化は deactivate</td></tr>
+<tr><td><code>pip install pkg==1.0</code></td><td class="a">バージョンを指定してインストール</td><td></td></tr>
+<tr><td><code>pip install --upgrade pkg</code></td><td class="a">最新版にアップグレード</td><td class="trap">pip upgrade はない</td></tr>
+<tr><td><code>pip show / list / freeze</code></td><td class="a">1つの詳細 / 全一覧 / install -r 用の形式で全一覧</td><td></td></tr>
+<tr><td><code>pip install -r requirements.txt</code></td><td class="a">ファイルの一覧をまとめてインストール</td><td></td></tr>
+<tr><td><code>対話モードの履歴ファイル</code></td><td class="a">.python_history</td><td class="trap">補完は Tab</td></tr>
+<tr><td><code>高機能な対話環境</code></td><td class="a">IPython、bpython</td><td></td></tr>
+</table></div>

@@ -1,0 +1,26 @@
+<h3 id="s8-4"><span class="secno">8.4</span>例外の送出</h3>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">try</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">'HiThere'</span><span class="p">)</span>       <span class="c1"># 例外を送出する</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'An exception flew by!'</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span>                 <span class="c1"># クラスを渡すと、引数なしでインスタンス化される</span>
+<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="n">e</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>An exception flew by!
+ValueError ValueError()</code></pre>
+<ul>
+<li><dfn id="t57">raise</dfn> 文で例外を発生させられます。引数は<mark>例外のインスタンスか例外クラス</mark>（Exception から派生したクラス）です。</li>
+<li>クラスを渡すと、引数なしで暗黙にインスタンスが作られます。<code>raise ValueError</code> は <code>raise ValueError()</code> の省略形です。</li>
+<li>except 節の中で、引数なしの <mark><code>raise</code></mark> と書くと、<mark>今処理している例外をもう一度送出</mark>します。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">try</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s1">'HiThere'</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'An exception flew by!'</span><span class="p">)</span>
+    <span class="k">raise</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>An exception flew by!
+2行目: NameError: HiThere</code></pre>
+

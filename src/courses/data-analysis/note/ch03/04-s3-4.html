@@ -1,0 +1,142 @@
+<h3 id="s3-4"><span class="secno">3.4</span>確率と統計 <span class="scope">2問</span></h3>
+<div class="lead">世の中にあふれるデータをまとめるために、また手元のデータから未来の不確実さを少しでも減らすために、確率と統計の理論が役立ちます。</div>
+<h4 id="s3-4-1"><span class="subno">3.4.1</span>統計の基礎</h4>
+<h5><span>代表値</span></h5>
+<p>データ全体の特徴を1つの値で表したものを代表値と呼びます。次の7人のテストの点数で考えます。</p>
+<div class="mathblock">45, 60, 60, 70, 75, 80, 100</div>
+<div class="tbl"><table>
+<tr><th>代表値</th><th>意味</th><th>上のデータの場合</th></tr>
+<tr><td><dfn id="t81">最小値</dfn> / <dfn id="t82">最大値</dfn></td><td>最も小さい値 / 最も大きい値</td><td>45 / 100</td></tr>
+<tr><td><dfn id="t83">平均値</dfn>（mean）</td><td>合計 ÷ 個数（算術平均）</td><td>490 ÷ 7 = 70</td></tr>
+<tr><td><dfn id="t84">中央値</dfn>（median）</td><td>小さい順に並べて<mark>真ん中</mark>の値。個数が偶数なら、真ん中の2つの平均</td><td>70</td></tr>
+<tr><td><dfn id="t85">最頻値</dfn>（mode）</td><td><mark>最も多く出てくる</mark>値</td><td>60</td></tr>
+</table></div>
+<p>例えば、5段階評価のアンケートで最も回答者が多かった評価は<mark>最頻値</mark>です。平均値は<span class="gl" tabindex="0" data-g="外れ値">外れ値</span>（極端な値）の影響を受けやすく、中央値は受けにくいという違いもあります。</p>
+<h5><span>分位数</span></h5>
+<p>データを小さい順に並べて、全体を区切る位置の値を<dfn id="t86">分位数</dfn>（<span class="gl" tabindex="0" data-g="パーセンタイル">パーセンタイル</span>、クォンタイル）と呼びます。最もよく使われるのは4等分する<dfn id="t87">四分位数</dfn>です。1/4 の位置が<strong>第1四分位数</strong>（25パーセンタイル）、真ん中が<strong>第2四分位数</strong>（＝中央値）、3/4 の位置が<strong>第3四分位数</strong>（75パーセンタイル）です。</p>
+<h5><span>分散と標準偏差</span></h5>
+<ul>
+<li><dfn id="t88">偏差</dfn>：各データから平均値を引いた値。<span class="gl" tabindex="0" data-g="偏差">偏差</span>をそのまま足すと必ず0になります。</li>
+<li><dfn id="t89">分散</dfn>：<mark>偏差を2乗して平均した値</mark>。データの散らばりの大きさを表します。</li>
+<li><dfn id="t90">標準偏差</dfn>：<mark>分散の平方根</mark>。元のデータと単位がそろうので、散らばりを直感的に表せます。</li>
+</ul>
+<div class="mathblock">分散 σ² = <span class="frac"><span>1</span><span>n</span></span> <span class="big-op">Σ</span><sub>i=1</sub><sup>n</sup> (x<sub>i</sub> − μ)²　　標準偏差 σ = √σ²</div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">45</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"平均"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s2">"中央値"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"偏差"</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="s2">"合計"</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"分散"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span> <span class="s2">"標準偏差"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"四分位数"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">75</span><span class="p">]))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>平均 70.0 中央値 70.0
+偏差 [-25. -10. -10.   0.   5.  10.  30.] 合計 0.0
+分散 264.29 標準偏差 16.26
+四分位数 [60.  70.  77.5]</code></pre>
+
+<h4 id="s3-4-2"><span class="subno">3.4.2</span>データの可視化方法</h4>
+<ul>
+<li><dfn id="t91">ヒストグラム</dfn>：値の範囲（<span class="gl" tabindex="0" data-g="階級">階級</span>）ごとのデータの個数（度数）を棒で表し、分布の形を見ます。</li>
+<li><dfn id="t92">箱ひげ図</dfn>：最小値・第1四分位数・中央値・第3四分位数・最大値を箱とひげで表し、散らばりや外れ値を見ます。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>      <span class="c1"># 平均60、標準偏差12の点数データ</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"histogram"</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">boxplot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">vert</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"box plot"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-02.webp"></figure>
+
+<h4 id="s3-4-3"><span class="subno">3.4.3</span>データとその関係性</h4>
+<ul>
+<li><dfn id="t93">散布図</dfn>：2つの変数を x 軸と y 軸にとって点を打ち、関係を見ます。</li>
+<li><dfn id="t94">共分散</dfn>：2つの変数の偏差の積の平均です。正なら同じ向きに、負なら逆向きに動く傾向があります。</li>
+<li><dfn id="t95">相関係数</dfn>：<span class="gl" tabindex="0" data-g="共分散">共分散</span>を、2つの標準偏差の積で割ったものです。<mark>−1〜1 の値</mark>をとります。1に近いほど「一方が増えると他方も増える」（正の相関）、−1に近いほど「一方が増えると他方は減る」（負の相関）関係です。0に近いと直線的な関係はほとんどありません。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">study</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>        <span class="c1"># 勉強時間</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">52</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">])</span>   <span class="c1"># 点数</span>
+<span class="n">games</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>        <span class="c1"># ゲーム時間</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">score</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>   <span class="c1"># 正の相関</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">study</span><span class="p">,</span> <span class="n">games</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>   <span class="c1"># 負の相関</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>0.994
+-0.962</code></pre>
+
+<h4 id="s3-4-4"><span class="subno">3.4.4</span>確率</h4>
+<ul>
+<li>サイコロを振るような行為を<dfn id="t96">試行</dfn>、「偶数の目が出る」のような結果のまとまりを<dfn id="t97">事象</dfn>と呼びます。</li>
+<li>事象 A の確率 <span class="math">P(A)</span> は、起こりうるすべての場合のうち A が起こる割合です。</li>
+<li><dfn id="t98">条件付き確率</dfn> <span class="math">P(A|B)</span>：<mark>「Bが起きた」と分かっているときに、Aが起きる確率</mark>です。</li>
+</ul>
+<p>例：6面体のサイコロで「偶数の目が出た」と教えられたとき、それが6である確率は 1/3 です。候補が2・4・6の3つに絞られるからです。何も知らないときの確率 1/6 とは違う値になります。</p>
+<p>条件付き確率は<dfn id="t99">ベイズの定理</dfn>の基本になっています。</p>
+<div class="mathblock">P(A|B) = <span class="frac"><span>P(B|A) P(A)</span><span>P(B)</span></span></div>
+
+<h4 id="s3-4-5"><span class="subno">3.4.5</span>確率分布</h4>
+<ul>
+<li><dfn id="t100">確率変数</dfn>：サイコロの出目のように、確率的に値が決まる変数です。</li>
+<li><dfn id="t101">確率分布</dfn>：確率変数の各値に、どれだけの確率が割り当てられているかを表したものです。</li>
+<li><dfn id="t102">期待値</dfn>：<mark>「値 × その値が出る確率」の合計</mark>で、平均的に期待できる値を表します。</li>
+</ul>
+<div class="mathblock">E[X] = <span class="big-op">Σ</span> x<sub>i</sub> P(x<sub>i</sub>)</div>
+<p>n 面体のサイコロ（1〜n の目が同じ確率）の期待値は <span class="math">(1 + 2 + … + n) / n = (n + 1) / 2</span> です。6面体なら 3.5、8面体なら 4.5 です。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">face</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>                 <span class="c1"># 8面体サイコロの目</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"期待値"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">face</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">8</span><span class="p">)))</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rolls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span>   <span class="c1"># 10万回振ってみる</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"実際の平均"</span><span class="p">,</span> <span class="n">rolls</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>期待値 4.5
+実際の平均 4.49</code></pre>
+
+<h4 id="s3-4-6"><span class="subno">3.4.6</span>確率と関数</h4>
+<p>確率変数を引数にとって、その確率（または確率の密度）を返す関数には2種類あります。</p>
+<div class="cmp">
+<div><b>確率質量関数</b>確率変数が<mark>離散的</mark>（とびとびの値）な場合。各値の確率をそのまま返す。例：サイコロの目、コインの表の回数。</div>
+<div><b>確率密度関数</b>確率変数が<mark>連続的</mark>な場合。グラフの面積（積分）が確率になる。例：身長、測定誤差。</div>
+</div>
+<p><dfn id="t103">確率質量関数</dfn>と<dfn id="t104">確率密度関数</dfn>は、確率変数が離散か連続かで使い分けます。</p>
+<p>代表的な連続の確率分布が<dfn id="t105">正規分布</dfn>です。平均 μ を中心に左右対称な釣り鐘型で、形は平均 μ と標準偏差 σ で決まります。正規分布は確率密度関数で表されます。<mark>平均0・標準偏差1の正規分布</mark>を<dfn id="t106">標準正規分布</dfn>と呼びます。離散の代表例には、コイン投げで表が出る回数のような<strong><span class="gl" tabindex="0" data-g="二項分布">二項分布</span></strong>があります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">801</span><span class="p">)</span>
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>   <span class="c1"># 標準正規分布の確率密度関数</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pdf</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pdf</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"standard normal distribution"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"−1〜1 の面積（約）"</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pdf</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span> <span class="o">*</span> <span class="n">dx</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>−1〜1 の面積（約） 0.69</code></pre>
+<figure class="figout"><img alt="実行結果のグラフ" src="images/fig-03.webp"></figure>
+<p>標準正規分布では、平均±1標準偏差の範囲に、全体の約68%が入ります。</p>
+
+<h4 id="s3-4-7"><span class="subno">3.4.7</span>確率と情報量</h4>
+<p>「めったに起きないことが起きた」と知るほど、得られる情報は大きいと考えます。確率 p の事象が起きたと知ったときの<dfn id="t107">情報量</dfn>は <span class="math">−log p</span> で表します。情報量の期待値を<dfn id="t108">エントロピー</dfn>と呼び、データの「乱雑さ（不純さ）」を表します。第4章の決定木では、データの混ざり具合（<span class="gl" tabindex="0" data-g="不純度">不純度</span>）を測るのに<span class="gl" tabindex="0" data-g="エントロピー">エントロピー</span>などを使います。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">entropy</span><span class="p">(</span><span class="n">ps</span><span class="p">):</span>
+    <span class="n">ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">ps</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">ps</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">entropy</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]))</span>     <span class="c1"># 半々に混ざっている → 大きい</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">entropy</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>   <span class="c1"># ほぼ一方に偏っている → 小さい</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>1.0
+0.469</code></pre>
+
+<div class="quizzes">

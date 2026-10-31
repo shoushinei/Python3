@@ -1,0 +1,35 @@
+<h3 id="s6-0"><span class="secno">6.0</span>モジュールとは</h3>
+<p>定義を書いたファイルを<dfn>モジュール</dfn>と呼び、ファイル名は「モジュール名＋<code>.py</code>」です。モジュールの中では、モジュール名がグローバル変数 <dfn id="t38">__name__</dfn> に文字列で入っています。</p>
+<p>次の内容の <code>fibo.py</code> を作ります（この教材では、コードの中でファイルを作っています）。この章のコードを「▶ 実行」で試すときは、<mark>このファイルを作るコードから順に</mark>実行してください。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">code</span> <span class="o">=</span> <span class="s1">'''</span><span class="se">\</span>
+<span class="s1">def fib(n):    # n までのフィボナッチ数列を出力</span>
+<span class="s1">    a, b = 0, 1</span>
+<span class="s1">    while a &lt; n:</span>
+<span class="s1">        print(a, end=' ')</span>
+<span class="s1">        a, b = b, a+b</span>
+<span class="s1">    print()</span>
+
+<span class="s1">def fib2(n):   # n までのフィボナッチ数列をリストで返す</span>
+<span class="s1">    result = []</span>
+<span class="s1">    a, b = 0, 1</span>
+<span class="s1">    while a &lt; n:</span>
+<span class="s1">        result.append(a)</span>
+<span class="s1">        a, b = b, a+b</span>
+<span class="s1">    return result</span>
+<span class="s1">'''</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"fibo.py"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">code</span><span class="p">)</span></code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"."</span><span class="p">)</span>    <span class="c1"># この教材の実行環境用の準備</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">fibo</span>                              <span class="c1"># モジュール名 fibo だけが使えるようになる</span>
+<span class="n">fibo</span><span class="o">.</span><span class="n">fib</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fibo</span><span class="o">.</span><span class="n">fib2</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fibo</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">fib</span> <span class="o">=</span> <span class="n">fibo</span><span class="o">.</span><span class="n">fib</span>                           <span class="c1"># よく使うならローカルな名前に</span>
+<span class="n">fib</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 
+[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+fibo
+0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 </code></pre>
+<p><code>import fibo</code> で現在のシンボル表に入るのは、<mark>モジュール名 <code>fibo</code> だけ</mark>です。<code>fib</code> を直接呼ぶことはできず、<code>fibo.fib</code> のように「モジュール名.名前」で使います。</p>
+

@@ -1,0 +1,48 @@
+<h3 id="s4-6"><span class="secno">4.6</span>関数の定義</h3>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>    <span class="c1"># n までのフィボナッチ数列を出力する</span>
+<span class="w">    </span><span class="sd">"""Print a Fibonacci series up to n."""</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+<span class="n">fib</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 </code></pre>
+<ul>
+<li><code>def</code> の後に関数名と、カッコで囲んだ仮引数のリストを書きます。本体はインデントします。</li>
+<li>本体の1行目の文字列リテラルは、<dfn id="t20">docstring</dfn>（ドキュメンテーション文字列）です（→ 4.7.7）。</li>
+<li>関数を実行すると、関数の<dfn id="t21">ローカルシンボル表</dfn>が新しく作られます。変数を参照すると、<mark>ローカル → 外側の関数のローカル → グローバル → 組み込み</mark>の順で探します。</li>
+<li>関数の中から、グローバル変数（や外側の関数の変数）に<mark>直接代入することはできません</mark>（<code>global</code> / <code>nonlocal</code> 文を使えば可能。→ 9.2）。参照はできます。</li>
+<li>引数は、<mark>オブジェクトへの参照の値渡し</mark>で渡されます。渡したリストを関数の中で変更すると、呼び出し側にも変更が見えます。</li>
+</ul>
+<h5><span>関数もオブジェクト、戻り値のない関数は None</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="nb">print</span><span class="p">()</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">fib</span>            <span class="c1"># 関数オブジェクトに別の名前を付ける</span>
+<span class="n">f</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fib</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>      <span class="c1"># return のない関数は None を返す</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>0 1 1 2 3 5 8 13 21 34 55 89 
+
+None</code></pre>
+<p>関数名は、関数オブジェクトを指す名前にすぎません。別の名前に代入すれば、その名前でも呼べます。return文のない関数（手続き）や、式のない <code>return</code> も、<dfn id="t22">None</dfn> を返します。対話モードでは None は表示されませんが、<code>print()</code> すると表示されます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">fib2</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return a list containing the Fibonacci series up to n."""</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>    <span class="c1"># result = result + [a] より効率がよい</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">fib2</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]</code></pre>
+

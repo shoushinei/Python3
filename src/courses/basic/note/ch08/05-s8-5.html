@@ -1,0 +1,45 @@
+<h3 id="s8-5"><span class="secno">8.5</span>例外の連鎖</h3>
+<p>ある例外が原因で別の例外を送出するときは、<mark><code>raise 新しい例外 from 元の例外</code></mark> と書いて、原因を明示できます。</p>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">():</span>
+    <span class="k">raise</span> <span class="ne">ConnectionError</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">func</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">ConnectionError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">'Failed to open database'</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span></code></pre>
+<pre class="out"><code>Traceback (most recent call last):
+  File "t1.py", line 4, in &lt;module&gt;
+    func()
+  File "t1.py", line 2, in func
+    raise ConnectionError
+ConnectionError
+
+<mark>The above exception was the direct cause of the following exception:</mark>
+
+Traceback (most recent call last):
+  File "t1.py", line 6, in &lt;module&gt;
+    raise RuntimeError('Failed to open database') from exc
+RuntimeError: Failed to open database</code></pre>
+<ul>
+<li>from を書かなくても、<mark>except 節や finally 節の中で例外が起きると、自動で連鎖</mark>します。そのときは「During handling of the above exception, another exception occurred:」と表示されます。</li>
+<li><mark><code>from None</code></mark> と書くと、自動の連鎖を<mark>無効</mark>にできます（元の例外は表示されない）。</li>
+<li>連鎖した元の例外は、新しい例外の <code>__cause__</code>（from で明示したとき）や <code>__context__</code>（自動のとき）属性に入ります。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">try</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">open</span><span class="p">(</span><span class="s1">'database.sqlite'</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"unable to handle error"</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__context__</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>    <span class="c1"># 自動で連鎖した元の例外</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">open</span><span class="p">(</span><span class="s1">'database.sqlite'</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+<span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__cause__</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">__suppress_context__</span><span class="p">)</span>   <span class="c1"># from None で連鎖が抑えられる</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>FileNotFoundError
+None True</code></pre>
+

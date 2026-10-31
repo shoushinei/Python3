@@ -1,0 +1,17 @@
+<h3 id="s8-2"><span class="secno">8.2</span>例外</h3>
+<p>文法が正しくても、<mark>実行中に</mark>エラーが起きることがあります。実行中に検出されたエラーを<dfn id="t53">例外</dfn>と呼びます。例外は、処理すれば致命的ではありません。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"10 * (1/0)"</span><span class="p">,</span> <span class="s2">"4 + spam*3"</span><span class="p">,</span> <span class="s2">"'2' + 2"</span><span class="p">]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">eval</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">":"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>ZeroDivisionError: division by zero
+NameError: name &#x27;spam&#x27; is not defined
+TypeError: can only concatenate str (not &quot;int&quot;) to str</code></pre>
+<ul>
+<li>エラーメッセージの最後の行に、<mark>例外の型</mark>（ZeroDivisionError・NameError・TypeError など）と、その詳細が表示されます。</li>
+<li>標準の例外の名前は組み込みの識別子で、<mark>予約語（キーワード）ではありません</mark>。</li>
+<li>メッセージの前の部分は、例外が起きた場所を<dfn id="t54">トレースバック</dfn>（呼び出しの履歴）の形で示します。</li>
+</ul>
+

@@ -1,0 +1,24 @@
+<h3 id="s3-3"><span class="secno">3.3</span>基礎解析 <span class="scope">1問</span></h3>
+<div class="lead">微分と積分の意味、簡単な計算、偏微分を説明します。機械学習の「学習」の仕組みを理解する土台です。</div>
+<h4 id="s3-3-1"><span class="subno">3.3.1</span>微分と積分の意味</h4>
+<div class="cmp">
+<div><b>微分 ＝ 傾き</b>関数のある点での傾き（変化の割合）を求める。</div>
+<div><b>積分 ＝ 面積</b>グラフと x 軸に囲まれた部分の面積を求める。微分の逆の計算。</div>
+</div>
+<p><dfn id="t76">微分</dfn>した関数を <span class="math">f′(x)</span> や <span class="math">df/dx</span> と書きます。<dfn id="t77">積分</dfn>には、範囲を決めない<dfn id="t78">不定積分</dfn>と、範囲を決めた<dfn id="t79">定積分</dfn>があります。</p>
+<h4 id="s3-3-2"><span class="subno">3.3.2</span>簡単な関数の微分と積分</h4>
+<div class="mathblock">微分の公式：(x<sup>n</sup>)′ = n x<sup>n−1</sup>　（定数を微分すると0）</div>
+<div class="mathblock">積分の公式：∫ x<sup>n</sup> dx = <span class="frac"><span>1</span><span>n + 1</span></span> x<sup>n+1</sup> + C　（C は積分定数）</div>
+<ul>
+<li>微分の例：<span class="math">f(x) = 4x³ + 5x</span> のとき <span class="math">f′(x) = 12x² + 5</span></li>
+<li>積分の例：<span class="math">∫ 9x² dx = 9 × x³/3 + C = 3x³ + C</span></li>
+<li>定積分の例：<span class="math">∫<sub>0</sub><sup>2</sup> 3x² dx = [x³]<sub>0</sub><sup>2</sup> = 8 − 0 = 8</span></li>
+</ul>
+<div class="box point"><span class="bh">POINT：検算のコツ</span><p>積分した結果を微分すると、元の関数に戻ります。<span class="math">3x³</span> を微分すると <span class="math">9x²</span> に戻るので、上の積分は正しいと確かめられます。係数の割り算（÷(n+1)）を忘れていないかを、この方法で確認しましょう。</p></div>
+<h4 id="s3-3-3"><span class="subno">3.3.3</span>微分と関数の値</h4>
+<p>グラフが谷の底や山の頂上になる点では、<mark>傾き（微分の値）が0</mark>になります。機械学習では、予測の誤差を関数で表し、<mark>誤差が最小になる点</mark>を探します。そのため、微分して傾きが0になる点を探すことが、学習の基本的な考え方になります。</p>
+<p>例：<span class="math">f(x) = x² − 6x + 10</span> を微分すると <span class="math">f′(x) = 2x − 6</span> です。これが0になる <span class="math">x = 3</span> で、f(x) は最小値 1 をとります。</p>
+<h4 id="s3-3-4"><span class="subno">3.3.4</span>偏微分</h4>
+<p>変数が2つ以上ある関数（多変数関数）で、<mark>1つの変数だけに注目し、ほかの変数を定数とみなして微分する</mark>のが<dfn id="t80">偏微分</dfn>です。記号は <span class="math">∂</span>（ラウンド）を使い、<mark>どの変数で微分したかを明示します</mark>。</p>
+<div class="mathblock">f(x, y) = 2x² + xy のとき　∂f/∂x = 4x + y　　∂f/∂y = x</div>
+

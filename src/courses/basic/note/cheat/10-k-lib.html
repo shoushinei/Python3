@@ -1,0 +1,25 @@
+<h3 id="k-lib">標準ライブラリ（10・11章）</h3>
+<div class="tbl"><table class="drill">
+<tr><th>問い</th><th>答え</th><th>メモ</th></tr>
+<tr><td><code>from os import * を避ける理由</code></td><td class="a">os.open が組み込みの open を隠す</td><td><span class="qreal">本番</span></td></tr>
+<tr><td><code>shutil</code></td><td class="a">ファイル・ディレクトリのコピーや移動</td><td></td></tr>
+<tr><td><code>glob.glob(&#x27;*.py&#x27;)</code></td><td class="a">ワイルドカードに合うファイル名のリスト</td><td></td></tr>
+<tr><td><code>argparse</code></td><td class="a">コマンドライン引数の高度な処理</td><td></td></tr>
+<tr><td><code>sys.stderr / sys.exit()</code></td><td class="a">リダイレクトしても表示される出力 / 終了</td><td></td></tr>
+<tr><td><code>re.findall / re.sub</code></td><td class="a">一致した部分のリスト / 置換</td><td></td></tr>
+<tr><td><code>random.choice / sample / random / randrange</code></td><td class="a">1つ選ぶ / 重複なしで k 個 / 0〜1 の float / range から整数</td><td></td></tr>
+<tr><td><code>statistics</code></td><td class="a">mean・median・variance</td><td></td></tr>
+<tr><td><code>urllib.request / smtplib</code></td><td class="a">URL からデータ取得 / メール送信</td><td></td></tr>
+<tr><td><code>datetime の date</code></td><td class="a">date.today()、日付の差は timedelta</td><td></td></tr>
+<tr><td><code>zlib / gzip / bz2 / lzma / zipfile / tarfile</code></td><td class="a">データ圧縮・アーカイブ</td><td></td></tr>
+<tr><td><code>timeit / profile・pstats</code></td><td class="a">小さなコードの計測 / 大きなコードの分析</td><td></td></tr>
+<tr><td><code>doctest / unittest</code></td><td class="a">docstring のテスト / 別ファイルの包括的なテスト</td><td></td></tr>
+<tr><td><code>reprlib / pprint / textwrap / locale</code></td><td class="a">省略表示 / 見やすく改行 / 幅に合わせて整形 / 地域ごとの書式</td><td></td></tr>
+<tr><td><code>Template.substitute / safe_substitute</code></td><td class="a">値がないと KeyError / そのまま残す</td><td class="trap">$$ は $</td></tr>
+<tr><td><code>struct</code></td><td class="a">pack / unpack でバイナリデータ（H=2バイト、I=4バイト）</td><td></td></tr>
+<tr><td><code>threading / queue</code></td><td class="a">スレッド（start・join）/ スレッド間の受け渡し</td><td></td></tr>
+<tr><td><code>logging の既定</code></td><td class="a">warning 以上を標準エラー出力へ</td><td></td></tr>
+<tr><td><code>weakref.WeakValueDictionary</code></td><td class="a">不要になったオブジェクトは自動で消える</td><td></td></tr>
+<tr><td><code>array / bisect / heapq</code></td><td class="a">コンパクトな数値の配列 / ソート済みリスト / 最小値が位置0</td><td></td></tr>
+<tr><td><code>decimal.Decimal</code></td><td class="a">10進数の正確な計算（金融など）</td><td class="trap">Decimal(&#x27;0.1&#x27;) と文字列で</td></tr>
+</table></div>

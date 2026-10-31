@@ -1,0 +1,28 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q1</span><span class="qreal">本番</span>チュートリアルが <code>from os import *</code> ではなく <code>import os</code> を使うよう勧めている理由はどれか。</p>
+<ol class="opts">
+<li data-k="a">from os import * は、os モジュールの関数を1つもインポートしないから。</li>
+<li data-k="b">os.open() が、動作の大きく異なる組み込み関数 open() を隠してしまうから。</li>
+<li data-k="c">import os の方が、実行速度が2倍以上速くなるから。</li>
+<li data-k="d">from os import * は、Windowsでは SyntaxError になるから。</li>
+</ol><div class="exp" hidden>from os import * をすると os.open が open という名前で入り、組み込みの open() を隠してしまいます。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q2</span>モジュールと機能の組み合わせとして誤っているものはどれか。</p>
+<ol class="opts">
+<li data-k="a">shutil ― ファイルのコピーや移動</li><li data-k="b">glob ― ワイルドカードによるファイル名のリスト</li><li data-k="c">statistics ― 平均・中央値・分散</li><li data-k="d">smtplib ― URL からデータを取得</li>
+</ol><div class="exp" hidden>URL からのデータ取得は urllib.request です。smtplib はメールの送信に使います。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q3</span><code>random.sample(range(10), 3)</code> の説明として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">0〜9 から重複なしで3つを選んだリストを返す。</li>
+<li data-k="b">0〜9 から重複ありで3つを選んだリストを返す。</li>
+<li data-k="c">0〜3 の整数を1つ返す。</li>
+<li data-k="d">0以上10未満の float を3つ返す。</li>
+</ol><div class="exp" hidden>sample は重複なしで k 個を選びます。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q4</span>docstring に書いた使用例を実際に実行して、結果を検証するモジュールはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">unittest</li><li data-k="b" class="code">timeit</li><li data-k="c" class="code">doctest</li><li data-k="d" class="code">pstats</li>
+</ol><div class="exp" hidden>doctest は docstring の中のテストを検証します。unittest は別のファイルで管理する包括的なテストです。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q5</span>標準出力をファイルにリダイレクトしていても、警告メッセージを端末に表示したいときに使うものはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">sys.stdout.write()</li><li data-k="b" class="code">sys.stderr.write()</li><li data-k="c" class="code">sys.exit()</li><li data-k="d" class="code">sys.argv</li>
+</ol><div class="exp" hidden>stderr（標準エラー出力）は、stdout をリダイレクトしていても画面に表示されます。</div></div>
+</div>

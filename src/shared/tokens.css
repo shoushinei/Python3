@@ -1,0 +1,28 @@
+:root{
+  --paper:#f3f6f9; --sheet:#ffffff; --ink:#18212d; --muted:#5b6778; --line:#d9e1ea;
+  --brand:#0b86d6; --brand-ink:#075a9c; --brand-soft:#e5f3fd; --brand-softer:#f2f9fe;
+  --hl:#ffe17a; --code:#f4f7fa; --code-line:#c9d3de; --out:#eaf5fd;
+  --warn:#d9641e; --warn-soft:#fdf0e7; --tip:#16855a; --tip-soft:#e5f5ee; --java:#7b4bb7; --java-soft:#f2ecfa;
+  --ok:#16855a; --ok-soft:#e5f5ee; --ng:#c23b30; --ng-soft:#fbe8e6;
+  --k:#7a3fb0; --s:#16855a; --c:#8a94a6; --n:#c0611b; --b:#075a9c;
+  --f-head:"Zen Maru Gothic","Zen Kaku Gothic New",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-num:"Barlow","Zen Maru Gothic",sans-serif;
+  --f-code:"JetBrains Mono","Zen Kaku Gothic New",ui-monospace,Consolas,monospace;
+  --flag:#d9641e; --flag-soft:#fdf0e7;
+  --bar-h:58px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0e131a; --sheet:#151c25; --ink:#e4e9f0; --muted:#98a3b3; --line:#283342;
+  --brand:#45a8ec; --brand-ink:#8cc8f5; --brand-soft:#132a3e; --brand-softer:#111f2d;
+  --hl:#8a7420; --code:#1a222d; --code-line:#334152; --out:#12263a;
+  --warn:#f0965a; --warn-soft:#2e1d12; --tip:#5cc99b; --tip-soft:#12261d; --java:#b894ea; --java-soft:#221a30;
+  --ok:#5cc99b; --ok-soft:#12261d; --ng:#ef8a80; --ng-soft:#2e1715;
+  --k:#c79bf0; --s:#7fd1a5; --c:#6f7a8c; --n:#eba066; --b:#8cc8f5; --flag:#f0965a; --flag-soft:#2e1d12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0e131a; --sheet:#151c25; --ink:#e4e9f0; --muted:#98a3b3; --line:#283342;
+  --brand:#45a8ec; --brand-ink:#8cc8f5; --brand-soft:#132a3e; --brand-softer:#111f2d;
+  --hl:#8a7420; --code:#1a222d; --code-line:#334152; --out:#12263a;
+  --warn:#f0965a; --warn-soft:#2e1d12; --tip:#5cc99b; --tip-soft:#12261d; --java:#b894ea; --java-soft:#221a30;
+  --ok:#5cc99b; --ok-soft:#12261d; --ng:#ef8a80; --ng-soft:#2e1715;
+  --k:#c79bf0; --s:#7fd1a5; --c:#6f7a8c; --n:#eba066; --b:#8cc8f5; --flag:#f0965a; --flag-soft:#2e1d12; color-scheme:dark}

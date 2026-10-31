@@ -1,0 +1,61 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q1</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>import numpy as np
+a = np.arange(12).reshape(3, 4)
+print(a[1:, 2], a.sum(axis=0).shape)</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">[[6] [10]] (3,)</li>
+<li data-k="b" class="code">[ 6 10] (4,)</li>
+<li data-k="c" class="code">[ 6 10] (3,)</li>
+<li data-k="d" class="code">[4 5 6 7] (4,)</li>
+</ol><div class="exp" hidden>a は [[0 1 2 3] [4 5 6 7] [8 9 10 11]] です。<code>a[1:, 2]</code> は1行目以降の2列目で [6 10] になります。列に整数を1つだけ指定しているので1次元です。(3, 4) を axis=0 で集約すると、axis=0 が消えて (4,) になります。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q2</span><code>np.linspace(0, 10, 5)</code> の結果はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">[0 2 4 6 8]</li>
+<li data-k="b" class="code">[0. 2. 4. 6. 8. 10.]</li>
+<li data-k="c" class="code">[0 5 10]</li>
+<li data-k="d" class="code">[ 0.   2.5  5.   7.5 10. ]</li>
+</ol><div class="exp" hidden>linspace は終点を含めて5個に等分します。間隔は (10−0)/(5−1) = 2.5 です。A は <code>np.arange(0, 10, 2)</code> の結果です。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q3</span>DataFrame <code>df</code>（index は "x","y","z"、columns は "P","Q"）で、"z" 行の "Q" 列の値を取り出す書き方として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">df.loc["z", "Q"] または df.iloc[2, 1]</li>
+<li data-k="b" class="code">df.iloc["z", "Q"] または df.loc[2, 1]</li>
+<li data-k="c" class="code">df.loc["Q", "z"] または df.iloc[1, 2]</li>
+<li data-k="d" class="code">df["z", "Q"]</li>
+</ol><div class="exp" hidden>loc はラベルで「行, 列」、iloc は0始まりの位置で「行, 列」を指定します。z は3行目なので2、Q は2列目なので1です。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q4</span>欠損値を含む DataFrame <code>df</code> の欠損値を、各列の平均値で補完するコードはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">df.fillna(method="mean")</li>
+<li data-k="b" class="code">df.dropna(df.mean())</li>
+<li data-k="c" class="code">df.fillna(df.mean())</li>
+<li data-k="d" class="code">df.ffill(df.mean())</li>
+</ol><div class="exp" hidden>fillna に平均値（列ごとの Series）を値として渡します。method に指定できるのは ffill / bfill だけです。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q5</span>Matplotlib に関する記述として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">描画オブジェクト全体のタイトルは set_title、サブプロットのタイトルは suptitle で付ける。</li>
+<li data-k="b">pie の counterclock=False は、要素を時計回りに配置する指定である。</li>
+<li data-k="c">ヒストグラムは scatter、散布図は hist で描く。</li>
+<li data-k="d">hist で bins=10 とすると、区間の境界の値は10個返される。</li>
+</ol><div class="exp" hidden>全体は suptitle、サブプロットは set_title です。ヒストグラムは hist、散布図は scatter です。bins=10 なら区間は10個、境界は11個です。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q6</span>特徴量の正規化に関する記述として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">StandardScaler は特徴量を平均0、標準偏差1に変換する。</li>
+<li data-k="b">MinMaxScaler は特徴量を平均0、最大値1に変換する。</li>
+<li data-k="c">正規化は、カテゴリ変数を0と1の列に変換する処理である。</li>
+<li data-k="d">正規化は、目的変数の数を減らす処理である。</li>
+</ol><div class="exp" hidden>MinMaxScaler は最小0・最大1に変換します。C は One-hot エンコーディング、D は次元削減の説明に近いですが、次元削減で減らすのは説明変数です。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q7</span>混同行列が TP=40、FP=10、FN=20、TN=30 のとき、適合率と再現率の組み合わせはどれか。</p>
+<ol class="opts">
+<li data-k="a">適合率 0.70、再現率 0.80</li>
+<li data-k="b">適合率 0.67、再現率 0.70</li>
+<li data-k="c">適合率 0.80、再現率 0.70</li>
+<li data-k="d">適合率 0.80、再現率 0.67</li>
+</ol><div class="exp" hidden>適合率 = TP/(TP+FP) = 40/50 = 0.80、再現率 = TP/(TP+FN) = 40/60 ≒ 0.67 です。正解率は (40+30)/100 = 0.70 です。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q8</span>scikit-learn のクラス・関数とモジュールの組み合わせとして誤っているものはどれか。</p>
+<ol class="opts">
+<li data-k="a">PCA ― sklearn.decomposition</li>
+<li data-k="b">KMeans ― sklearn.cluster</li>
+<li data-k="c">train_test_split ― sklearn.preprocessing</li>
+<li data-k="d">MinMaxScaler ― sklearn.preprocessing</li>
+</ol><div class="exp" hidden>train_test_split（と GridSearchCV、cross_val_score）は sklearn.model_selection にあります。</div></div>
+</div>

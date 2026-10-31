@@ -1,0 +1,30 @@
+<h3 id="s9-4"><span class="secno">9.4</span>その他いろいろ</h3>
+<ul>
+<li>インスタンスとクラスの両方に<mark>同じ名前の属性があると、インスタンスの属性が優先</mark>されます。</li>
+<li>データ属性は、メソッドからだけでなく、利用者（クライアント）からも参照できます。Pythonには<mark>データを隠蔽する仕組みはなく</mark>、すべて慣習に頼っています。</li>
+<li>メソッドの中からデータ属性や他のメソッドを参照するときに、省略形はありません。必ず <code>self.</code> を付けます。</li>
+<li>メソッドの第1引数を <code>self</code> と呼ぶのは<mark>慣習にすぎません</mark>（Pythonにとって特別な意味はない）。ただし、守らないと他の人が読みにくくなります。</li>
+<li>クラス属性である関数オブジェクトは、すべてメソッドになります。<mark>クラス定義の外で定義した関数を、クラスの変数に代入</mark>してもかまいません。</li>
+<li>メソッドは <code>self.メソッド名()</code> で他のメソッドを呼べ、グローバルな名前も参照できます。</li>
+<li>すべての値はオブジェクトで、クラス（型）を持っています。クラスは <code>オブジェクト.__class__</code> に入っています。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">f1</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>            <span class="c1"># クラスの外で定義した関数</span>
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="p">:</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">f1</span>                     <span class="c1"># クラス属性に代入するとメソッドになる</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">'hello world'</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">g</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">c</span><span class="o">.</span><span class="n">h</span><span class="p">())</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">D</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">D</span><span class="p">()</span>
+<span class="n">d</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="mi">100</span>                      <span class="c1"># インスタンス属性を作る</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="n">D</span><span class="o">.</span><span class="n">i</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>1 hello world
+100 1 D</code></pre>
+

@@ -1,0 +1,9 @@
+<h3 id="s6-2"><span class="secno">6.2</span>標準モジュール</h3>
+<p>Pythonには標準モジュールのライブラリが付いています（詳しくはライブラリリファレンス）。一部はインタープリタに組み込まれていて、<code>winreg</code> のように特定のOSでしか使えないものもあります。<mark><code>sys</code> モジュールはすべてのインタープリタに組み込まれています</mark>。</p>
+<ul>
+<li><code>sys.ps1</code> と <code>sys.ps2</code> は、一次・二次プロンプトの文字列です。<mark>対話モードのときだけ</mark>定義されています。<code>sys.ps1 = 'C&gt; '</code> とするとプロンプトが変わります。</li>
+<li><code>sys.path</code> は文字列のリストで、普通のリストとして変更できます。</li>
+</ul>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'/ufs/guido/lib/python'</span><span class="p">)</span>   <span class="c1"># 検索パスにディレクトリを追加</span></code></pre>
+

@@ -1,0 +1,542 @@
+<h3 id="s4-2"><span class="secno">4.2</span>pandas <span class="scope">7問</span></h3>
+<div class="lead">表形式のデータを扱う pandas で、データの作成・読み書き・整形・時系列・欠損値・連結・統計量を説明します。</div>
+<h4 id="s4-2-1"><span class="subno">4.2.1</span>pandasの概要</h4>
+<p><dfn>pandas</dfn> は、<mark>NumPyを基盤に</mark>、表形式のデータを扱いやすくしたパッケージです。慣習として <code>pd</code> という名前でimportします。データ型は次の2つです。</p>
+<div class="cmp">
+<div><b>Series（1次元）</b>ラベル（インデックス）付きの1列のデータ。</div>
+<div><b>DataFrame（2次元）</b>行ラベル（index）と列ラベル（columns）を持つ表。各列は Series。</div>
+</div>
+<p><dfn id="t121">Series</dfn> は<mark>1次元</mark>、<dfn id="t122">DataFrame</dfn> は<mark>2次元</mark>のデータ型です。</p>
+<div class="box java"><span class="bh">Javaと比べると</span><ul>
+<li><strong>Series</strong> は、順序を保つ <code>LinkedHashMap&lt;String, Integer&gt;</code> に近いものです（キー＝インデックス）。さらに、0, 1, 2… という位置でも取り出せます。</li>
+<li><strong>DataFrame</strong> は、データベースの<strong>テーブル</strong>や、Excelの1枚のシートのイメージです。Javaなら「列名 → 列データ」の Map を並べたもの、あるいは DTO の List を表にしたものと考えられます。</li>
+</ul></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">s</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">250</span><span class="p">,</span> <span class="mi">80</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">"pen"</span><span class="p">,</span> <span class="s2">"note"</span><span class="p">,</span> <span class="s2">"eraser"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"note"</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>pen       100
+note      250
+eraser     80
+dtype: int64
+250 [&#x27;pen&#x27;, &#x27;note&#x27;, &#x27;eraser&#x27;]</code></pre>
+<h5><span>DataFrameの作成</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">120</span><span class="p">,</span> <span class="s2">"fruit"</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span> <span class="p">[</span><span class="mi">80</span><span class="p">,</span> <span class="s2">"fruit"</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="s2">"drink"</span><span class="p">,</span> <span class="kc">True</span><span class="p">]])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"apple"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">,</span> <span class="s2">"juice"</span><span class="p">]</span>      <span class="c1"># 行ラベル</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"price"</span><span class="p">,</span> <span class="s2">"kind"</span><span class="p">,</span> <span class="s2">"stock"</span><span class="p">]</span>      <span class="c1"># 列ラベル</span>
+<span class="n">df</span></code></pre>
+<span class="outlbl">Out</span>
+<div class="dfout"><table class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th>price</th>
+      <th>kind</th>
+      <th>stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>apple</th>
+      <td>120</td>
+      <td>fruit</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>orange</th>
+      <td>80</td>
+      <td>fruit</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>juice</th>
+      <td>300</td>
+      <td>drink</td>
+      <td>True</td>
+    </tr>
+  </tbody>
+</table></div>
+<p>辞書から作ることもできます。キーが列名になります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"name"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"Ann"</span><span class="p">,</span> <span class="s2">"Bob"</span><span class="p">,</span> <span class="s2">"Cid"</span><span class="p">,</span> <span class="s2">"Dan"</span><span class="p">],</span> <span class="s2">"age"</span><span class="p">:</span> <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">41</span><span class="p">,</span> <span class="mi">23</span><span class="p">]})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>       <span class="c1"># 先頭3行（末尾は tail）</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>(4, 2)</code></pre>
+<div class="dfout"><table class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th>name</th>
+      <th>age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Ann</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Bob</td>
+      <td>35</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Cid</td>
+      <td>41</td>
+    </tr>
+  </tbody>
+</table></div>
+<h5><span>行と列の取り出し：loc と iloc</span></h5>
+<div class="cmp">
+<div><b><code>df.loc[行ラベル, 列ラベル]</code></b>index・columns の<mark>名前（ラベル）</mark>で指定する。</div>
+<div><b><code>df.iloc[行番号, 列番号]</code></b>0から始まる<mark>位置（整数）</mark>で指定する。i は integer の i。</div>
+</div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">120</span><span class="p">,</span> <span class="s2">"fruit"</span><span class="p">],</span> <span class="p">[</span><span class="mi">80</span><span class="p">,</span> <span class="s2">"fruit"</span><span class="p">],</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="s2">"drink"</span><span class="p">]],</span>
+                  <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">"apple"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">,</span> <span class="s2">"juice"</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"price"</span><span class="p">,</span> <span class="s2">"kind"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">"juice"</span><span class="p">,</span> <span class="s2">"price"</span><span class="p">])</span>          <span class="c1"># ラベルで指定</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>                     <span class="c1"># 位置で指定（3行目＝2、1列目＝0）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>              <span class="c1"># 列名で1列を取り出す</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">"apple"</span><span class="p">:</span><span class="s2">"orange"</span><span class="p">,</span> <span class="s2">"price"</span><span class="p">])</span> <span class="c1"># loc のスライスは終わりを「含む」</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>                   <span class="c1"># iloc のスライスは終わりを含まない</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>300
+300
+[120, 80, 300]
+apple     120
+orange     80
+Name: price, dtype: int64
+apple     fruit
+orange    fruit
+Name: kind, dtype: object</code></pre>
+<p><dfn id="t123">loc</dfn> はラベル、<dfn id="t124">iloc</dfn> は位置で指定します。</p>
+<div class="dg">
+<div class="col"><div class="g" style="--c:3"><span class="l"></span><span class="l">"price"<br></span><span class="l">"kind"</span><span class="l">"apple"</span><span>120</span><span>fruit</span><span class="l">"orange"</span><span>80</span><span>fruit</span><span class="l">"juice"</span><span class="h">300</span><span>drink</span></div>
+<div class="cap"><b>loc["juice", "price"]</b><br>ラベル（名前）で指定</div></div>
+<div class="col"><div class="g" style="--c:3"><span class="l"></span><span class="l">0</span><span class="l">1</span><span class="l">0</span><span>120</span><span>fruit</span><span class="l">1</span><span>80</span><span>fruit</span><span class="l">2</span><span class="h">300</span><span>drink</span></div>
+<div class="cap"><b>iloc[2, 0]</b><br>位置（0から数える番号）で指定</div></div>
+</div>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>iloc の i ＝ integer（整数の位置）</strong>、<strong>loc ＝ location（ラベルで場所を指す）</strong>。どちらも順番は<mark>「行, 列」</mark>で、表を左上から読む順と同じです。</p></div>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>loc</code> は <code>map.get("juice")</code> のようにキーで取り出すイメージ、<code>iloc</code> は <code>list.get(2)</code> のように番号で取り出すイメージです。</p></div>
+<ul>
+<li>どちらも<mark>「行, 列」の順</mark>で指定します。</li>
+<li><mark>loc のスライスは終わりのラベルを含みます</mark>。iloc のスライスは、Pythonのリストと同じく終わりを含みません。</li>
+<li>iloc に文字列を渡したり、範囲外の番号を指定したりするとエラーになります。<code>df["列名"]</code> は列の取り出しで、行と列を同時には指定できません。</li>
+</ul>
+<h5><span>DataFrameとNumPy配列の変換</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"A"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">"B"</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">])</span>
+<span class="n">arr</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span>          <span class="c1"># df.to_numpy() でも同じ</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>               <span class="c1"># インデックス名・カラム名は失われる</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&lt;class &#x27;numpy.ndarray&#x27;&gt;
+[[1 3]
+ [2 4]]</code></pre>
+<p><mark><code>values</code> 属性</mark>（または <code>to_numpy()</code>）で NumPy 配列に変換できます。<mark>インデックス名とカラム名は保持されません</mark>。</p>
+
+<h4 id="s4-2-2"><span class="subno">4.2.2</span>データの読み込み・書き込み</h4>
+<div class="tbl"><table>
+<tr><th>形式</th><th>読み込み</th><th>書き込み</th><th>補足</th></tr>
+<tr><td>CSV</td><td><mark><code>pd.read_csv()</code></mark></td><td><mark><code>df.to_csv()</code></mark></td><td>最もよく使う</td></tr>
+<tr><td>Excel</td><td><mark><code>pd.read_excel()</code></mark></td><td><mark><code>df.to_excel()</code></mark></td><td>openpyxl などが必要</td></tr>
+<tr><td>HTML</td><td><mark><code>pd.read_html()</code></mark></td><td><mark><code>df.to_html()</code></mark></td><td>Webページの table 要素を読み込み、<mark>DataFrameのリスト</mark>を返す</td></tr>
+<tr><td>pickle</td><td><code>pd.read_pickle()</code></td><td><code>df.to_pickle()</code></td><td>DataFrameを直列化してそのまま保存する</td></tr>
+</table></div>
+<p>DataFrameをバイナリのまま保存して再利用したいときは、<mark>pickle</mark>（<code>to_pickle</code> / <code>read_pickle</code>、または標準ライブラリの <code>pickle</code> モジュール）を使います。</p>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>読み込みは <code>pd.read_形式()</code></strong>：まだ DataFrame がないので、pandas（pd）の<strong>関数</strong>で読む。<br><strong>書き込みは <code>df.to_形式()</code></strong>：すでにある DataFrame の<strong>メソッド</strong>で「〜へ（to）」書き出す。<br>形式の部分は csv / excel / html / pickle の4つをそろえて覚えましょう。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"city"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"Sapporo"</span><span class="p">,</span> <span class="s2">"Fukuoka"</span><span class="p">],</span> <span class="s2">"temp"</span><span class="p">:</span> <span class="p">[</span><span class="mf">9.2</span><span class="p">,</span> <span class="mf">17.3</span><span class="p">]})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"city.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>       <span class="c1"># index=False で行番号を書き出さない</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"city.csv"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"city.csv"</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>city,temp
+Sapporo,9.2
+Fukuoka,17.3
+
+      city  temp
+0  Sapporo   9.2
+1  Fukuoka  17.3</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"city"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"Sapporo"</span><span class="p">,</span> <span class="s2">"Fukuoka"</span><span class="p">],</span> <span class="s2">"temp"</span><span class="p">:</span> <span class="p">[</span><span class="mf">9.2</span><span class="p">,</span> <span class="mf">17.3</span><span class="p">]})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="s2">"city.xlsx"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="s2">"city.xlsx"</span><span class="p">))</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="s2">"city.pkl"</span><span class="p">)</span>                 <span class="c1"># 直列化して保存</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">(</span><span class="s2">"city.pkl"</span><span class="p">)</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span><span class="n">df</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>      city  temp
+0  Sapporo   9.2
+1  Fukuoka  17.3
+True</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">io</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringIO</span>
+
+<span class="n">html</span> <span class="o">=</span> <span class="s2">"""&lt;table&gt;</span>
+<span class="s2">&lt;tr&gt;&lt;th&gt;team&lt;/th&gt;&lt;th&gt;win&lt;/th&gt;&lt;/tr&gt;</span>
+<span class="s2">&lt;tr&gt;&lt;td&gt;Red&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="s2">&lt;tr&gt;&lt;td&gt;Blue&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="s2">&lt;/table&gt;"""</span>
+<span class="n">tables</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_html</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">html</span><span class="p">))</span>    <span class="c1"># URLを渡すとWebページから読める</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">tables</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">tables</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tables</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&lt;class &#x27;list&#x27;&gt; 1
+   team  win
+0   Red    8
+1  Blue    5</code></pre>
+
+<h4 id="s4-2-3"><span class="subno">4.2.3</span>データの整形</h4>
+<h5><span>条件による抽出</span></h5>
+<p>比較の結果は True / False の Series になります。これを <code>df[...]</code> に渡すと、<mark>True の行だけが抽出</mark>されます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"price"</span><span class="p">:</span> <span class="p">[</span><span class="mi">120</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">150</span><span class="p">],</span> <span class="s2">"kind"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"fruit"</span><span class="p">,</span> <span class="s2">"fruit"</span><span class="p">,</span> <span class="s2">"drink"</span><span class="p">,</span> <span class="s2">"drink"</span><span class="p">]},</span>
+                  <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">"apple"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">,</span> <span class="s2">"juice"</span><span class="p">,</span> <span class="s2">"tea"</span><span class="p">])</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"kind"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"drink"</span><span class="p">)])</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>apple      True
+orange    False
+juice      True
+tea        True
+Name: price, dtype: bool
+       price   kind
+apple    120  fruit
+juice    300  drink
+tea      150  drink
+       price   kind
+juice    300  drink
+tea      150  drink</code></pre>
+<p>複数の条件は、<code>and</code>・<code>or</code> ではなく <mark><code>&amp;</code>（かつ）・<code>|</code>（または）</mark>でつなぎ、<mark>各条件をカッコで囲みます</mark>。</p>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>df[df["price"] &gt; 100]</code> は、<code>list.stream().filter(x -&gt; x.getPrice() &gt; 100)</code> と同じ「条件に合う行だけ残す」処理です。条件をつなぐ <code>&amp;</code>・<code>|</code> は、Javaの <code>&amp;&amp;</code>・<code>||</code> ではなくビット演算子の形なので、演算子の優先順位の都合で各条件をカッコで囲みます。</p></div>
+<h5><span>列の追加・更新と apply</span></h5>
+<p>新しい列名に代入すると列が追加され、既存の列名なら値が更新されます。<mark><code>apply(関数)</code></mark> を使うと、Series の各要素に関数を適用した結果を得られます。</p>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>apply(rank)</code> は、<code>stream().map(this::rank)</code> と同じく「各要素を関数に通して、結果を並べる」処理です。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"score"</span><span class="p">:</span> <span class="p">[</span><span class="mi">88</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">71</span><span class="p">]},</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">"s1"</span><span class="p">,</span> <span class="s2">"s2"</span><span class="p">,</span> <span class="s2">"s3"</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rank</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">80</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"A"</span>
+    <span class="k">elif</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">60</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">"B"</span>
+    <span class="k">return</span> <span class="s2">"C"</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">"bonus"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"score"</span><span class="p">]</span> <span class="o">+</span> <span class="mi">5</span>             <span class="c1"># 列の追加（ブロードキャスト）</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">"rank"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"bonus"</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">rank</span><span class="p">)</span>      <span class="c1"># 各要素に関数を適用</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">top</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">"bonus"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">60</span><span class="p">]</span>                <span class="c1"># 条件で抽出</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>                     <span class="c1"># 抽出後の位置で指定</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>    score  bonus rank
+s1     88     93    A
+s2     52     57    C
+s3     71     76    B
+    score  bonus rank
+s1     88     93    A
+s3     71     76    B
+B</code></pre>
+<div class="box warn"><span class="bh">注意：抽出すると位置が詰め直される</span><p>条件で抽出した後の DataFrame では、iloc の位置は<mark>残った行だけで0から数え直されます</mark>。上の例では s2 が除かれたので、<code>top.iloc[1]</code> は元の3行目（s3）です。一方、loc のラベルは元のまま変わりません。</p></div>
+<h5><span>並べ替えとグループ化</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"shop"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"A"</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">,</span> <span class="s2">"A"</span><span class="p">,</span> <span class="s2">"B"</span><span class="p">,</span> <span class="s2">"A"</span><span class="p">],</span> <span class="s2">"sales"</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">]})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"sales"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>   <span class="c1"># 降順に並べ替え</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"shop"</span><span class="p">)[</span><span class="s2">"sales"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>                   <span class="c1"># グループごとの合計</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>  shop  sales
+4    A     50
+3    B     40
+2    A     30
+shop
+A    90
+B    60
+Name: sales, dtype: int64</code></pre>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>groupby("shop")["sales"].sum()</code> は、SQLの <code>SELECT shop, SUM(sales) FROM df GROUP BY shop</code>、Javaの <code>Collectors.groupingBy(..., Collectors.summingInt(...))</code> と同じ集計です。<code>sort_values</code> は <code>ORDER BY</code> にあたります。</p></div>
+
+<h4 id="s4-2-4"><span class="subno">4.2.4</span>時系列データ</h4>
+<p><mark><code>pd.date_range()</code></mark> で、日付が並んだインデックス（DatetimeIndex）を作れます。開始日 <code>start</code> に加えて、<mark>個数 <code>periods</code> か、終了日 <code>end</code></mark> のどちらかを指定します。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">d1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s2">"2025-01-01"</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>       <span class="c1"># 開始日から90日分</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s2">"2025-01-01"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">"2025-03-31"</span><span class="p">)</span> <span class="c1"># 開始日〜終了日</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d1</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">d1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">d1</span> <span class="o">==</span> <span class="n">d2</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">())</span>                                  <span class="c1"># 同じ日付が並ぶ</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">"2025-01-01"</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"W-SUN"</span><span class="p">))</span>   <span class="c1"># 毎週日曜日</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>2025-01-01 00:00:00 2025-03-31 00:00:00 90
+True
+DatetimeIndex([&#x27;2025-01-05&#x27;, &#x27;2025-01-12&#x27;, &#x27;2025-01-19&#x27;], dtype=&#x27;datetime64[ns]&#x27;, freq=&#x27;W-SUN&#x27;)</code></pre>
+<p><code>freq</code> で間隔を指定します。<code>"D"</code>（毎日、既定）、<code>"W-SUN"</code>（日曜日で終わる週）、<code>"ME"</code>（月末）、<code>"h"</code>（毎時）などがあります。</p>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>D ＝ Day、W ＝ Week、ME ＝ Month End、h ＝ hour</strong>。<code>"W-SAT"</code> は「<strong>W</strong>eek ending on <strong>SAT</strong>urday（土曜で終わる週）」と読みます。インデックスに付く日付は、その週の<mark>最後の日</mark>（土曜日）です。</p></div>
+<p>日付をインデックスに持つDataFrameは、<mark><code>groupby(pd.Grouper(freq=...))</code></mark> や <mark><code>resample(...)</code></mark> で、週ごと・月ごとに集計できます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>                                      <span class="c1"># 再現性のためにシードを固定</span>
+<span class="n">dates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s2">"2025-01-01"</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"visitors"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"visitors"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s2">"visitors"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>      <span class="c1"># 0〜99（100は含まない）</span>
+<span class="n">week</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">Grouper</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s2">"W-SUN"</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>      <span class="c1"># 日曜日で区切った週ごとの合計</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">week</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">month</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"ME"</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>                        <span class="c1"># 月ごとの合計</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">month</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>0 99
+            visitors
+2025-01-05       289
+2025-01-12       394
+2025-01-19       395
+            visitors
+2025-01-31      1762
+2025-02-28      1146
+2025-03-31      1397</code></pre>
+<ul>
+<li><code>"W-SUN"</code> は<mark>日曜日で終わる週</mark>です。各行のインデックスはその週の日曜日の日付で、値は月曜日〜日曜日の合計です。2025-01-01 は水曜日なので、最初の行は水〜日の5日分だけの合計になります。</li>
+<li><code>"W-SAT"</code> なら土曜日で終わる週（日曜日〜土曜日）です。月ごとに集計すると、行数は含まれる月の数になります（上の例は1〜3月の3行）。</li>
+</ul>
+<p class="vnote">月末を表す freq は、pandas 2.2 から <code>"ME"</code> と書くようになりました。古い資料のように <code>"M"</code> と書いても同じ結果になりますが、警告が表示されます。</p>
+
+<h4 id="s4-2-5"><span class="subno">4.2.5</span>欠損値処理</h4>
+<p>欠けている値（<dfn id="t125">欠損値</dfn>）は、NumPy の <code>np.nan</code> で表され、<code>NaN</code> と表示されます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"A"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+                   <span class="s2">"B"</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span>
+                   <span class="s2">"C"</span><span class="p">:</span> <span class="p">[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">]})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>    <span class="c1"># 列ごとの欠損値の数</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">())</span>          <span class="c1"># 欠損値を含む「行」を削除</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>    <span class="c1"># 欠損値を含む「列」を削除</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>A    1
+B    1
+C    0
+dtype: int64
+     A     B   C
+0  1.0   6.0  11
+2  3.0   8.0  13
+4  5.0  10.0  15
+    C
+0  11
+1  12
+2  13
+3  14
+4  15</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"A"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+                   <span class="s2">"B"</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="mi">10</span><span class="p">]})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>             <span class="c1"># 0 で補完</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">ffill</span><span class="p">())</span>               <span class="c1"># 1つ前（上）の値で補完</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">bfill</span><span class="p">())</span>               <span class="c1"># 1つ後（下）の値で補完</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>     <span class="c1"># 列ごとの平均値で補完（中央値なら df.median()）</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>     A     B
+0  1.0   6.0
+1  0.0   7.0
+2  3.0   8.0
+3  4.0   0.0
+4  5.0  10.0
+     A     B
+0  1.0   6.0
+1  1.0   7.0
+2  3.0   8.0
+3  4.0   8.0
+4  5.0  10.0
+     A     B
+0  1.0   6.0
+1  3.0   7.0
+2  3.0   8.0
+3  4.0  10.0
+4  5.0  10.0
+      A      B
+0  1.00   6.00
+1  3.25   7.00
+2  3.00   8.00
+3  4.00   7.75
+4  5.00  10.00</code></pre>
+<ul>
+<li>削除は <mark><dfn id="t126">dropna</dfn></mark>、補完は <mark><dfn id="t127">fillna</dfn></mark> です。</li>
+<li>前の値で埋めるのが <dfn id="t128">ffill</dfn>（forward fill）、後ろの値で埋めるのが <dfn id="t129">bfill</dfn>（backward fill）です。古い書き方では <code>fillna(method='ffill')</code>、<code>fillna(method='bfill')</code> と書きます。</li>
+<li><mark><code>method</code> に指定できるのは <code>'ffill'</code> と <code>'bfill'</code>（別名の pad / backfill を含む）だけ</mark>です。平均値や中央値で埋めたいときは、<code>fillna(df.mean())</code> や <code>fillna(df.median())</code> のように<mark>値として渡します</mark>。</li>
+</ul>
+<div class="dg">
+<div class="col"><div class="g" style="--c:1"><span>1</span><span class="r">NaN</span><span>3</span><span class="r">NaN</span><span>5</span></div><div class="cap">元のデータ</div></div>
+<div class="col"><div class="g" style="--c:1"><span>1</span><span class="h">1 ↓</span><span>3</span><span class="h">3 ↓</span><span>5</span></div><div class="cap"><b>ffill</b><br>上（前）の値を<br>下へ流す</div></div>
+<div class="col"><div class="g" style="--c:1"><span>1</span><span class="y">3 ↑</span><span>3</span><span class="y">5 ↑</span><span>5</span></div><div class="cap"><b>bfill</b><br>下（後ろ）の値を<br>上へ戻す</div></div>
+<div class="col"><div class="g" style="--c:1"><span>1</span><span class="gr">0</span><span>3</span><span class="gr">0</span><span>5</span></div><div class="cap"><b>fillna(0)</b><br>指定した値で埋める</div></div>
+<div class="col"><div class="g" style="--c:1"><span>1</span><span class="n">（削除）</span><span>3</span><span class="n">（削除）</span><span>5</span></div><div class="cap"><b>dropna()</b><br>NaN のある行を<br>削除</div></div>
+</div>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>ffill ＝ forward fill（前の値で埋める）</strong>、<strong>bfill ＝ backward fill（後ろの値で埋める）</strong>。<strong>na ＝ Not Available（欠損）</strong>なので、<strong>dropna ＝ 欠損を落とす</strong>、<strong>fillna ＝ 欠損を埋める</strong>、<strong>isnull ＝ 欠損かどうか調べる</strong>です。</p></div>
+<p class="vnote">pandas 2.1 以降、<code>fillna(method=...)</code> は非推奨になり、<code>ffill()</code>・<code>bfill()</code> を使うようになりました。古い書き方で書かれた資料もあるので、両方の書き方を覚えておきましょう。</p>
+
+<h4 id="s4-2-6"><span class="subno">4.2.6</span>データ連結</h4>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"A"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">"B"</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]})</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"A"</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="s2">"B"</span><span class="p">:</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">]))</span>                    <span class="c1"># axis=0（既定）：行方向に連結（縦に積む）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="c1"># インデックスを振り直す</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df1</span><span class="p">,</span> <span class="n">df2</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>            <span class="c1"># axis=1：列方向に連結（横に並べる）</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>   A  B
+0  1  3
+1  2  4
+0  5  7
+1  6  8
+   A  B
+0  1  3
+1  2  4
+2  5  7
+3  6  8
+   A  B  A  B
+0  1  3  5  7
+1  2  4  6  8</code></pre>
+<ul>
+<li><dfn id="t130">concat</dfn> の <mark><code>axis=0</code> は行方向（縦に積む）、<code>axis=1</code> は列方向（横に並べる）</mark>の連結です。NumPy と同じ考え方です。</li>
+<li>列名やインデックスがそろわない部分は <code>NaN</code> で埋まります。列の並び順が変わることもあるので、元の順序が必ず保たれるとは限りません。</li>
+<li>キーとなる列の値で結合するには <dfn id="t131">merge</dfn> を使います（<code>pd.merge(df1, df2, on="キー列")</code>）。SQL の JOIN と同じ考え方です。</li>
+</ul>
+<div class="dg">
+<div class="col"><div class="g" style="--c:2"><span class="h">A</span><span class="h">B</span><span class="h">1</span><span class="h">3</span><span class="h">2</span><span class="h">4</span><span class="y">5</span><span class="y">7</span><span class="y">6</span><span class="y">8</span></div><div class="cap"><b>concat(axis=0)</b><br>行方向（縦に積む）<br>SQLの UNION ALL に近い</div></div>
+<div class="col"><div class="g" style="--c:4"><span class="h">A</span><span class="h">B</span><span class="y">A</span><span class="y">B</span><span class="h">1</span><span class="h">3</span><span class="y">5</span><span class="y">7</span><span class="h">2</span><span class="h">4</span><span class="y">6</span><span class="y">8</span></div><div class="cap"><b>concat(axis=1)</b><br>列方向（横に並べる）</div></div>
+</div>
+<div class="box memo"><span class="bh">覚え方</span><p>NumPy と同じく、<strong>axis=0 は「行（0番目の次元）が増える」、axis=1 は「列（1番目の次元）が増える」</strong>。迷ったら、<code>df.shape</code> の (行数, 列数) のどちらが増えるかを考えます。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"A"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="s2">"B"</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]})</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"B"</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="s2">"C"</span><span class="p">:</span> <span class="p">[</span><span class="mi">6</span><span class="p">]})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]))</span>            <span class="c1"># 列がそろわない部分は NaN</span>
+<span class="n">users</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"id"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">"name"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"Ann"</span><span class="p">,</span> <span class="s2">"Bob"</span><span class="p">,</span> <span class="s2">"Cid"</span><span class="p">]})</span>
+<span class="n">orders</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"id"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s2">"item"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"pen"</span><span class="p">,</span> <span class="s2">"ink"</span><span class="p">,</span> <span class="s2">"cup"</span><span class="p">]})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">users</span><span class="p">,</span> <span class="n">orders</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">"id"</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>     A  B    C
+0  1.0  3  NaN
+1  2.0  4  NaN
+0  NaN  5  6.0
+   id name item
+0   1  Ann  pen
+1   1  Ann  ink
+2   3  Cid  cup</code></pre>
+
+<h4 id="s4-2-7"><span class="subno">4.2.7</span>統計データの扱い</h4>
+<div class="tbl"><table>
+<tr><th>メソッド</th><th>取得できるもの</th></tr>
+<tr><td><code>count()</code></td><td>件数（欠損値を除く）</td></tr>
+<tr><td><code>mean()</code> / <code>median()</code> / <code>mode()</code></td><td>平均値 / 中央値 / 最頻値</td></tr>
+<tr><td><code>var()</code></td><td><mark>分散</mark></td></tr>
+<tr><td><code>std()</code></td><td><mark>標準偏差</mark></td></tr>
+<tr><td><code>max()</code> / <code>min()</code></td><td>最大値 / 最小値</td></tr>
+<tr><td><mark><code>describe()</code></mark></td><td>件数・平均・標準偏差・最小・四分位数・最大を<mark>まとめて</mark>表示</td></tr>
+<tr><td><mark><code>corr()</code></mark></td><td>列同士の<mark>相関係数</mark>（相関行列）</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s2">"y"</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s2">"z"</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]})</span>
+<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<div class="dfout"><table class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>3.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.581139</td>
+      <td>1.224745</td>
+      <td>1.581139</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>1.000000</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>2.000000</td>
+      <td>4.000000</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>3.000000</td>
+      <td>4.000000</td>
+      <td>3.000000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>4.000000</td>
+      <td>5.000000</td>
+      <td>4.000000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>5.000000</td>
+      <td>5.000000</td>
+      <td>5.000000</td>
+    </tr>
+  </tbody>
+</table></div>
+<p><dfn id="t132">describe</dfn> は基本統計量をまとめて返し、<dfn id="t133">corr</dfn> は相関係数を返します。</p>
+<div class="box memo"><span class="bh">覚え方</span><p><strong>std ＝ STandard Deviation（標準偏差）</strong>、<strong>var ＝ VARiance（分散）</strong>、<strong>corr ＝ CORRelation（相関）</strong>、<strong>describe ＝ 記述する（データの様子をまとめて説明する）</strong>。std と var の取り違えは定番なので、「std は standard の略」と英語で覚えておくと確実です。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s2">"y"</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s2">"z"</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">(),</span> <span class="n">df</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">())</span>   <span class="c1"># 標準偏差と分散</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">())</span>                     <span class="c1"># 相関係数（−1〜1）</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[4, 5] 4.0 5
+1.224744871391589 1.5
+          x         y         z
+x  1.000000  0.774597 -1.000000
+y  0.774597  1.000000 -0.774597
+z -1.000000 -0.774597  1.000000</code></pre>
+<p>pandas の <code>std()</code>・<code>var()</code> は、既定で<mark>「個数」ではなく「個数−1」で割る</mark>計算（<span class="gl" tabindex="0" data-g="不偏分散">不偏分散</span>）をします。そのため、「個数」で割る NumPy の <code>np.std()</code> とは値が少し違います。</p>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>Series は1次元、DataFrame は2次元。loc はラベル、iloc は位置。values で NumPy 配列に変換すると、ラベルはなくなる。</li>
+<li>読み書きは read_xxx / to_xxx（csv・excel・html・pickle）。</li>
+<li>欠損値の削除は dropna、補完は fillna（ffill・bfill・値を渡す）。</li>
+<li>concat の axis=0 は行方向、axis=1 は列方向。std は標準偏差、var は分散、corr は相関係数。</li>
+</ul></div>
+
+<!-- ================================================================ Matplotlib -->

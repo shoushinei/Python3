@@ -1,0 +1,14 @@
+{
+  "name": "python3-engineer-note",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Python 3 エンジニア認定試験 対策ノート ── 基礎試験とデータ分析試験の教材と模擬試験",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "check": "node build.mjs --check",
+    "serve": "node build.mjs && node --run serve:only",
+    "serve:only": "python -m http.server 8080 --directory docs"
+  },
+  "engines": { "node": ">=18" }
+}

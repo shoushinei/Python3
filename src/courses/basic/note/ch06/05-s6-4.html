@@ -1,0 +1,74 @@
+<h3 id="s6-4"><span class="secno">6.4</span>パッケージ</h3>
+<p><dfn id="t42">パッケージ</dfn>は、<code>A.B</code> のような「ドット付きのモジュール名」でモジュールを整理する仕組みです。<code>A.B</code> は、パッケージ <code>A</code> のサブモジュール <code>B</code> を表します。</p>
+<pre class="pynr"><code>sound/                          トップレベルのパッケージ
+      __init__.py               sound パッケージを初期化する
+      formats/                  ファイル形式の変換用サブパッケージ
+              __init__.py
+              wavread.py
+              ...
+      effects/                  音響効果用サブパッケージ
+              __init__.py
+              echo.py
+              surround.py
+              ...
+      filters/                  フィルタ用サブパッケージ
+              __init__.py
+              equalizer.py
+              ...</code></pre>
+<p><mark><dfn id="t43">__init__.py</dfn> は、ディレクトリをパッケージとして扱わせるために必要</mark>なファイルです。中身は空でもよく、パッケージの初期化コードを書いたり、<code>__all__</code> を設定したりもできます。</p>
+<div class="tbl"><table>
+<tr><th>import の書き方</th><th>使い方</th></tr>
+<tr><td><code>import sound.effects.echo</code></td><td><code>sound.effects.echo.echofilter(…)</code>（<mark>フルネームで参照</mark>）</td></tr>
+<tr><td><code>from sound.effects import echo</code></td><td><code>echo.echofilter(…)</code></td></tr>
+<tr><td><code>from sound.effects.echo import echofilter</code></td><td><code>echofilter(…)</code></td></tr>
+</table></div>
+<ul>
+<li><code>from package import item</code> の item は、サブモジュール・サブパッケージ・パッケージ内で定義された関数やクラスなど、どれでもかまいません。まずパッケージ内で定義された名前か調べ、なければモジュールとみなして読み込みます。見つからなければ <code>ImportError</code> です。</li>
+<li><code>import item.subitem.subsubitem</code> の形では、<mark>最後以外はすべてパッケージ</mark>でなければなりません。最後はモジュールかパッケージで、<mark>クラス・関数・変数は指定できません</mark>。</li>
+</ul>
+<h4 id="s6-4-1"><span class="subno">6.4.1</span>パッケージから * をインポート</h4>
+<p><code>from sound.effects import *</code> としたとき、</p>
+<ul>
+<li>パッケージの <code>__init__.py</code> に <mark><dfn id="t44">__all__</dfn> というリストが定義されていれば、そこに書かれたモジュール名がインポート</mark>されます。</li>
+<li><code>__all__</code> がなければ、<mark>サブモジュールは自動ではインポートされません</mark>。インポートされるのは、パッケージ自体（<code>__init__.py</code> を実行）と、そこで定義された名前だけです。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"."</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">"sound/effects"</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">open</span><span class="p">(</span><span class="s2">"sound/__init__.py"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"sound/effects/__init__.py"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'__all__ = ["echo"]</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>            <span class="c1"># * のときは echo だけ</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"sound/effects/echo.py"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'def echofilter(): return "echo!"</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"sound/effects/surround.py"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'def surround(): return "surround!"</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sound.effects</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">echo</span><span class="o">.</span><span class="n">echofilter</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"surround"</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">())</span>                     <span class="c1"># __all__ にないので入らない</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>echo!
+False</code></pre>
+<p>チュートリアルは、<mark><code>from package import 特定のサブモジュール</code></mark> と書くのが推奨の書き方だとしています。</p>
+<h4 id="s6-4-2"><span class="subno">6.4.2</span>パッケージ内の相互参照</h4>
+<ul>
+<li>絶対インポート：<code>from sound.effects import echo</code></li>
+<li><dfn id="t45">相対インポート</dfn>：先頭のドットで、現在のパッケージと親パッケージを表します。</li>
+</ul>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="c1"># sound/effects/surround.py の中で</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.</span><span class="w"> </span><span class="kn">import</span> <span class="n">echo</span>                  <span class="c1"># 同じパッケージ（effects）の echo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..</span><span class="w"> </span><span class="kn">import</span> <span class="n">formats</span>              <span class="c1"># 親パッケージ（sound）の formats</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">equalizer</span>     <span class="c1"># 親パッケージの filters の中の equalizer</span></code></pre>
+<p>相対インポートは、現在のモジュール名をもとに解決されます。メインモジュールの名前は常に <code>"__main__"</code> なので、<mark>メインモジュールとして使うモジュールでは、必ず絶対インポートを使います</mark>。</p>
+<h4 id="s6-4-3"><span class="subno">6.4.3</span>複数のディレクトリにまたがるパッケージ</h4>
+<p>パッケージには <code>__path__</code> という特別な属性があります。<code>__init__.py</code> のあるディレクトリ名を入れたリストで、これを変更すると、パッケージに含まれるモジュールやサブパッケージを探す場所を広げられます。めったに使いません。</p>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>import fibo なら fibo.fib、from fibo import fib なら fib（fibo は使えない）。from … import * は _ で始まる名前以外を全部。as で別名。</li>
+<li>from の後ろはモジュール（パッケージ）名、import の後ろはその中の名前。date は datetime モジュールの中。</li>
+<li>モジュールは1セッション1回だけ読み込まれる（reload は importlib.reload）。スクリプト実行時は __name__ == "__main__"。</li>
+<li>検索順：組み込みモジュール → sys.path（スクリプトのディレクトリ → PYTHONPATH → デフォルト）。</li>
+<li>__pycache__ に .pyc。-O は assert を除去、-OO は assert と docstring を除去。実行は速くならない。</li>
+<li>dir() は並べ替えたリスト。引数なしは現在の名前（組み込みは含まない → dir(builtins)）。</li>
+<li>__init__.py でパッケージに。* は __all__ のモジュールだけ。相対インポートは . と ..、メインモジュールでは使えない。</li>
+</ul></div>
+
+<div class="quizzes">

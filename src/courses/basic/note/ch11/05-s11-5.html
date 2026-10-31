@@ -1,0 +1,18 @@
+<h3 id="s11-5"><span class="secno">11.5</span>ログ取り</h3>
+<p><dfn id="t93">logging</dfn> モジュールは、柔軟なログ出力の仕組みです。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'Debugging information'</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'Informational message'</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">'Warning:config file </span><span class="si">%s</span><span class="s1"> not found'</span><span class="p">,</span> <span class="s1">'server.conf'</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">'Error occurred'</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="s1">'Critical error -- shutting down'</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>WARNING:root:Warning:config file server.conf not found
+ERROR:root:Error occurred
+CRITICAL:root:Critical error -- shutting down</code></pre>
+<ul>
+<li>重要度は低い順に <code>debug</code>・<code>info</code>・<code>warning</code>・<code>error</code>・<code>critical</code> です。</li>
+<li><mark>既定では、info と debug は出力されず</mark>、出力は<mark>標準エラー出力</mark>に送られます。</li>
+<li>ほかに、メール・データグラム・ソケット・HTTPサーバーへの送信などの出力先を選べます。設定は Python から直接行うことも、設定ファイルから読み込むこともできます。</li>
+</ul>
+

@@ -1,0 +1,119 @@
+<h3 id="s7-2"><span class="secno">7.2</span>ファイルの読み書き</h3>
+<p><code>open(ファイル名, モード, encoding=None)</code> はファイルオブジェクトを返します。</p>
+<div class="tbl"><table>
+<tr><th>モード</th><th>意味</th></tr>
+<tr><td><code>'r'</code></td><td>読み込み専用（<mark>省略したときの既定</mark>）</td></tr>
+<tr><td><code>'w'</code></td><td>書き込み専用。<mark>同じ名前のファイルがあると中身は消える</mark></td></tr>
+<tr><td><code>'a'</code></td><td>追記。書き込んだデータは末尾に追加される</td></tr>
+<tr><td><code>'r+'</code></td><td>読み書き両用</td></tr>
+<tr><td><code>'b'</code> を付ける（<code>'rb'</code> など）</td><td><mark>バイナリモード</mark>。データは bytes として読み書きされる</td></tr>
+</table></div>
+<ul>
+<li>モードを省略するとテキストモードです。テキストモードでは、<code>encoding</code> を指定しないと<mark>プラットフォーム依存</mark>の文字コードになるので、<mark><code>encoding="utf-8"</code> を指定する</mark>のが勧められています。</li>
+<li>テキストモードでは、読み込み時に行末の改行コード（Windowsなら <code>\r\n</code>）が <code>\n</code> に、書き込み時に <code>\n</code> がプラットフォームの改行コードに変換されます。JPEG や EXE のようなバイナリのファイルを壊さないように、<mark>バイナリのファイルはバイナリモードで</mark>扱います。</li>
+</ul>
+<h5><span>with 文を使う</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'workfile'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'This is the first line of the file.</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'Second line of the file</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">closed</span><span class="p">)</span>                  <span class="c1"># with を抜けると自動で閉じられる</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"ValueError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>True
+ValueError: I/O operation on closed file.</code></pre>
+<p><code>with</code> を使うと、処理が終わったとき（<mark>途中で例外が起きても</mark>）ファイルが正しく閉じられます。with を使わないときは、必ず <code>f.close()</code> を呼びます（閉じないと、データが書き込まれ切らないことがあります）。<mark>閉じたファイルを操作すると ValueError</mark> です。</p>
+
+<h4 id="s7-2-1"><span class="subno">7.2.1</span>ファイルオブジェクトのメソッド</h4>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'workfile'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'This is the first line of the file.</span><span class="se">\n</span><span class="s1">Second line of the file</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'workfile'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()))</span>        <span class="c1"># 全部を1つの文字列で</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()))</span>        <span class="c1"># ファイルの終わりでは空文字列</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'workfile'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()))</span>    <span class="c1"># 1行ずつ。末尾の改行文字は残る</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">readline</span><span class="p">()))</span>    <span class="c1"># 終わりなら空文字列</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&#x27;This is the first line of the file.\nSecond line of the file\n&#x27;
+&#x27;&#x27;
+&#x27;This is the first line of the file.\n&#x27;
+&#x27;Second line of the file\n&#x27;
+&#x27;&#x27;</code></pre>
+<div class="tbl"><table>
+<tr><th>メソッド</th><th>動き</th></tr>
+<tr><td><code>f.read(size)</code></td><td>最大 size 文字（バイナリなら size バイト）を読む。<mark>省略や負の数なら全部</mark>。ファイルの終わりでは <mark><code>''</code>（空文字列）</mark></td></tr>
+<tr><td><code>f.readline()</code></td><td>1行を読む。<mark>末尾の改行文字 <code>\n</code> は残る</mark>（最終行に改行がなければ付かない）。<code>''</code> ならファイルの終わり、<code>'\n'</code> なら空行</td></tr>
+<tr><td><code>for line in f:</code></td><td>1行ずつ回す。メモリ効率がよく、速く、コードも簡単</td></tr>
+<tr><td><code>list(f)</code> / <code>f.readlines()</code></td><td>全行をリストで返す</td></tr>
+<tr><td><code>f.write(文字列)</code></td><td>書き込み、<mark>書き込んだ文字数を返す</mark>。文字列以外は <code>str()</code> などで変換が必要（バイナリモードなら bytes）</td></tr>
+<tr><td><code>f.tell()</code></td><td>現在の位置を返す（バイナリモードでは先頭からのバイト数。テキストモードでは意味の分からない数値）</td></tr>
+<tr><td><code>f.seek(offset, whence)</code></td><td>位置を変える。whence が <mark>0なら先頭（既定）、1なら現在位置、2なら末尾</mark>から offset だけ移動</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'workfile'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'This is a test</span><span class="se">\n</span><span class="s1">'</span><span class="p">))</span>       <span class="c1"># 書き込んだ文字数</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'the answer'</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>               <span class="c1"># タプルは文字列に変換してから</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'workfile'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span>                  <span class="c1"># line の末尾には \n が付いている</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'workfile'</span><span class="p">,</span> <span class="s1">'wb+'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>           <span class="c1"># バイナリモード（読み書き）</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">b</span><span class="s1">'0123456789abcdef'</span><span class="p">)</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>                                <span class="c1"># 6バイト目へ</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>                            <span class="c1"># 末尾から3バイト前へ</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">f</span><span class="o">.</span><span class="n">tell</span><span class="p">())</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>15
+18
+This is a test
+(&#x27;the answer&#x27;, 42)
+b&#x27;5&#x27;
+b&#x27;d&#x27; 14</code></pre>
+<p>テキストモードでは、<mark>先頭からの seek だけ</mark>が許されます（例外として <code>seek(0, 2)</code> で末尾へ移動はできる）。有効な offset は <code>f.tell()</code> が返した値か 0 だけです。</p>
+
+<h4 id="s7-2-2"><span class="subno">7.2.2</span>構造のあるデータを jsonで保存する</h4>
+<p>リストや辞書のような構造のあるデータを、文字列に変換してファイルに保存するには、標準モジュール <dfn id="t49">json</dfn> を使います。データを文字列にすることを<dfn id="t50">シリアライズ</dfn>、文字列からデータに戻すことを<dfn id="t51">デシリアライズ</dfn>と呼びます。</p>
+<div class="box real"><span class="bh">本番で出た論点：json.dump</span>
+<p>4つの関数の違いは、<mark>相手が「文字列」か「ファイル」か</mark>です。<mark>名前の最後の <code>s</code> は string（文字列）の s</mark> と覚えます。</p>
+<div class="tbl"><table>
+<tr><th>関数</th><th>動き</th></tr>
+<tr><td><code>json.dumps(x)</code></td><td>x を JSON の<mark>文字列にして返す</mark></td></tr>
+<tr><td><code>json.dump(x, f)</code></td><td>x を JSON にして、<mark>テキストファイル f に書き込む</mark></td></tr>
+<tr><td><code>json.loads(s)</code></td><td>JSON の<mark>文字列</mark> s からデータに戻す</td></tr>
+<tr><td><code>json.load(f)</code></td><td>テキストファイル f を読んで、データに戻す</td></tr>
+</table></div></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'simple'</span><span class="p">,</span> <span class="s1">'list'</span><span class="p">]</span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                <span class="c1"># 文字列になる</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data.json'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>              <span class="c1"># ファイルに書き込む（戻り値は None）</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data.json'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>             <span class="c1"># ファイルから読み込む</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="s1">'{"a": 1, "b": [true, null]}'</span><span class="p">))</span>   <span class="c1"># true→True、null→None</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[1, &quot;simple&quot;, &quot;list&quot;] &lt;class &#x27;str&#x27;&gt;
+[1, &#x27;simple&#x27;, &#x27;list&#x27;] &lt;class &#x27;list&#x27;&gt;
+{&#x27;a&#x27;: 1, &#x27;b&#x27;: [True, None]}</code></pre>
+<ul>
+<li>dump の引数の順番は <mark><code>json.dump(データ, ファイル)</code></mark> です。</li>
+<li>JSON ファイルは <mark>UTF-8 でエンコードしなければならない</mark>ので、<code>encoding="utf-8"</code> を指定して開きます。</li>
+<li>自分で作ったクラスのインスタンスをシリアライズするには、少し追加の作業が必要です。</li>
+</ul>
+<div class="box warn"><span class="bh">注意：json と pickle</span><p><code>pickle</code> も直列化のモジュールですが、<mark>どんなPythonオブジェクトでも</mark>扱える代わりに、<mark>Python専用</mark>で他の言語とは共有できず、<mark>信頼できないデータを pickle で読み込むと危険</mark>（任意のコードを実行されうる）です。json は他の言語ともデータを交換できる、テキストの形式です。</p></div>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>json.dumps</code> / <code>json.loads</code> は、Jackson の <code>writeValueAsString</code> / <code>readValue(String, …)</code> にあたります。Spring Boot の REST API がやり取りしている、あの JSON 形式です。</p></div>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>str() は人向け、repr() はインタープリタ向け。文字列では repr に引用符が付く。</li>
+<li>f文字列：{x:10} は最小幅、{x:.3f} は小数3桁、{x!r} は repr、{x=} は「x=値」。</li>
+<li>format：{0}{1} は位置、{name} は名前、**dict で展開。rjust は切り詰めない、zfill は符号を理解して0を詰める。</li>
+<li>open の既定は 'r'、'w' は中身を消す、'a' は追記、'b' はバイナリ。with なら自動で閉じる。閉じたファイルの操作は ValueError。</li>
+<li>read() は全部、終わりは ''。readline() は改行文字を残す。write() は文字数を返す。seek の whence は 0/1/2。</li>
+<li>dumps / loads は文字列、dump / load はファイル。json.dump(データ, ファイル)。</li>
+</ul></div>
+
+<div class="quizzes">

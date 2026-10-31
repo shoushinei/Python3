@@ -1,0 +1,34 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q1</span><span class="qreal">本番</span>今日の日付を得るコード <code>from ＿＿＿ import date</code> → <code>print(date.today())</code> の空欄に入るものはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">date</li><li data-k="b" class="code">datetime</li><li data-k="c" class="code">time</li><li data-k="d" class="code">calendar</li>
+</ol><div class="exp" hidden>date クラスは datetime モジュールにあります。from の後ろにはモジュール名を書きます。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q2</span><code>from fibo import fib</code> を実行した後の説明として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">fibo.fib(10) と fib(10) の両方が使える。</li>
+<li data-k="b">fibo モジュールの全ての名前が使える。</li>
+<li data-k="c">fib(10) は使えるが、fibo.fib(10) は NameError になる。</li>
+<li data-k="d">fib は使えず、fibo.fib(10) と書く必要がある。</li>
+</ol><div class="exp" hidden>from … import では、モジュール名 fibo そのものは定義されません。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q3</span>モジュールの検索について正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">まず組み込みモジュールを探し、なければ sys.path のディレクトリを探す。</li>
+<li data-k="b">標準ライブラリのディレクトリは、スクリプトのあるディレクトリより先に検索される。</li>
+<li data-k="c">環境変数 PYTHONPATH は検索に使われない。</li>
+<li data-k="d">sys.path は変更できない。</li>
+</ol><div class="exp" hidden>スクリプトのあるディレクトリが標準ライブラリより先に検索されます。PYTHONPATH も検索パスに含まれ、sys.path は普通のリストとして変更できます。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q4</span>コンパイル済みファイルについて正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">.pyc ファイルから読み込むと、プログラムの実行速度が上がる。</li>
+<li data-k="b">-O オプションは docstring だけを除去する。</li>
+<li data-k="c">コマンドラインから直接実行したスクリプトのコンパイル結果も __pycache__ に保存される。</li>
+<li data-k="d">-OO オプションは assert 文と __doc__ 文字列を除去する。</li>
+</ol><div class="exp" hidden>-O は assert のみ、-OO は assert と docstring を除去します。.pyc で速くなるのは読み込みだけで、直接実行したスクリプトのキャッシュは保存されません。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q5</span><code>from sound.effects import *</code> の説明として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">effects ディレクトリ内のすべてのサブモジュールが必ずインポートされる。</li>
+<li data-k="b">__init__.py に __all__ があれば、そこに列挙されたモジュールがインポートされる。</li>
+<li data-k="c">__init__.py がなくても、ディレクトリはパッケージとして扱われる。</li>
+<li data-k="d">相対インポートの書き方である。</li>
+</ol><div class="exp" hidden>__all__ があればその一覧、なければサブモジュールは自動ではインポートされません。</div></div>
+</div>

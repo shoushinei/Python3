@@ -1,0 +1,40 @@
+<h3 id="s4-4"><span class="secno">4.4</span>break文とcontinue文、ループにおけるelse節</h3>
+<ul>
+<li><dfn id="t17">break</dfn>：最も内側の for / while ループを抜けます。</li>
+<li><dfn id="t18">continue</dfn>：残りの処理を飛ばして、ループの次の回に進みます。</li>
+<li>ループの <code>else</code> 節：<mark>ループが最後まで回り切ったとき</mark>（for なら要素を使い切ったとき、while なら条件が偽になったとき）に実行されます。<mark>break で抜けたときは実行されません</mark>。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">'equals'</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="s1">'*'</span><span class="p">,</span> <span class="n">n</span> <span class="o">//</span> <span class="n">x</span><span class="p">)</span>
+            <span class="k">break</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># 約数が見つからずに内側のループが終わった</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="s1">'is a prime number'</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>2 is a prime number
+3 is a prime number
+4 equals 2 * 2
+5 is a prime number
+6 equals 2 * 3
+7 is a prime number
+8 equals 2 * 4
+9 equals 3 * 3</code></pre>
+<p>この <code>else</code> は、<code>if</code> ではなく<mark>内側の <code>for</code> に属しています</mark>（インデントの位置に注目）。ループの else は、if の else よりも、try文の else（例外が起きなかったときに実行）に近いものです。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">num</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Found an even number"</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+        <span class="k">continue</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Found an odd number"</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Found an even number 2
+Found an odd number 3
+Found an even number 4
+Found an odd number 5
+Found an even number 6
+Found an odd number 7
+Found an even number 8
+Found an odd number 9</code></pre>
+<div class="box warn"><span class="bh">注意</span><p>ループが1回も回らなかった場合（例：<code>for x in []:</code>）も、「最後まで回り切った」扱いなので <code>else</code> は実行されます。</p></div>
+

@@ -1,0 +1,14 @@
+<h3 id="k-basic">数値・文字列・リスト（3章）</h3>
+<div class="tbl"><table class="drill">
+<tr><th>問い</th><th>答え</th><th>メモ</th></tr>
+<tr><td><code>7 / 2 、 6 / 2</code></td><td class="a">3.5 、 3.0（/ は常に float）</td><td></td></tr>
+<tr><td><code>-7 // 2 、 -7 % 2</code></td><td class="a">-4 、 1（小さい方へ切り捨て）</td><td></td></tr>
+<tr><td><code>-3 ** 2</code></td><td class="a">-9（** が先）</td><td class="trap">(-3)**2 は 9</td></tr>
+<tr><td><code>対話モードの _</code></td><td class="a">直前に表示された式の値</td><td></td></tr>
+<tr><td><code>&#x27;Py&#x27; &#x27;thon&#x27;</code></td><td class="a">&#x27;Python&#x27;（リテラル同士は自動連結）</td><td class="trap">変数とは SyntaxError</td></tr>
+<tr><td><code>word[42] / word[42:]</code></td><td class="a">IndexError / &#x27;&#x27;（スライスはエラーにならない）</td><td></td></tr>
+<tr><td><code>word[0] = &#x27;J&#x27;</code></td><td class="a">TypeError（文字列はイミュータブル）</td><td></td></tr>
+<tr><td><code>b = a（リスト）</code></td><td class="a">同じリストを指す（コピーではない）</td><td class="trap">コピーは a[:]</td></tr>
+<tr><td><code>a, b = b, a + b</code></td><td class="a">右辺を全部計算してから代入</td><td></td></tr>
+<tr><td><code>print(a, b) / end= / sep=</code></td><td class="a">空白区切り＋改行 / 末尾を変える / 区切りを変える</td><td></td></tr>
+</table></div>

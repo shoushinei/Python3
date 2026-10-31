@@ -1,0 +1,8 @@
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(var(--bar-h) + 12px)}
+[hidden]{display:none!important}
+img{max-width:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.9}
+a{color:var(--brand-ink)}
+button{font:inherit;color:inherit}
+

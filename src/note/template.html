@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{pageTitle}}</title>
+<meta name="description" content="{{description}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&family=Barlow:ital,wght@0,600;0,700;1,700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+{{styles}}</style>
+</head>
+<body>
+
+<header class="appbar">
+  <button type="button" class="menu-btn" id="menuBtn" aria-label="目次を開く">☰ 目次</button>
+  <a class="applink" href="../../index.html" title="サイトのトップへ戻る">← トップ</a>
+  <div class="brand">{{brand}}</div>
+  <nav class="chtabs" id="chtabs" aria-label="章"></nav>
+  <div class="prog" id="prog"></div>
+</header>
+<div class="layout">
+  <aside class="side" id="side" aria-label="この章の目次">
+    <div class="s-ch" id="sCh"></div>
+    <div class="s-title" id="sTitle"></div>
+    <div class="readbar"><i id="readbar"></i></div>
+    <ol class="tree" id="tree"></ol>
+    <div class="side-foot"><button type="button" id="prevCh">← 前の章</button><button type="button" id="nextCh">次の章 →</button></div>
+    <nav class="side-links" aria-label="関連ページ">{{links}}</nav>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+  <main id="main">
+{{sections}}
+
+  </main>
+</div>
+
+<script>
+(function(){
+{{script}}})();
+</script>
+</body>
+</html>

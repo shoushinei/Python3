@@ -1,0 +1,209 @@
+{
+  "id": "basic",
+  "name": "Python 3 エンジニア認定基礎試験",
+  "shortName": "基礎試験",
+  "note": {
+    "title": "チュートリアル総点検",
+    "description": "Python 3 エンジニア認定基礎試験の教材。章ごとの論点を確認問題と一緒に点検します。",
+    "brand": "<span class=\"bt\">チュートリアル総点検</span><span class=\"full\">&nbsp;基礎試験</span>",
+    "storagePrefix": "ptut-",
+    "links": [
+      {
+        "label": "サイトのトップ",
+        "href": "../../index.html"
+      },
+      {
+        "label": "本番形式模試",
+        "href": "../exam/index.html"
+      }
+    ],
+    "chapters": [
+      {
+        "dir": "ch00",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "0",
+          "data-title": "この教材の使い方",
+          "data-short": "はじめに",
+          "data-tab": "はじめに"
+        }
+      },
+      {
+        "dir": "ch01",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "1",
+          "data-title": "食欲をそそってみようか",
+          "data-short": "1章",
+          "data-tab": "食欲"
+        }
+      },
+      {
+        "dir": "ch02",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "2",
+          "data-title": "Pythonインタープリタの使い方",
+          "data-short": "2章",
+          "data-tab": "インタープリタ"
+        }
+      },
+      {
+        "dir": "ch03",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "3",
+          "data-title": "気楽な入門編",
+          "data-short": "3章",
+          "data-tab": "入門編"
+        }
+      },
+      {
+        "dir": "ch04",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "4",
+          "data-title": "制御構造ツール",
+          "data-short": "4章",
+          "data-tab": "制御構造"
+        }
+      },
+      {
+        "dir": "ch05",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "5",
+          "data-title": "データ構造",
+          "data-short": "5章",
+          "data-tab": "データ構造"
+        }
+      },
+      {
+        "dir": "ch06",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "6",
+          "data-title": "モジュール",
+          "data-short": "6章",
+          "data-tab": "モジュール"
+        }
+      },
+      {
+        "dir": "ch07",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "7",
+          "data-title": "入出力",
+          "data-short": "7章",
+          "data-tab": "入出力"
+        }
+      },
+      {
+        "dir": "ch08",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "8",
+          "data-title": "エラーと例外",
+          "data-short": "8章",
+          "data-tab": "例外"
+        }
+      },
+      {
+        "dir": "ch09",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "9",
+          "data-title": "クラス",
+          "data-short": "9章",
+          "data-tab": "クラス"
+        }
+      },
+      {
+        "dir": "ch10",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "10",
+          "data-title": "標準ライブラリめぐり",
+          "data-short": "10章",
+          "data-tab": "標準ライブラリ"
+        }
+      },
+      {
+        "dir": "ch11",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "11",
+          "data-title": "標準ライブラリめぐり─PartII",
+          "data-short": "11章",
+          "data-tab": "ライブラリII"
+        }
+      },
+      {
+        "dir": "ch12",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "12",
+          "data-title": "仮想環境とパッケージ",
+          "data-short": "12章",
+          "data-tab": "仮想環境"
+        }
+      },
+      {
+        "dir": "ch14",
+        "attrs": {
+          "class": "ch",
+          "data-ch": "14",
+          "data-title": "対話環境での入力行編集とヒストリ置換",
+          "data-short": "14章",
+          "data-tab": "対話環境"
+        }
+      },
+      {
+        "dir": "cheat",
+        "attrs": {
+          "class": "ch cheat",
+          "data-ch": "cheat",
+          "data-app": "1",
+          "data-icon": "表",
+          "data-title": "暗記シート",
+          "data-short": "暗記シート",
+          "data-tab": "暗記シート"
+        }
+      },
+      {
+        "dir": "terms",
+        "attrs": {
+          "class": "ch terms",
+          "data-ch": "terms",
+          "data-app": "1",
+          "data-icon": "✓",
+          "data-title": "重要用語チェック",
+          "data-short": "用語チェック",
+          "data-tab": "用語チェック"
+        }
+      }
+    ]
+  },
+  "exam": {
+    "title": "本番形式模試",
+    "description": "Python 3 エンジニア認定基礎試験の本番形式模試。40問・60分で採点と解説が付きます。",
+    "storagePrefix": "pmock-",
+    "limitMinutes": 60,
+    "passScore": 700,
+    "chapters": {
+      "1": "食欲をそそってみようか",
+      "2": "Pythonインタープリタの使い方",
+      "3": "気楽な入門編",
+      "4": "制御構造ツール",
+      "5": "データ構造",
+      "6": "モジュール",
+      "7": "入出力",
+      "8": "エラーと例外",
+      "9": "クラス",
+      "10": "標準ライブラリめぐり",
+      "11": "標準ライブラリめぐり─PartII",
+      "12": "仮想環境とパッケージ",
+      "14": "対話環境での入力行編集とヒストリ置換"
+    }
+  }
+}

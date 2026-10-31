@@ -1,0 +1,30 @@
+<h3 id="s11-7"><span class="secno">11.7</span>リスト操作のツール</h3>
+<div class="tbl"><table>
+<tr><th>モジュール</th><th>用途</th></tr>
+<tr><td><dfn id="t96">array</dfn></td><td>同じ型の数値だけを、<mark>コンパクトに</mark>保存するリスト風のオブジェクト（<code>'H'</code> なら1要素2バイト。普通のリストの int は1要素16バイト）</td></tr>
+<tr><td><code>collections.deque</code></td><td><mark>左端での追加・取り出しが速い</mark>（その代わり中央の参照は遅い）。キューや幅優先探索に向く</td></tr>
+<tr><td><dfn id="t97">bisect</dfn></td><td><mark>ソート済みのリスト</mark>を、並び順を保ったまま操作する</td></tr>
+<tr><td><dfn id="t98">heapq</dfn></td><td>普通のリストでヒープを実現する。<mark>最も小さい値が常に位置0</mark>にある</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">array</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s1">'H'</span><span class="p">,</span> <span class="p">[</span><span class="mi">4000</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">22222</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">])</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="s2">"task1"</span><span class="p">,</span> <span class="s2">"task2"</span><span class="p">,</span> <span class="s2">"task3"</span><span class="p">])</span>
+<span class="n">d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"task4"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Handling"</span><span class="p">,</span> <span class="n">d</span><span class="o">.</span><span class="n">popleft</span><span class="p">())</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">bisect</span>
+<span class="n">scores</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">100</span><span class="p">,</span> <span class="s1">'perl'</span><span class="p">),</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="s1">'tcl'</span><span class="p">),</span> <span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="s1">'lua'</span><span class="p">),</span> <span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="s1">'python'</span><span class="p">)]</span>
+<span class="n">bisect</span><span class="o">.</span><span class="n">insort</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="s1">'ruby'</span><span class="p">))</span>         <span class="c1"># 並び順を保ったまま挿入</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">heapq</span><span class="w"> </span><span class="kn">import</span> <span class="n">heapify</span><span class="p">,</span> <span class="n">heappop</span><span class="p">,</span> <span class="n">heappush</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">heapify</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>                                <span class="c1"># ヒープの順に並べ替える</span>
+<span class="n">heappush</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">)</span>                           <span class="c1"># 新しい要素を追加</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">heappop</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>     <span class="c1"># 小さい順に3つ取り出す</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>26932 array(&#x27;H&#x27;, [10, 700])
+Handling task1
+[(100, &#x27;perl&#x27;), (200, &#x27;tcl&#x27;), (300, &#x27;ruby&#x27;), (400, &#x27;lua&#x27;), (500, &#x27;python&#x27;)]
+[-5, 0, 1]</code></pre>
+

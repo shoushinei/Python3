@@ -1,0 +1,7 @@
+<h3 id="s10-10"><span class="secno">10.10</span>パフォーマンス計測</h3>
+<p>同じ問題を解く方法同士の性能を比べるには、<dfn id="t81">timeit</dfn> モジュールを使います。例えば、2つの変数の値を入れ替えるのに、従来の方法とタプルのパック・アンパックのどちらが速いかを比べます。</p>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">from</span><span class="w"> </span><span class="nn">timeit</span><span class="w"> </span><span class="kn">import</span> <span class="n">Timer</span>
+<span class="n">Timer</span><span class="p">(</span><span class="s1">'t=a; a=b; b=t'</span><span class="p">,</span> <span class="s1">'a=1; b=2'</span><span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">()</span>   <span class="c1"># 一時変数を使う方法</span>
+<span class="n">Timer</span><span class="p">(</span><span class="s1">'a,b = b,a'</span><span class="p">,</span> <span class="s1">'a=1; b=2'</span><span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">()</span>        <span class="c1"># タプルのパックとアンパック（こちらが速い）</span></code></pre>
+<p><code>Timer(計測する文, 準備の文).timeit()</code> は、計測する文を（既定で100万回）実行した時間を秒で返します。timeit は細かいコード片の計測向けで、大きなコードのどこに時間がかかっているかを調べるには <mark><dfn id="t82">profile</dfn> と <dfn id="t83">pstats</dfn></mark> モジュールを使います。</p>
+

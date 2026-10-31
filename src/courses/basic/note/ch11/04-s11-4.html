@@ -1,0 +1,36 @@
+<h3 id="s11-4"><span class="secno">11.4</span>マルチスレッド</h3>
+<p><dfn id="t91">スレッド</dfn>を使うと、順番に依存しない処理を切り離して、同時に進められます。<dfn id="t92">threading</dfn> モジュールを使います。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span><span class="o">,</span><span class="w"> </span><span class="nn">zipfile</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'mydata.txt'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'data '</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">AsyncZip</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">infile</span><span class="p">,</span> <span class="n">outfile</span><span class="p">):</span>
+        <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">infile</span> <span class="o">=</span> <span class="n">infile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outfile</span> <span class="o">=</span> <span class="n">outfile</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>                       <span class="c1"># スレッドで実行する処理</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">outfile</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZIP_DEFLATED</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">infile</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">'Finished background zip of:'</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">infile</span><span class="p">)</span>
+
+<span class="n">background</span> <span class="o">=</span> <span class="n">AsyncZip</span><span class="p">(</span><span class="s1">'mydata.txt'</span><span class="p">,</span> <span class="s1">'myarchive.zip'</span><span class="p">)</span>
+<span class="n">background</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>                       <span class="c1"># スレッドを開始</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'The main program continues to run in foreground.'</span><span class="p">)</span>
+<span class="n">background</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>                        <span class="c1"># バックグラウンドの処理が終わるのを待つ</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Main program waited until background was done.'</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>The main program continues to run in foreground.
+Finished background zip of: mydata.txt
+Main program waited until background was done.</code></pre>
+<p class="vnote">上の2行目と3行目の出力順は、スレッドの進み具合によって入れ替わることがあります。</p>
+<ul>
+<li><code>start()</code> でスレッドを開始すると <code>run()</code> が実行され、<mark><code>join()</code> でそのスレッドの終了を待ちます</mark>。</li>
+<li>複数のスレッドでデータを共有するときの調整が難しい点です。threading には、ロック・イベント・条件変数・セマフォなどの同期の仕組みがあります。</li>
+<li>推奨されるのは、<mark>リソースへのアクセスを1つのスレッドに集中させ、<code>queue</code> モジュールでほかのスレッドからの要求を渡す</mark>方法です。Queue オブジェクトを使うと、設計しやすく、読みやすく、信頼性の高いプログラムになります。</li>
+</ul>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>threading.Thread</code> を継承して <code>run()</code> を上書きし、<code>start()</code> と <code>join()</code> を呼ぶ流れは、Javaの <code>Thread</code> クラスとまったく同じです。<code>queue.Queue</code> は <code>BlockingQueue</code> にあたります。</p></div>
+

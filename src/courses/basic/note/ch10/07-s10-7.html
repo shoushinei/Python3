@@ -1,0 +1,19 @@
+<h3 id="s10-7"><span class="secno">10.7</span>インターネットへのアクセス</h3>
+<p>インターネットにアクセスしたり、インターネットのプロトコルを扱ったりするモジュールが数多くあります。最も簡単なのは、URL からデータを取得する <mark><dfn id="t78">urllib.request</dfn></mark> と、メールを送信する <mark><dfn id="t79">smtplib</dfn></mark> です。</p>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">from</span><span class="w"> </span><span class="nn">urllib.request</span><span class="w"> </span><span class="kn">import</span> <span class="n">urlopen</span>
+<span class="k">with</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">'http://worldtimeapi.org/api/timezone/etc/UTC.txt'</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>             <span class="c1"># bytes を str に変換</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'datetime'</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">())</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">smtplib</span>
+<span class="n">server</span> <span class="o">=</span> <span class="n">smtplib</span><span class="o">.</span><span class="n">SMTP</span><span class="p">(</span><span class="s1">'localhost'</span><span class="p">)</span>       <span class="c1"># localhost でメールサーバーが動いている必要がある</span>
+<span class="n">server</span><span class="o">.</span><span class="n">sendmail</span><span class="p">(</span><span class="s1">'soothsayer@example.org'</span><span class="p">,</span> <span class="s1">'jcaesar@example.org'</span><span class="p">,</span>
+<span class="sd">"""To: jcaesar@example.org</span>
+<span class="sd">From: soothsayer@example.org</span>
+
+<span class="sd">Beware the Ides of March.</span>
+<span class="sd">"""</span><span class="p">)</span>
+<span class="n">server</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span></code></pre>
+

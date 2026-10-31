@@ -1,0 +1,5 @@
+.box.real{border-color:#c0392b;background:#fdecea}
+.box.real>.bh{background:#c0392b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .box.real{background:#2e1715;border-color:#e0786c}}
+.qreal{display:inline-block;font-size:.7rem;font-weight:700;color:#fff;background:#c0392b;border-radius:999px;padding:0 8px;margin-right:6px;vertical-align:.1em}
+

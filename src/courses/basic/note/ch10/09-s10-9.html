@@ -1,0 +1,15 @@
+<h3 id="s10-9"><span class="secno">10.9</span>データ圧縮</h3>
+<p>一般的なデータの保存形式や圧縮形式を扱うモジュールとして、<mark><code>zlib</code>・<code>gzip</code>・<code>bz2</code>・<code>lzma</code>・<code>zipfile</code>・<code>tarfile</code></mark> があります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">zlib</span>
+<span class="n">s</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">'witch which has which witches wrist watch'</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">zlib</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>          <span class="c1"># 圧縮</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">zlib</span><span class="o">.</span><span class="n">decompress</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>     <span class="c1"># 展開</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">zlib</span><span class="o">.</span><span class="n">crc32</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>          <span class="c1"># チェックサム</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>41
+37
+b&#x27;witch which has which witches wrist watch&#x27;
+226805979</code></pre>
+

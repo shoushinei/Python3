@@ -1,0 +1,40 @@
+<h3 id="s11-2"><span class="secno">11.2</span>テンプレート</h3>
+<p><code>string</code> モジュールの <dfn id="t89">Template</dfn> クラスを使うと、利用者が編集しやすい、簡単な書式のテンプレートを作れます。</p>
+<ul>
+<li>置き換える場所（プレースホルダ）は <mark><code>$</code> と識別子</mark>で書きます。後ろに英数字が続くときは <code>${village}folk</code> のように波カッコで囲みます。<mark><code>$$</code> と書くと <code>$</code> そのもの</mark>になります。</li>
+<li><mark><code>substitute()</code> は、値が足りないと KeyError</mark>。<mark><code>safe_substitute()</code> は、値がないプレースホルダを<strong>そのまま残す</strong></mark>。</li>
+<li>Template を継承して <code>delimiter</code> を変えると、<code>$</code> 以外の区切り文字を使えます。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">from</span><span class="w"> </span><span class="nn">string</span><span class="w"> </span><span class="kn">import</span> <span class="n">Template</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s1">'$</span><span class="si">{village}</span><span class="s1">folk send $$10 to $cause.'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">village</span><span class="o">=</span><span class="s1">'Nottingham'</span><span class="p">,</span> <span class="n">cause</span><span class="o">=</span><span class="s1">'the ditch fund'</span><span class="p">))</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">Template</span><span class="p">(</span><span class="s1">'Return the $item to $owner.'</span><span class="p">)</span>
+<span class="n">d</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="s1">'unladen swallow'</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"KeyError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">safe_substitute</span><span class="p">(</span><span class="n">d</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Nottinghamfolk send $10 to the ditch fund.
+KeyError: &#x27;owner&#x27;
+Return the unladen swallow to $owner.</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">time</span><span class="o">,</span><span class="w"> </span><span class="nn">os.path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">string</span><span class="w"> </span><span class="kn">import</span> <span class="n">Template</span>
+<span class="n">photofiles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'img_1074.jpg'</span><span class="p">,</span> <span class="s1">'img_1076.jpg'</span><span class="p">,</span> <span class="s1">'img_1077.jpg'</span><span class="p">]</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BatchRename</span><span class="p">(</span><span class="n">Template</span><span class="p">):</span>
+    <span class="n">delimiter</span> <span class="o">=</span> <span class="s1">'%'</span>                  <span class="c1"># 区切り文字を % に変える</span>
+
+<span class="n">fmt</span> <span class="o">=</span> <span class="s1">'Ashley_%n</span><span class="si">%f</span><span class="s1">'</span>                  <span class="c1"># %n は連番、%f は元のファイル名</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">BatchRename</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">photofiles</span><span class="p">):</span>
+    <span class="n">base</span><span class="p">,</span> <span class="n">ext</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">newname</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="n">ext</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1"> --&gt; </span><span class="si">{</span><span class="n">newname</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>img_1074.jpg --&gt; Ashley_0.jpg
+img_1076.jpg --&gt; Ashley_1.jpg
+img_1077.jpg --&gt; Ashley_2.jpg</code></pre>
+<p>テンプレートは、プログラムの処理と、出力の書式の詳細を分けるのに役立ちます。</p>
+

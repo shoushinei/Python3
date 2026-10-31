@@ -1,0 +1,44 @@
+<h3 id="k-np">NumPy</h3>
+<h4 id="k-np1">属性・形の変更</h4>
+<div class="tbl"><table class="drill">
+<tr><th>書き方</th><th>答え（何をする／何が返る）</th><th>注意点</th></tr>
+<tr><td><code>type(a)</code></td><td class="a">オブジェクトの型（numpy.ndarray）</td><td class="trap">要素の型は dtype</td></tr>
+<tr><td><code>a.dtype</code></td><td class="a">要素のデータ型（int64 / float64 など）</td><td class="trap">小数が1つでもあれば float64</td></tr>
+<tr><td><code>a.shape</code></td><td class="a">形状（各次元の要素数のタプル）</td><td class="trap">属性なのでカッコなし</td></tr>
+<tr><td><code>a.ndim</code> / <code>a.size</code></td><td class="a">次元数 / 要素の総数</td><td></td></tr>
+<tr><td><code>a.reshape(2, -1)</code></td><td class="a">形を変える（-1 は自動計算）</td><td></td></tr>
+<tr><td><code>a.ravel()</code></td><td class="a">1次元にする。ビュー（参照）を返す</td><td class="trap">書き換えると元も変わる</td></tr>
+<tr><td><code>a.flatten()</code></td><td class="a">1次元にする。コピーを返す</td><td class="trap">ravel と逆に覚えない</td></tr>
+<tr><td><code>a.T</code></td><td class="a">転置（行と列を入れ替え）</td><td>(1, 5) → (5, 1)</td></tr>
+<tr><td><code>a.astype(float)</code></td><td class="a">データ型を変換する</td><td></td></tr>
+</table></div>
+<h4 id="k-np2">配列を作る</h4>
+<div class="tbl"><table class="drill">
+<tr><th>書き方</th><th>答え</th><th>注意点</th></tr>
+<tr><td><code>np.arange(1, 10, 3)</code></td><td class="a">[1 4 7]（間隔を指定）</td><td class="trap">終点を含まない</td></tr>
+<tr><td><code>np.linspace(0, 1, 5)</code></td><td class="a">[0. 0.25 0.5 0.75 1.]（個数を指定）</td><td class="trap">終点を含む</td></tr>
+<tr><td><code>np.zeros((2, 3))</code> / <code>np.ones(3)</code></td><td class="a">全部0 / 全部1（float）</td><td></td></tr>
+<tr><td><code>np.full((2, 2), 7)</code></td><td class="a">全部を指定値（7）で埋めた配列</td><td></td></tr>
+<tr><td><code>np.eye(3)</code></td><td class="a">3×3 の単位行列（対角が1.0、他は0.0）</td><td class="trap">要素は float</td></tr>
+<tr><td><code>np.random.seed(0)</code></td><td class="a">乱数の種を固定する（再現性の確保）</td><td></td></tr>
+<tr><td><code>np.random.rand(3)</code></td><td class="a">0以上1未満の一様乱数</td><td></td></tr>
+<tr><td><code>np.random.randn(3)</code></td><td class="a">標準正規分布（平均0・標準偏差1）の乱数</td><td></td></tr>
+<tr><td><code>np.random.randint(1, 7, 10)</code></td><td class="a">1〜6 の整数を10個</td><td class="trap">high（7）は含まない</td></tr>
+<tr><td><code>np.random.normal(50, 10, 5)</code></td><td class="a">平均50・標準偏差10の正規分布の乱数を5個</td><td></td></tr>
+</table></div>
+<h4 id="k-np3">取り出し・計算・連結</h4>
+<div class="tbl"><table class="drill">
+<tr><th>書き方</th><th>答え</th><th>注意点</th></tr>
+<tr><td><code>a[1, 2]</code></td><td class="a">1行目・2列目の要素</td><td>0から数える</td></tr>
+<tr><td><code>a[-1:, [0, 2]]</code></td><td class="a">最後の行（スライス）× 列0と2 → 2次元</td><td class="trap">整数 a[-1, …] なら1次元</td></tr>
+<tr><td><code>a[a &gt; 3]</code></td><td class="a">条件に合う要素だけ（1次元）</td><td></td></tr>
+<tr><td><code>a + 1</code>、<code>np.sqrt(a)</code></td><td class="a">全要素に計算（ユニバーサルファンクション）</td><td></td></tr>
+<tr><td>形の違う配列同士の計算</td><td class="a">ブロードキャスト（小さい方を引き延ばす）</td><td></td></tr>
+<tr><td><code>m.sum(axis=0)</code></td><td class="a">縦方向に集約 → 列ごとの結果</td><td class="trap">指定した axis が消える</td></tr>
+<tr><td><code>m.sum(axis=1)</code></td><td class="a">横方向に集約 → 行ごとの結果</td><td></td></tr>
+<tr><td><code>np.diff(a)</code></td><td class="a">隣り合う要素の差（後 − 前）。要素数は1つ減る</td><td></td></tr>
+<tr><td><code>np.concatenate([a, b], axis=1)</code></td><td class="a">列が増える方向（横）に連結</td><td>axis=0 は行が増える（縦）</td></tr>
+<tr><td><code>np.hstack</code> / <code>np.vstack</code></td><td class="a">横に連結 / 縦に連結</td><td>h＝horizontal、v＝vertical</td></tr>
+<tr><td><code>a @ b</code>、<code>np.dot(a, b)</code></td><td class="a">内積・行列積</td><td class="trap"><code>a * b</code> は要素積</td></tr>
+</table></div>
+

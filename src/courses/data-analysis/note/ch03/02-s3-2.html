@@ -1,0 +1,91 @@
+<h3 id="s3-2"><span class="secno">3.2</span>線形代数 <span class="scope">2問</span></h3>
+<div class="lead">データをまとめて扱うための道具である、ベクトルと行列の演算を説明します。</div>
+<h4 id="s3-2-1"><span class="subno">3.2.1</span>ベクトルとその演算</h4>
+<p>数を一列に並べたものを<dfn id="t67">ベクトル</dfn>と呼びます。並んでいる数の個数を、ベクトルの<strong>次元</strong>（サイズ）と呼びます。データ分析では「1件のデータの特徴量を並べたもの」がベクトルです。</p>
+<h5><span>和・差・スカラー倍</span></h5>
+<ul>
+<li><mark>足し算・引き算は同じ位置の要素同士で行う</mark>ので、<mark>次元が同じベクトル同士でしか計算できません</mark>。結果もベクトルです。</li>
+<li><span class="gl" tabindex="0" data-g="スカラー">スカラー</span>倍は、すべての要素に同じ数を掛けます。</li>
+</ul>
+<div class="mathblock">(1, 2) + (3, 5) = (4, 7)　　3 × (1, 2) = (3, 6)</div>
+<h5><span>内積</span></h5>
+<p>同じ位置の要素同士を掛けて、すべて足した値を<dfn id="t68">内積</dfn>と呼びます。<mark>結果はベクトルではなく、1つの数（スカラー）</mark>になります。</p>
+<div class="mathblock">(1, 2) · (3, 5) = 1×3 + 2×5 = 13</div>
+<h5><span>ノルム（大きさ・距離）</span></h5>
+<div class="cmp">
+<div><b>ユークリッド距離（L2ノルム）</b>各要素を2乗して足し、平方根をとる。いわゆる直線距離。<br><span class="math">‖(5, 12)‖ = √(25 + 144) = √169 = 13</span></div>
+<div><b>マンハッタン距離（L1ノルム）</b>各要素の絶対値を足す。碁盤の目の道を進むイメージ。<br><span class="math">|5| + |12| = 17</span></div>
+</div>
+<p>原点からの距離（ベクトルの大きさ）を<dfn id="t69">ノルム</dfn>と呼びます。<dfn id="t70">ユークリッド距離</dfn>と<dfn id="t71">マンハッタン距離</dfn>は、どちらもノルムの一種です。2つのベクトル間の距離は、差のベクトルのノルムで求めます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">a</span><span class="p">)</span>        <span class="c1"># 和・差・スカラー倍</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">@</span> <span class="n">b</span><span class="p">)</span>                      <span class="c1"># 内積（np.dot(a, b) でも同じ）</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>          <span class="c1"># ユークリッド距離（L2ノルム）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>   <span class="c1"># マンハッタン距離（L1ノルム）</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"次元が違うので計算できない"</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[4 7] [-2 -3] [3 6]
+13
+13.0
+17.0
+次元が違うので計算できない</code></pre>
+
+<h4 id="s3-2-2"><span class="subno">3.2.2</span>行列とその演算</h4>
+<p>数を縦と横に並べたものを<dfn id="t72">行列</dfn>と呼びます。横の並びを<strong>行</strong>、縦の並びを<strong>列</strong>と呼び、行が m 個、列が n 個の行列を <mark>m×n 行列</mark>と呼びます。表形式のデータ（行＝データ1件、列＝特徴量）は、そのまま行列として扱えます。</p>
+<h5><span>特別な行列</span></h5>
+<ul>
+<li><dfn id="t73">正方行列</dfn>：行の数と列の数が同じ行列。</li>
+<li><dfn id="t74">単位行列</dfn>：正方行列のうち、<mark><span class="gl" tabindex="0" data-g="対角成分">対角成分</span>（左上から右下）がすべて1で、それ以外がすべて0</mark>の行列。記号は <span class="math">I</span> または <span class="math">E</span>。数の「1」のように、掛けても相手を変えません。</li>
+<li><dfn id="t75">転置</dfn>：行と列を入れ替えたもの（<span class="math">A<sup>T</sup></span>）。</li>
+</ul>
+<h5><span>行列の計算ルール</span></h5>
+<div class="tbl"><table>
+<tr><th>計算</th><th>計算できる条件</th><th>結果の形</th></tr>
+<tr><td>和・差</td><td><mark>行数と列数が両方同じ</mark></td><td>同じ形の行列</td></tr>
+<tr><td>行列 × ベクトル</td><td><mark>行列の列数 ＝ ベクトルのサイズ</mark></td><td><mark>行列の行数</mark>と同じサイズのベクトル</td></tr>
+<tr><td>行列 × 行列</td><td><mark>左の列数 ＝ 右の行数</mark></td><td>(m×s) と (s×n) の積は <mark>m×n</mark></td></tr>
+</table></div>
+<p>行列の積は、<mark>左の行列の「行」</mark>と<mark>右の行列の「列」</mark>で内積をとって並べたものです。</p>
+<div class="mathblock"><span class="mat" style="--c:2"><span>2</span><span>1</span><span>0</span><span>3</span></span> × <span class="mat" style="--c:1"><span>4</span><span>5</span></span> = <span class="mat" style="--c:1"><span>2×4 + 1×5</span><span>0×4 + 3×5</span></span> = <span class="mat" style="--c:1"><span>13</span><span>15</span></span></div>
+<div class="box warn"><span class="bh">注意</span><p>数の掛け算と違って、<mark>行列の積は順番を入れ替えると結果が変わることがあります</mark>（AB ≠ BA）。片方の順番では計算できないこともあります。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span> <span class="o">@</span> <span class="n">v</span><span class="p">)</span>          <span class="c1"># 行列×ベクトル → 行数(2)と同じサイズ</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span> <span class="o">@</span> <span class="n">B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B</span> <span class="o">@</span> <span class="n">A</span><span class="p">)</span>          <span class="c1"># 順番を変えると結果が違う</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>      <span class="c1"># 2×2の単位行列</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span> <span class="o">@</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># 単位行列を掛けても変わらない</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>            <span class="c1"># 転置</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[13 15]
+[[3 2]
+ [3 0]]
+[[2 4]
+ [2 1]]
+[[1. 0.]
+ [0. 1.]]
+[[2. 1.]
+ [0. 3.]]
+[[2 0]
+ [1 3]]</code></pre>
+<h5><span>行列の積と次元削減</span></h5>
+<p>(m×s) の行列に (s×n) の行列を掛けると (m×n) の行列になります。データ分析では、m 件のデータが s 個の特徴量を持つ行列（m×s）に、s×n の行列を掛けることで、特徴量を n 個に変換できます。n を s より小さくすれば、<mark>説明変数の次元数を削減</mark>できます。これが第4章の次元削減（主成分分析）の土台になる考え方です。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>      <span class="c1"># 100件 × 特徴量5個</span>
+<span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>        <span class="c1"># 5 → 2 に変換する行列</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">X</span> <span class="o">@</span> <span class="n">W</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>       <span class="c1"># 100件 × 特徴量2個</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>(100, 2)</code></pre>
+

@@ -1,0 +1,9 @@
+<h3 id="s10-4"><span class="secno">10.4</span>エラー出力のリダイレクトとプログラムの終了</h3>
+<ul>
+<li><code>sys</code> モジュールには、<code>stdin</code>・<code>stdout</code>・<mark><code>stderr</code></mark> の属性があります。<mark>stdout をリダイレクト（ファイルなどに行き先を変更）していても、stderr への出力は画面に表示される</mark>ので、警告やエラーメッセージに便利です。</li>
+<li>スクリプトを終了する最も直接的な方法は <mark><code>sys.exit()</code></mark> です。</li>
+</ul>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">'Warning, log file not found starting a new one</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span></code></pre>
+

@@ -1,0 +1,19 @@
+<h3 id="s8-8"><span class="secno">8.8</span>オブジェクトに定義済のクリーンアップ動作</h3>
+<p>ファイルのように、使い終わったら後始末が必要なオブジェクトには、あらかじめ<mark>クリーンアップ動作</mark>が定義されています。<code>with</code> 文を使うと、処理の途中で問題が起きても、<mark>確実に後始末（ファイルを閉じる）</mark>が行われます。</p>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"myfile.txt"</span><span class="p">):</span>       <span class="c1"># 実行後もファイルが開いたままになる</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"myfile.txt"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>         <span class="c1"># ブロックを抜けると、必ずファイルが閉じられる</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span></code></pre>
+<div class="box java"><span class="bh">Javaと比べると</span><p><code>with</code> 文は、Javaの <mark>try-with-resources</mark>（<code>try (var r = new FileReader(…)) { … }</code>）と同じ役割です。</p></div>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>構文エラーは実行前、例外は実行中。標準の例外名は予約語ではない。</li>
+<li>try で例外 → 残りは飛ばして、一致する except を1つだけ実行。複数はタプル。基底クラスでも捕まる（先に書くと派生クラスに届かない）。</li>
+<li>else は例外がなかったときだけ、except より後ろ。finally は必ず実行。</li>
+<li>raise クラス は引数なしでインスタンス化。except 内の raise は再送出。from で明示的に連鎖、from None で連鎖を止める。</li>
+<li>ユーザー定義例外は Exception から派生、名前は Error で終える。</li>
+<li>finally に return があればその値が優先。with は確実に後始末をする。</li>
+</ul></div>
+
+<div class="quizzes">

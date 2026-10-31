@@ -1,0 +1,28 @@
+<h3 id="s9-10"><span class="secno">9.10</span>ジェネレータ式</h3>
+<p>リスト内包の角カッコ <code>[ ]</code> を丸カッコ <code>( )</code> に変えると、<dfn id="t72">ジェネレータ式</dfn>になります。外側の関数がすぐにジェネレータを使う場面で使います。リスト内包より機能は少ないですが、<mark>リストを作らないのでメモリにやさしい</mark>です。関数の唯一の引数として渡すときは、丸カッコを二重にする必要はありません。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span>           <span class="c1"># 平方の和</span>
+<span class="n">xvec</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">]</span>
+<span class="n">yvec</span> <span class="o">=</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xvec</span><span class="p">,</span> <span class="n">yvec</span><span class="p">)))</span>  <span class="c1"># 内積</span>
+<span class="n">data</span> <span class="o">=</span> <span class="s1">'golf'</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+<span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>                                       <span class="c1"># リストではなくジェネレータ</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>                        <span class="c1"># 一度使い切ると空になる</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>285
+260
+[&#x27;f&#x27;, &#x27;l&#x27;, &#x27;o&#x27;, &#x27;g&#x27;]
+&lt;generator object &lt;genexpr&gt; at 0x7f14ca94e5a0&gt;
+[0, 2, 4] []</code></pre>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>名前空間は名前→オブジェクトの対応。探す順はローカル → 外側の関数 → グローバル → 組み込み。</li>
+<li>宣言なしの代入はローカル変数を作るだけ。nonlocal は外側の関数の変数、global はモジュールの変数を書き換える。</li>
+<li>クラスオブジェクトは属性参照とインスタンス化。データ属性は代入で作られる。x.f() は MyClass.f(x)。</li>
+<li>クラス変数は共有（ミュータブルは危険）、インスタンス変数は __init__ で self に代入。インスタンス属性が優先。</li>
+<li>多重継承は深さ優先・左から右。issubclass(bool, int) は True。</li>
+<li>__spam は _クラス名__spam に変わる（名前マングリング）。真のプライベートはない。</li>
+<li>イテレータは __iter__ と __next__、終わりは StopIteration。ジェネレータは yield、ジェネレータ式は ( )。</li>
+</ul></div>
+
+<div class="quizzes">

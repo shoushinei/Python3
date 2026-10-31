@@ -1,0 +1,21 @@
+/* 確認問題 */
+.quizzes{margin-top:56px;border-top:3px solid var(--brand);padding-top:8px}
+.quizzes>h3{border:0!important;margin-top:8px!important}
+.quiz{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0;background:var(--paper)}
+.quiz .q{margin:0 0 8px;font-weight:500}
+.quiz .q .qn{font-family:var(--f-num);font-weight:700;color:var(--sheet);background:var(--brand);border-radius:5px;padding:0 7px;margin-right:8px}
+.opts{list-style:none;margin:8px 0 0;padding:0!important;display:grid;gap:6px}
+.opts button{all:unset;box-sizing:border-box;cursor:pointer;display:flex;gap:10px;width:100%;padding:8px 12px;border:1px solid var(--line);border-radius:7px;background:var(--sheet);font-size:.93rem;line-height:1.55;white-space:pre-wrap}
+.opts button .k{font-family:var(--f-num);font-weight:700;color:var(--brand);flex:none}
+.opts button .v{font-family:var(--f-code);font-size:.9em;min-width:0}
+.opts button .v.jp{font-family:var(--f-body);font-size:1em}
+.opts button:hover{border-color:var(--brand)}
+.opts button:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+.opts button.right{border-color:var(--ok);background:var(--ok-soft)}
+.opts button.wrong{border-color:var(--ng);background:var(--ng-soft)}
+.opts button[disabled]{cursor:default}
+.exp{margin-top:10px;padding:10px 14px;border-radius:7px;background:var(--sheet);border-left:3px solid var(--ok);font-size:.92rem}
+.exp .verdict{font-weight:700;margin-right:6px}
+.exp.ng{border-left-color:var(--ng)}
+.qscore{font-size:.85rem;color:var(--muted);font-family:var(--f-body);font-weight:500;margin-left:auto}
+

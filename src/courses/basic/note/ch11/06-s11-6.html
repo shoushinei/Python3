@@ -1,0 +1,25 @@
+<h3 id="s11-6"><span class="secno">11.6</span>弱参照</h3>
+<p>Pythonは自動でメモリを管理します（多くのオブジェクトは参照カウント、循環参照はガベージコレクションで解放）。最後の参照がなくなると、すぐにメモリが解放されます。</p>
+<p><dfn id="t94">weakref</dfn> モジュールの<dfn id="t95">弱参照</dfn>を使うと、オブジェクトへの参照を作らずに、オブジェクトを追跡できます。オブジェクトが不要になると、弱参照の表からも自動で取り除かれます。キャッシュなどに使います。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">weakref</span><span class="o">,</span><span class="w"> </span><span class="nn">gc</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">A</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>                        <span class="c1"># 参照を作る</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakValueDictionary</span><span class="p">()</span>
+<span class="n">d</span><span class="p">[</span><span class="s1">'primary'</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span>                 <span class="c1"># 参照は作らない</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'primary'</span><span class="p">])</span>
+<span class="k">del</span> <span class="n">a</span>                            <span class="c1"># 参照を削除</span>
+<span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>                     <span class="c1"># ガベージコレクションを実行</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">'primary'</span><span class="p">]</span>                 <span class="c1"># 自動的に取り除かれている</span>
+<span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"KeyError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>10
+KeyError: &#x27;primary&#x27;</code></pre>
+

@@ -1,0 +1,252 @@
+<h3 id="s4-7"><span class="secno">4.7</span>さらに関数定義について</h3>
+<div class="lead">引数の受け取り方の4つの仕組みです。組み合わせた問題がよく出ます。</div>
+<h4 id="s4-7-1"><span class="subno">4.7.1</span>引数のデフォルト値</h4>
+<span class="inlbl">In</span><pre class="pynr"><code><span class="k">def</span><span class="w"> </span><span class="nf">ask_ok</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">retries</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">reminder</span><span class="o">=</span><span class="s1">'Please try again!'</span><span class="p">):</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">ok</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ok</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'y'</span><span class="p">,</span> <span class="s1">'ye'</span><span class="p">,</span> <span class="s1">'yes'</span><span class="p">):</span>      <span class="c1"># in はシーケンスに値が含まれるか調べる</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">ok</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">'n'</span><span class="p">,</span> <span class="s1">'no'</span><span class="p">,</span> <span class="s1">'nop'</span><span class="p">,</span> <span class="s1">'nope'</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="n">retries</span> <span class="o">=</span> <span class="n">retries</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">retries</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'invalid user response'</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">reminder</span><span class="p">)</span>
+
+<span class="c1"># 呼び出し方は3通り</span>
+<span class="c1"># ask_ok('Do you really want to quit?')</span>
+<span class="c1"># ask_ok('OK to overwrite the file?', 2)</span>
+<span class="c1"># ask_ok('OK to overwrite the file?', 2, 'Come on, only yes or no!')</span></code></pre>
+<h5><span>デフォルト値は「定義したとき」に評価される</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">i</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">arg</span><span class="o">=</span><span class="n">i</span><span class="p">):</span>      <span class="c1"># この時点の i（5）がデフォルト値になる</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+
+<span class="n">i</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">f</span><span class="p">()</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>5</code></pre>
+<h5><span>デフォルト値は1回だけしか評価されない</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="p">[]):</span>    <span class="c1"># この [] は関数を定義したときに1つだけ作られる</span>
+    <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">L</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[1]
+[1, 2]
+[1, 2, 3]</code></pre>
+<div class="box warn"><span class="bh">注意：ミュータブルなデフォルト値</span><p>デフォルト値が<mark>リストや辞書のようなミュータブルなオブジェクトだと、呼び出しのたびに同じオブジェクトが使われ、値がたまっていきます</mark>。呼び出しごとに新しいリストにしたいときは、<code>None</code> をデフォルトにして、関数の中で作ります。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">L</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">L</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">L</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">L</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">f</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">f</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[1] [2] [3]</code></pre>
+
+<h4 id="s4-7-2"><span class="subno">4.7.2</span>キーワード引数</h4>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">parrot</span><span class="p">(</span><span class="n">voltage</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">'a stiff'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">'voom'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">'Norwegian Blue'</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"-- This parrot wouldn't"</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"if you put"</span><span class="p">,</span> <span class="n">voltage</span><span class="p">,</span> <span class="s2">"volts through it."</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"-- Lovely plumage, the"</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"-- It's"</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="s2">"!"</span><span class="p">)</span>
+
+<span class="n">parrot</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>                                          <span class="c1"># 位置引数1つ</span>
+<span class="n">parrot</span><span class="p">(</span><span class="n">voltage</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>                                  <span class="c1"># キーワード引数1つ</span>
+<span class="n">parrot</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">'VOOOOOM'</span><span class="p">,</span> <span class="n">voltage</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>             <span class="c1"># キーワード引数は順番自由</span>
+<span class="n">parrot</span><span class="p">(</span><span class="s1">'a thousand'</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">'pushing up the daisies'</span><span class="p">)</span>  <span class="c1"># 位置1つ＋キーワード1つ</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>-- This parrot wouldn&#x27;t voom if you put 1000 volts through it.
+-- Lovely plumage, the Norwegian Blue
+-- It&#x27;s a stiff !
+-- This parrot wouldn&#x27;t voom if you put 1000 volts through it.
+-- Lovely plumage, the Norwegian Blue
+-- It&#x27;s a stiff !
+-- This parrot wouldn&#x27;t VOOOOOM if you put 1000000 volts through it.
+-- Lovely plumage, the Norwegian Blue
+-- It&#x27;s a stiff !
+-- This parrot wouldn&#x27;t voom if you put a thousand volts through it.
+-- Lovely plumage, the Norwegian Blue
+-- It&#x27;s pushing up the daisies !</code></pre>
+<p><code>名前=値</code> の形で渡すのが<dfn id="t23">キーワード引数</dfn>です。次の呼び出しはすべてエラーになります。</p>
+<div class="tbl"><table>
+<tr><th>呼び出し</th><th>エラーの理由</th></tr>
+<tr><td><code>parrot()</code></td><td>必須の引数 voltage がない</td></tr>
+<tr><td><code>parrot(voltage=5.0, 'dead')</code></td><td><mark>キーワード引数の後ろに位置引数</mark>がある（SyntaxError）</td></tr>
+<tr><td><code>parrot(110, voltage=220)</code></td><td><mark>同じ引数に値が2回</mark>渡されている</td></tr>
+<tr><td><code>parrot(actor='John Cleese')</code></td><td>存在しないキーワード</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">parrot</span><span class="p">(</span><span class="n">voltage</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">'a stiff'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">'voom'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">'Norwegian Blue'</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">parrot</span><span class="p">(</span><span class="mi">110</span><span class="p">,</span> <span class="n">voltage</span><span class="o">=</span><span class="mi">220</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>4行目: TypeError: parrot() got multiple values for argument &#x27;voltage&#x27;</code></pre>
+<h5><span>*name と **name</span></h5>
+<p>仮引数に <code>*name</code> を書くと、<mark>余った位置引数がタプル</mark>で入り、<code>**name</code> を書くと、<mark>余ったキーワード引数が辞書</mark>で入ります。<mark><code>*name</code> は <code>**name</code> より前</mark>に書く必要があります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">cheeseshop</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="o">*</span><span class="n">arguments</span><span class="p">,</span> <span class="o">**</span><span class="n">keywords</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"-- Do you have any"</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="s2">"?"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"-- I'm sorry, we're all out of"</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">arguments</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">keywords</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">kw</span><span class="p">,</span> <span class="s2">":"</span><span class="p">,</span> <span class="n">keywords</span><span class="p">[</span><span class="n">kw</span><span class="p">])</span>
+
+<span class="n">cheeseshop</span><span class="p">(</span><span class="s2">"Limburger"</span><span class="p">,</span> <span class="s2">"It's very runny, sir."</span><span class="p">,</span>
+           <span class="s2">"It's really very, VERY runny, sir."</span><span class="p">,</span>
+           <span class="n">shopkeeper</span><span class="o">=</span><span class="s2">"Michael Palin"</span><span class="p">,</span>
+           <span class="n">client</span><span class="o">=</span><span class="s2">"John Cleese"</span><span class="p">,</span>
+           <span class="n">sketch</span><span class="o">=</span><span class="s2">"Cheese Shop Sketch"</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>-- Do you have any Limburger ?
+-- I&#x27;m sorry, we&#x27;re all out of Limburger
+It&#x27;s very runny, sir.
+It&#x27;s really very, VERY runny, sir.
+----------------------------------------
+shopkeeper : Michael Palin
+client : John Cleese
+sketch : Cheese Shop Sketch</code></pre>
+<p>キーワード引数は、<mark>呼び出しで渡した順番どおり</mark>に辞書に入ります。</p>
+
+<h4 id="s4-7-3"><span class="subno">4.7.3</span>特殊引数</h4>
+<p>仮引数のリストに <code>/</code> と <code>*</code> を書くと、引数の渡し方を制限できます。</p>
+<div class="mathblock" style="font-family:var(--f-code);font-size:.95rem">def f(pos1, pos2, <b>/</b>, pos_or_kwd, <b>*</b>, kwd1, kwd2):</div>
+<div class="tbl"><table>
+<tr><th>位置</th><th>渡し方</th></tr>
+<tr><td><code>/</code> より前</td><td><mark>位置専用</mark>（キーワードでは渡せない）</td></tr>
+<tr><td><code>/</code> と <code>*</code> の間</td><td>位置でもキーワードでもよい</td></tr>
+<tr><td><code>*</code> より後</td><td><mark>キーワード専用</mark>（位置では渡せない）</td></tr>
+</table></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">standard_arg</span><span class="p">(</span><span class="n">arg</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pos_only_arg</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="o">/</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">kwd_only_arg</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">combined_example</span><span class="p">(</span><span class="n">pos_only</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="n">standard</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">kwd_only</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">pos_only</span><span class="p">,</span> <span class="n">standard</span><span class="p">,</span> <span class="n">kwd_only</span><span class="p">)</span>
+
+<span class="n">standard_arg</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="n">standard_arg</span><span class="p">(</span><span class="n">arg</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pos_only_arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">kwd_only_arg</span><span class="p">(</span><span class="n">arg</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">combined_example</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">kwd_only</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">combined_example</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">standard</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">kwd_only</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">call</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"pos_only_arg(arg=1)"</span><span class="p">,</span> <span class="s2">"kwd_only_arg(3)"</span><span class="p">,</span> <span class="s2">"combined_example(1, 2, 3)"</span><span class="p">,</span>
+             <span class="s2">"combined_example(pos_only=1, standard=2, kwd_only=3)"</span><span class="p">]:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">eval</span><span class="p">(</span><span class="n">call</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"TypeError:"</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>2
+2
+1
+3
+1 2 3
+1 2 3
+TypeError: pos_only_arg() got some positional-only arguments passed as keyword arguments: &#x27;arg&#x27;
+TypeError: kwd_only_arg() takes 0 positional arguments but 1 was given
+TypeError: combined_example() takes 2 positional arguments but 3 were given
+TypeError: combined_example() got some positional-only arguments passed as keyword arguments: &#x27;pos_only&#x27;</code></pre>
+<p>位置専用にすると、仮引数の名前を <code>**kwds</code> のキーとしても使えるようになります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">foo</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">'name'</span> <span class="ow">in</span> <span class="n">kwds</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s1">'name'</span><span class="p">:</span> <span class="mi">2</span><span class="p">}))</span>   <span class="c1"># / がないと「name に値が2つ」で TypeError になる</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>True</code></pre>
+
+<h4 id="s4-7-4"><span class="subno">4.7.4</span>任意引数のリスト</h4>
+<p><code>*args</code> の後ろに書いた仮引数は、<mark>キーワード専用</mark>になります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">concat</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"/"</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">concat</span><span class="p">(</span><span class="s2">"earth"</span><span class="p">,</span> <span class="s2">"mars"</span><span class="p">,</span> <span class="s2">"venus"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">concat</span><span class="p">(</span><span class="s2">"earth"</span><span class="p">,</span> <span class="s2">"mars"</span><span class="p">,</span> <span class="s2">"venus"</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">"."</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>earth/mars/venus
+earth.mars.venus</code></pre>
+
+<h4 id="s4-7-5"><span class="subno">4.7.5</span>引数リストのアンパック</h4>
+<p>すでにリストやタプルになっている値を、ばらばらの位置引数として渡すには <mark><code>*</code></mark>、辞書をキーワード引数として渡すには <mark><code>**</code></mark> を付けて呼び出します。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">)))</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)))</span>      <span class="c1"># range(3, 6) と同じ</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">parrot</span><span class="p">(</span><span class="n">voltage</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">'a stiff'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">'voom'</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"-- This parrot wouldn't"</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"if you put"</span><span class="p">,</span> <span class="n">voltage</span><span class="p">,</span> <span class="s2">"volts through it."</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"E's"</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="s2">"!"</span><span class="p">)</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"voltage"</span><span class="p">:</span> <span class="s2">"four million"</span><span class="p">,</span> <span class="s2">"state"</span><span class="p">:</span> <span class="s2">"bleedin' demised"</span><span class="p">,</span> <span class="s2">"action"</span><span class="p">:</span> <span class="s2">"VOOM"</span><span class="p">}</span>
+<span class="n">parrot</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[3, 4, 5]
+[3, 4, 5]
+-- This parrot wouldn&#x27;t VOOM if you put four million volts through it. E&#x27;s bleedin&#x27; demised !</code></pre>
+<div class="box warn"><span class="bh">注意：* と ** の2つの意味</span><p>定義の側（<code>def f(*args, **kw)</code>）では「<mark>まとめて受け取る</mark>」、呼び出しの側（<code>f(*lst, **dic)</code>）では「<mark>ばらして渡す</mark>」という逆の意味になります。</p></div>
+
+<h4 id="s4-7-6"><span class="subno">4.7.6</span>lambda（ラムダ）式</h4>
+<p><code>lambda 引数: 式</code> で、小さな<dfn id="t24">無名関数</dfn>を作れます。本体は<mark>1つの式だけ</mark>で、その値が戻り値になります。外側のスコープの変数も参照できます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">make_incrementor</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">n</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">make_incrementor</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'one'</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'three'</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">'four'</span><span class="p">)]</span>
+<span class="n">pairs</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">pair</span><span class="p">:</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>     <span class="c1"># 2番目の要素（文字列）で並べ替え</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pairs</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>42 43
+[(4, &#x27;four&#x27;), (1, &#x27;one&#x27;), (3, &#x27;three&#x27;), (2, &#x27;two&#x27;)]</code></pre>
+<div class="box java"><span class="bh">Javaと比べると</span><p>Javaのラムダ式 <code>x -&gt; x + n</code> とほぼ同じです。<code>sort(key=lambda pair: pair[1])</code> は <code>list.sort(Comparator.comparing(p -&gt; p.get(1)))</code> にあたります。</p></div>
+
+<h4 id="s4-7-7"><span class="subno">4.7.7</span>ドキュメンテーション文字列（docstring）</h4>
+<ul>
+<li><mark>1行目</mark>は、目的を簡潔にまとめた要約にします。大文字で始め、ピリオドで終えます。名前や型は書きません（ほかの方法で分かるため）。</li>
+<li>続きがある場合は、<mark>2行目を空行</mark>にして、要約と説明を分けます。</li>
+<li>3行目以降に、呼び出し方や副作用などの説明を書きます。</li>
+<li>docstring は関数の <code>__doc__</code> 属性で参照できます。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">my_function</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">"""Do nothing, but document it.</span>
+
+<span class="sd">    No, really, it doesn't do anything.</span>
+<span class="sd">    """</span>
+    <span class="k">pass</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">my_function</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Do nothing, but document it.
+
+No, really, it doesn&#x27;t do anything.</code></pre>
+
+<h4 id="s4-7-8"><span class="subno">4.7.8</span>関数注釈（関数アノテーション）</h4>
+<p>引数や戻り値に、型などの情報を付けておけます。<code>引数: 注釈</code>、戻り値は <code>) -&gt; 注釈:</code> と書きます。注釈は関数の <code>__annotations__</code> 属性に<mark>辞書として保存されるだけで、実行には何の影響もありません</mark>（型が違う値を渡してもエラーにはなりません）。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">ham</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">eggs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">'eggs'</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Annotations:"</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="vm">__annotations__</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Arguments:"</span><span class="p">,</span> <span class="n">ham</span><span class="p">,</span> <span class="n">eggs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ham</span> <span class="o">+</span> <span class="s1">' and '</span> <span class="o">+</span> <span class="n">eggs</span>
+
+<span class="n">f</span><span class="p">(</span><span class="s1">'spam'</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>Annotations: {&#x27;ham&#x27;: &lt;class &#x27;str&#x27;&gt;, &#x27;eggs&#x27;: &lt;class &#x27;str&#x27;&gt;, &#x27;return&#x27;: &lt;class &#x27;str&#x27;&gt;}
+Arguments: spam eggs
+&#x27;spam and eggs&#x27;</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">g</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="p">(</span><span class="s2">"ab"</span><span class="p">))</span>      <span class="c1"># 注釈は int でも、str を渡せてしまう</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>abab</code></pre>
+

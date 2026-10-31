@@ -1,0 +1,35 @@
+<h3 id="s5-4"><span class="secno">5.4</span>集合（set）</h3>
+<p><dfn id="t33">集合</dfn>は、<mark>重複しない要素を、順序なしで</mark>集めたものです。要素が含まれるかの判定や、重複の除去に使います。和・積・差・対称差の演算ができます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">basket</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'apple'</span><span class="p">,</span> <span class="s1">'pear'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">,</span> <span class="s1">'banana'</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">basket</span><span class="p">))</span>          <span class="c1"># 重複は除かれる（表示順は決まっていないので sorted で並べた）</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'orange'</span> <span class="ow">in</span> <span class="n">basket</span><span class="p">,</span> <span class="s1">'crabgrass'</span> <span class="ow">in</span> <span class="n">basket</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">'abracadabra'</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s1">'alacazam'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>               <span class="c1"># a に含まれる文字</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">))</span>           <span class="c1"># 差：a にあって b にない</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">a</span> <span class="o">|</span> <span class="n">b</span><span class="p">))</span>           <span class="c1"># 和：a か b のどちらかにある</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">))</span>           <span class="c1"># 積：a と b の両方にある</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">a</span> <span class="o">^</span> <span class="n">b</span><span class="p">))</span>           <span class="c1"># 対称差：どちらか一方だけにある</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;apple&#x27;, &#x27;banana&#x27;, &#x27;orange&#x27;, &#x27;pear&#x27;]
+True False
+[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;r&#x27;]
+[&#x27;b&#x27;, &#x27;d&#x27;, &#x27;r&#x27;]
+[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;, &#x27;l&#x27;, &#x27;m&#x27;, &#x27;r&#x27;, &#x27;z&#x27;]
+[&#x27;a&#x27;, &#x27;c&#x27;]
+[&#x27;b&#x27;, &#x27;d&#x27;, &#x27;l&#x27;, &#x27;m&#x27;, &#x27;r&#x27;, &#x27;z&#x27;]</code></pre>
+<div class="tbl"><table>
+<tr><th>演算子</th><th>名前</th><th>意味</th></tr>
+<tr><td><code>a - b</code></td><td>差</td><td>a にあって b にない</td></tr>
+<tr><td><code>a | b</code></td><td>和</td><td>a か b の少なくとも一方にある</td></tr>
+<tr><td><code>a &amp; b</code></td><td>積（共通部分）</td><td>a と b の両方にある</td></tr>
+<tr><td><code>a ^ b</code></td><td>対称差</td><td>a と b の<mark>どちらか一方だけ</mark>にある</td></tr>
+</table></div>
+<div class="box warn"><span class="bh">注意：空の集合は set()</span><p>集合は波カッコ <code>{}</code> か <code>set()</code> で作ります。ただし、<mark>空の集合は <code>set()</code></mark> で作ります。<mark><code>{}</code> は空の辞書</mark>になります。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">({}),</span> <span class="nb">type</span><span class="p">(</span><span class="nb">set</span><span class="p">()))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="s1">'abracadabra'</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s1">'abc'</span><span class="p">}))</span>   <span class="c1"># 集合内包</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>&lt;class &#x27;dict&#x27;&gt; &lt;class &#x27;set&#x27;&gt;
+[&#x27;d&#x27;, &#x27;r&#x27;]</code></pre>
+<p class="vnote">集合を print したときの要素の並び順は決まっておらず、実行環境や実行のたびに変わることがあります。この教材では結果を確かめやすいように sorted() で並べています。</p>
+

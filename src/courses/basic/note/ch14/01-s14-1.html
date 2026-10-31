@@ -1,0 +1,12 @@
+<h3 id="s14-1"><span class="secno">14.1</span>タブ補完とヒストリ編集</h3>
+<ul>
+<li>インタープリタの起動時に、<mark>変数名とモジュール名の補完が自動で有効</mark>になります。<mark><kbd>Tab</kbd> キー</mark>を押すと補完機能が呼ばれます。</li>
+<li>補完の対象は、Pythonの<mark>文の名前、現在のローカル変数、使えるモジュール名</mark>です。</li>
+<li><code>string.a</code> のようにドットを含む式では、最後の <code>.</code> までの式を評価し、その結果のオブジェクトの<mark>属性</mark>から補完候補を出します。このとき、<code>__getattr__()</code> メソッドを持つオブジェクトでは、アプリケーションで定義したコードが実行されることがあります。</li>
+<li>入力の履歴は、ユーザーのディレクトリの <mark><code>.python_history</code></mark> というファイルに保存されます。次に対話モードを起動したときにも、前回の履歴を呼び出せます。</li>
+</ul>
+<pre class="pynr"><code>&gt;&gt;&gt; import string
+&gt;&gt;&gt; string.a      ← ここで Tab キーを押すと
+string.ascii_letters    string.ascii_lowercase    string.ascii_uppercase</code></pre>
+<p>これらの機能は、GNU readline ライブラリを使って実現されています（2.1 で触れた行編集の機能）。</p>
+

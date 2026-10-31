@@ -1,0 +1,10 @@
+<h3 id="s10-2"><span class="secno">10.2</span>ファイルのワイルドカード</h3>
+<p><dfn id="t75">glob</dfn> モジュールは、ワイルドカードで検索したファイル名の<mark>リスト</mark>を返す関数を持っています。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">glob</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">'globdemo'</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'primes.py'</span><span class="p">,</span> <span class="s1">'quote.py'</span><span class="p">,</span> <span class="s1">'utils.py'</span><span class="p">,</span> <span class="s1">'notes.txt'</span><span class="p">]:</span>
+    <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">'globdemo'</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s1">'w'</span><span class="p">)</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s1">'globdemo/*.py'</span><span class="p">)))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;globdemo/primes.py&#x27;, &#x27;globdemo/quote.py&#x27;, &#x27;globdemo/utils.py&#x27;]</code></pre>
+

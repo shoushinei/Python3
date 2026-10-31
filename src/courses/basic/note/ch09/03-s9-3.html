@@ -1,0 +1,115 @@
+<h3 id="s9-3"><span class="secno">9.3</span>はじめてのクラス</h3>
+<h4 id="s9-3-1"><span class="subno">9.3.1</span>クラス定義の構文</h4>
+<p><code>class クラス名:</code> の後ろに文を書きます。関数定義と同じく、<mark>クラス定義も実行されてはじめて効果を持ちます</mark>（if 文の中に書くこともできます）。クラス定義に入ると新しい名前空間が作られてローカルスコープとして使われ、正常に終わると<dfn id="t63">クラスオブジェクト</dfn>が作られます。</p>
+<h4 id="s9-3-2"><span class="subno">9.3.2</span>クラスオブジェクト</h4>
+<p>クラスオブジェクトでできることは、<mark>属性の参照</mark>と<mark>インスタンス化</mark>の2つです。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A simple example class"""</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">12345</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">'hello world'</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">MyClass</span><span class="o">.</span><span class="n">i</span><span class="p">)</span>          <span class="c1"># 属性の参照（整数）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">MyClass</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>          <span class="c1"># 属性の参照（関数オブジェクト）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">MyClass</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>    <span class="c1"># docstring も属性</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>             <span class="c1"># インスタンス化（関数のように呼ぶ）</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">f</span><span class="p">())</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>12345
+&lt;function MyClass.f at 0x7f14caeb5e40&gt;
+A simple example class
+hello world</code></pre>
+<p>インスタンス化すると、特殊メソッド <dfn id="t64">__init__()</dfn> が自動的に呼ばれます。__init__ に引数を付けると、インスタンス化のときに渡した引数がそのまま渡されます。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">Complex</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">realpart</span><span class="p">,</span> <span class="n">imagpart</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">realpart</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">imagpart</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">Complex</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">i</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>3.0 -4.5</code></pre>
+<h4 id="s9-3-3"><span class="subno">9.3.3</span>インスタンスオブジェクト</h4>
+<p>インスタンスオブジェクトでできるのは<mark>属性の参照</mark>だけです。属性には、データ属性とメソッドの2種類があります。</p>
+<ul>
+<li><dfn id="t65">データ属性</dfn>（インスタンス変数）は<mark>宣言する必要がなく、最初に代入したときに作られます</mark>。</li>
+<li><dfn id="t66">メソッド</dfn>は、オブジェクトに属する関数です。<code>x.f</code> は<mark>メソッドオブジェクト</mark>、<code>MyClass.f</code> は<mark>関数オブジェクト</mark>で、同じものではありません。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">:</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">12345</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">'hello world'</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+<span class="n">x</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">1</span>                 <span class="c1"># 宣言なしで、代入すれば作られる</span>
+<span class="k">while</span> <span class="n">x</span><span class="o">.</span><span class="n">counter</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">counter</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">counter</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">counter</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">x</span><span class="o">.</span><span class="n">counter</span>                 <span class="c1"># 削除もできる</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">MyClass</span><span class="o">.</span><span class="n">f</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>16
+method function</code></pre>
+<h4 id="s9-3-4"><span class="subno">9.3.4</span>メソッドオブジェクト</h4>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">'hello world'</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">()</span>
+<span class="n">xf</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">f</span>                      <span class="c1"># メソッドオブジェクトを保存しておき</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">xf</span><span class="p">())</span>                   <span class="c1"># あとで呼べる</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">f</span><span class="p">()</span> <span class="o">==</span> <span class="n">MyClass</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># x.f() は MyClass.f(x) と同じ</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>hello world
+True</code></pre>
+<p>メソッドの特別なところは、<mark>インスタンスオブジェクトが関数の第1引数として渡される</mark>ことです。<mark><code>x.f()</code> は <code>MyClass.f(x)</code> と同じ</mark>です。n 個の引数でメソッドを呼ぶと、先頭にインスタンスを挿入した n+1 個の引数で関数を呼ぶことになります。</p>
+<h4 id="s9-3-5"><span class="subno">9.3.5</span>クラス変数とインスタンス変数</h4>
+<p><dfn id="t67">クラス変数</dfn>は、<mark>そのクラスの全インスタンスで共有</mark>される属性とメソッドです。<dfn id="t68">インスタンス変数</dfn>は、インスタンスごとに固有のデータです。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">Dog</span><span class="p">:</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="s1">'canine'</span>           <span class="c1"># クラス変数：全インスタンスで共有</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>      <span class="c1"># インスタンス変数：インスタンスごと</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">(</span><span class="s1">'Fido'</span><span class="p">)</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">(</span><span class="s1">'Buddy'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>canine canine
+Fido Buddy</code></pre>
+<div class="box warn"><span class="bh">注意：ミュータブルなクラス変数は共有される</span><p>クラス変数にリストや辞書を使うと、<mark>全インスタンスで1つのリストを共有</mark>してしまい、思わぬ結果になります。</p></div>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">Dog</span><span class="p">:</span>
+    <span class="n">tricks</span> <span class="o">=</span> <span class="p">[]</span>               <span class="c1"># 間違い：全インスタンスで共有される</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_trick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trick</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tricks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trick</span><span class="p">)</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">(</span><span class="s1">'Fido'</span><span class="p">)</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">(</span><span class="s1">'Buddy'</span><span class="p">)</span>
+<span class="n">d</span><span class="o">.</span><span class="n">add_trick</span><span class="p">(</span><span class="s1">'roll over'</span><span class="p">)</span>
+<span class="n">e</span><span class="o">.</span><span class="n">add_trick</span><span class="p">(</span><span class="s1">'play dead'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">tricks</span><span class="p">)</span>               <span class="c1"># Fido の芸に Buddy の芸まで入っている</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;roll over&#x27;, &#x27;play dead&#x27;]</code></pre>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">class</span><span class="w"> </span><span class="nc">Dog</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tricks</span> <span class="o">=</span> <span class="p">[]</span>      <span class="c1"># 正しい：インスタンスごとに新しいリストを作る</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_trick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trick</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tricks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">trick</span><span class="p">)</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">(</span><span class="s1">'Fido'</span><span class="p">)</span>
+<span class="n">e</span> <span class="o">=</span> <span class="n">Dog</span><span class="p">(</span><span class="s1">'Buddy'</span><span class="p">)</span>
+<span class="n">d</span><span class="o">.</span><span class="n">add_trick</span><span class="p">(</span><span class="s1">'roll over'</span><span class="p">)</span>
+<span class="n">e</span><span class="o">.</span><span class="n">add_trick</span><span class="p">(</span><span class="s1">'play dead'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">tricks</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">tricks</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;roll over&#x27;] [&#x27;play dead&#x27;]</code></pre>
+<div class="box java"><span class="bh">Javaと比べると</span><p>クラス変数は Javaの <code>static</code> フィールド、インスタンス変数は普通のフィールドにあたります。ただしPythonでは、インスタンス変数をクラスの中で宣言せず、<code>__init__</code> の中で <code>self.名前 = 値</code> と代入して作ります。</p></div>
+

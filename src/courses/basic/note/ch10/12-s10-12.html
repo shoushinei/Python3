@@ -1,0 +1,22 @@
+<h3 id="s10-12"><span class="secno">10.12</span>電池付きであること</h3>
+<p>Pythonは「<dfn id="t84">電池付き</dfn>（batteries included）」、つまり標準ライブラリだけで多くのことができる、という考え方をしています。</p>
+<div class="tbl"><table>
+<tr><th>モジュール</th><th>できること</th></tr>
+<tr><td><code>xmlrpc.client</code> / <code>xmlrpc.server</code></td><td>リモートプロシージャコール（RPC）</td></tr>
+<tr><td><code>email</code></td><td>メールメッセージ（MIME などを含む）の管理。<mark>実際の送受信はしない</mark></td></tr>
+<tr><td><code>json</code></td><td>JSON 形式の読み書き</td></tr>
+<tr><td><code>csv</code></td><td>CSV 形式の読み書き</td></tr>
+<tr><td><code>xml.etree.ElementTree</code>・<code>xml.dom</code>・<code>xml.sax</code></td><td>XML の処理</td></tr>
+<tr><td><code>sqlite3</code></td><td>SQLite データベースのラッパー</td></tr>
+<tr><td><code>gettext</code>・<code>locale</code>・<code>codecs</code></td><td>国際化（多言語対応）</td></tr>
+</table></div>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>import os を使い、from os import * は避ける（os.open が組み込みの open を隠すため）。dir() と help() で調べる。ファイル管理は shutil。</li>
+<li>glob.glob('*.py') はリスト。sys.argv はリスト、高度な処理は argparse。警告は sys.stderr、終了は sys.exit()。</li>
+<li>re.findall / re.sub。単純なら文字列メソッド。math・random（choice・sample・random・randrange）・statistics（mean・median・variance）。</li>
+<li>urllib.request で取得、smtplib で送信。date は datetime モジュール、日付の差は timedelta。</li>
+<li>圧縮は zlib・gzip・bz2・lzma・zipfile・tarfile。計測は timeit、大きなコードは profile・pstats。</li>
+<li>doctest は docstring のテスト（testmod）、unittest は別ファイルで包括的なテスト。</li>
+</ul></div>
+
+<div class="quizzes">

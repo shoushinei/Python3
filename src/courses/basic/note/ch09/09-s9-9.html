@@ -1,0 +1,20 @@
+<h3 id="s9-9"><span class="secno">9.9</span>ジェネレータ</h3>
+<p><dfn id="t71">ジェネレータ</dfn>は、イテレータを作るための簡単な道具です。普通の関数と同じように書きますが、値を返すところで <mark><code>yield</code> 文</mark>を使います。<code>next()</code> が呼ばれるたびに、<mark>前回中断したところから再開</mark>します（すべての変数の値と、最後に実行した文を覚えている）。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="k">def</span><span class="w"> </span><span class="nf">reverse</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">'golf'</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">char</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">' '</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">'ab'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">),</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>f l o g 
+b a</code></pre>
+<ul>
+<li><code>__iter__()</code> と <code>__next__()</code> が<mark>自動で作られる</mark>ので、クラスより簡潔に書けます。</li>
+<li>ローカル変数と実行状態は、呼び出しの間で<mark>自動的に保存</mark>されます。</li>
+<li>ジェネレータが終わると、<mark>自動的に StopIteration が送出</mark>されます。</li>
+</ul>
+

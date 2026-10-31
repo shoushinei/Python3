@@ -1,0 +1,38 @@
+<h3 id="s3-2"><span class="secno">3.2</span>プログラミング、はじめの一歩</h3>
+<div class="lead">フィボナッチ数列を例に、多重代入・while文・print の使い方を学びます。</div>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>           <span class="c1"># 多重代入</span>
+<span class="k">while</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>   <span class="c1"># 右辺がすべて先に計算されてから代入される</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>0
+1
+1
+2
+3
+5
+8</code></pre>
+<ul>
+<li><dfn id="t13">多重代入</dfn>：<mark>右辺の式はすべて、代入が行われる前に、左から右の順で評価</mark>されます。そのため <code>a, b = b, a + b</code> は、古い <code>a</code> と <code>b</code> を使って計算されます。</li>
+<li>while文は、条件が真の間くり返します。Cと同じく、<mark>0以外の整数は真、0は偽</mark>です。<mark>空でないシーケンス（文字列・リスト）は真、空のシーケンスは偽</mark>です。</li>
+<li>比較演算子は <code>&lt;</code> <code>&gt;</code> <code>==</code> <code>&lt;=</code> <code>&gt;=</code> <code>!=</code> です。ループの本体はインデントで表します。</li>
+</ul>
+<h5><span>print の使い方</span></h5>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">i</span> <span class="o">=</span> <span class="mi">256</span> <span class="o">*</span> <span class="mi">256</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'The value of i is'</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>     <span class="c1"># 引数の間に空白が入り、文字列は引用符なしで出力</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+<span class="k">while</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mi">1000</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span>             <span class="c1"># end で末尾の改行を別の文字に変える</span>
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>The value of i is 65536
+0,1,1,2,3,5,8,13,21,34,55,89,144,233,377,610,987,</code></pre>
+<p><code>print()</code> は、複数の引数を<mark>空白で区切って</mark>出力し、最後に<mark>改行</mark>します。キーワード引数 <dfn id="t14">end</dfn> を指定すると、末尾の改行を別の文字列に変えられます。区切りの空白は <code>sep</code> で変えられます。</p>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>/ は常に float、// は小さい方へ切り捨て、-3**2 は -9。対話モードでは _ に直前の値が入る。</li>
+<li>raw文字列 r'…'、三重引用符で複数行（行末の \ で改行を消す）、リテラル同士だけ自動連結。</li>
+<li>インデックスの範囲外は IndexError、スライスの範囲外はエラーにならない。文字列はイミュータブル、リストはミュータブル。</li>
+<li>代入はコピーしない。コピーは [:]。多重代入は右辺を先に全部計算する。print は空白区切り＋改行、end で変更。</li>
+</ul></div>
+
+<div class="quizzes">

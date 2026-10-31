@@ -1,0 +1,44 @@
+<h3 id="s5-8"><span class="secno">5.8</span>シーケンスの比較、その他の型の比較</h3>
+<p>同じ型のシーケンス同士は、<dfn id="t36">辞書式順序</dfn>で比べます。</p>
+<ol>
+<li>まず先頭の要素同士を比べ、違えばそれで大小が決まる。</li>
+<li>同じなら次の要素同士を比べる。これを、どちらかのシーケンスが終わるまで続ける。</li>
+<li>要素自体が同じ型のシーケンスなら、その中も辞書式に比べる（再帰的）。</li>
+<li>全部同じなら、2つは等しい。<mark>片方がもう片方の先頭部分と同じなら、短い方が小さい</mark>。</li>
+<li>文字列は、各文字の <mark>Unicode のコードポイント</mark>の大小で比べる。</li>
+</ol>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'ABC'</span> <span class="o">&lt;</span> <span class="s1">'C'</span> <span class="o">&lt;</span> <span class="s1">'Pascal'</span> <span class="o">&lt;</span> <span class="s1">'Python'</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">'aa'</span><span class="p">,</span> <span class="s1">'ab'</span><span class="p">))</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="s1">'abc'</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>True
+True
+True
+True
+True
+True
+True</code></pre>
+<ul>
+<li><code>'Pascal' &lt; 'Python'</code>：2文字目の <code>'a'</code>（97）と <code>'y'</code>（121）で決まる。大文字は小文字より小さい（<code>'A'</code> は65、<code>'a'</code> は97）。</li>
+<li><code>(1, 2) &lt; (1, 2, -1)</code>：先頭部分が同じなので、短い方が小さい。後ろの要素が負の数でも関係ない。</li>
+<li><code>('aa', 'ab') &lt; ('abc', 'a')</code>：<code>'aa'</code> と <code>'abc'</code> の2文字目 <code>'a'</code> &lt; <code>'b'</code> で決まる。</li>
+</ul>
+<p>違う型のオブジェクト同士を <code>&lt;</code> や <code>&gt;</code> で比べられるのは、適切な比較メソッドがある場合だけです。数値の型が違う場合（<code>0 == 0.0</code> など）は値で比べられますが、<mark>それ以外は、勝手な順序を付けずに TypeError</mark> になります。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="nb">print</span><span class="p">(</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="s1">'a'</span><span class="p">)</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>1行目: TypeError: &#x27;&lt;&#x27; not supported between instances of &#x27;int&#x27; and &#x27;str&#x27;</code></pre>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>append は1つ、extend は要素を全部。insert(i, x) は i の前。remove は値、pop は位置（省略時は末尾）で、pop だけ値を返す。sort・reverse などは None を返す。</li>
+<li>スタックは append と pop、キューは deque の append と popleft。</li>
+<li>リスト内包の for・if の順番は入れ子ループと同じ。タプルを作るならカッコ必須。zip(*matrix) はタプルのリスト。</li>
+<li>del は位置・スライスで消し、値を返さない。del a の後は NameError。</li>
+<li>1要素のタプルは 'a',。空の集合は set()、{} は辞書。差 -、和 |、積 &amp;、対称差 ^。辞書のキーはイミュータブルな型だけ（リスト不可）。</li>
+<li>items はキーと値、enumerate は位置と値、zip は組、reversed は逆順、sorted は新しいリスト。</li>
+<li>or / and は最後に評価した値を返す。not &gt; and &gt; or。比較は連鎖できる。シーケンスは辞書式で比べ、短い方が小さい。</li>
+</ul></div>
+
+<div class="quizzes">

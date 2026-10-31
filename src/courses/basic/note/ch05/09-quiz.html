@@ -1,0 +1,65 @@
+<h3>確認問題 <span class="qscore"></span></h3>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q1</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>a = [1, 2, 3]
+a.insert(1, 9)
+x = a.pop()
+print(a, x)</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">[9, 1, 2] 3</li><li data-k="b" class="code">[1, 9, 2] 3</li><li data-k="c" class="code">[1, 9, 2, 3] None</li><li data-k="d" class="code">[1, 2, 3] 9</li>
+</ol><div class="exp" hidden>insert(1, 9) で位置1の前に9が入り [1, 9, 2, 3]。引数なしの pop() は末尾の3を取り出して返します。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q2</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>a = [3, 1, 2]
+print(a.sort(), sorted(a, reverse=True))</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">[1, 2, 3] [3, 2, 1]</li><li data-k="b" class="code">[1, 2, 3] None</li><li data-k="c" class="code">None None</li><li data-k="d" class="code">None [3, 2, 1]</li>
+</ol><div class="exp" hidden>sort() はその場で並べ替えて None を返します。sorted() は新しいリストを返します。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q3</span>キューとして要素を先頭から効率よく取り出すのに適したものはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">collections.deque の popleft()</li><li data-k="b" class="code">list の pop()</li><li data-k="c" class="code">list の remove(0)</li><li data-k="d" class="code">set の pop()</li>
+</ol><div class="exp" hidden>リストの先頭からの削除は、残りの要素をずらすので遅くなります。deque は両端の追加・削除が高速です。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q4</span><code>[(x, y) for x in 'ab' for y in [1, 2]]</code> の結果はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">[('a', 1), ('b', 2)]</li>
+<li data-k="b" class="code">[('a', 1), ('b', 1), ('a', 2), ('b', 2)]</li>
+<li data-k="c" class="code">[('a', 1), ('a', 2), ('b', 1), ('b', 2)]</li>
+<li data-k="d" class="code">SyntaxError</li>
+</ol><div class="exp" hidden>左の for（x）が外側のループです。x='a' のときに y が 1, 2 と回り、次に x='b' で回ります。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q5</span><code>m = [[1, 2], [3, 4]]</code> のとき、<code>list(zip(*m))</code> の結果はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">[[1, 3], [2, 4]]</li><li data-k="b" class="code">[(1, 3), (2, 4)]</li><li data-k="c" class="code">[(1, 2), (3, 4)]</li><li data-k="d" class="code">[1, 2, 3, 4]</li>
+</ol><div class="exp" hidden>zip(*m) は zip([1, 2], [3, 4]) と同じで、同じ位置の要素をタプルにします。結果はタプルのリストです。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q6</span>次のうち、要素が1つのタプルになるものはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">t = (5)</li><li data-k="b" class="code">t = [5]</li><li data-k="c" class="code">t = 5,</li><li data-k="d" class="code">t = tuple(5)</li>
+</ol><div class="exp" hidden>1要素のタプルは末尾のカンマで作ります。(5) はただの整数、tuple(5) は整数がイテラブルでないので TypeError です。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q7</span><code>a = {1, 2, 3}</code>、<code>b = {2, 3, 4}</code> のとき、<code>a ^ b</code> の結果はどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">{1, 4}</li><li data-k="b" class="code">{2, 3}</li><li data-k="c" class="code">{1}</li><li data-k="d" class="code">{1, 2, 3, 4}</li>
+</ol><div class="exp" hidden>^ は対称差で、どちらか一方だけにある要素です。{2, 3} は &amp;（積）、{1} は a - b、{1, 2, 3, 4} は |（和）です。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q8</span>辞書のキーにできないものはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">'name'</li><li data-k="b" class="code">3.14</li><li data-k="c" class="code">(1, 'a')</li><li data-k="d" class="code">[1, 2]</li>
+</ol><div class="exp" hidden>キーにできるのはイミュータブルな型です。リストは変更できるのでキーにできません（TypeError）。</div></div>
+<div class="quiz" data-answer="b"><p class="q"><span class="qn">Q9</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>print('' or 'B' or 'C', 0 and 5, 3 and 5)</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">True False True</li><li data-k="b" class="code">B 0 5</li><li data-k="c" class="code">B False 5</li><li data-k="d" class="code">C 0 3</li>
+</ol><div class="exp" hidden>or は最初の真の値、and は最初の偽の値（全部真なら最後の値）を返します。True / False には変換されません。</div></div>
+<div class="quiz" data-answer="c"><p class="q"><span class="qn">Q10</span>次の比較のうち、結果が False になるものはどれか。</p>
+<ol class="opts">
+<li data-k="a" class="code">(1, 2) &lt; (1, 2, -1)</li><li data-k="b" class="code">'Pascal' &lt; 'Python'</li><li data-k="c" class="code">[1, 3] &lt; [1, 2, 9]</li><li data-k="d" class="code">(1, 2, 3) == (1.0, 2.0, 3.0)</li>
+</ol><div class="exp" hidden>[1, 3] と [1, 2, 9] は2番目の要素 3 &gt; 2 で決まるので、[1, 3] の方が大きく False です。長さは関係ありません。</div></div>
+<div class="quiz" data-answer="a"><p class="q"><span class="qn">Q11</span>次のコードの出力はどれか。</p>
+<pre class="pynr"><code>for i, c in enumerate('ab', 1):
+    print(i, c, end=' ')</code></pre>
+<ol class="opts">
+<li data-k="a" class="code">1 a 2 b</li><li data-k="b" class="code">0 a 1 b</li><li data-k="c" class="code">a 1 b 2</li><li data-k="d" class="code">(1, 'a') (2, 'b')</li>
+</ol><div class="exp" hidden>enumerate の第2引数は開始番号です。位置と値の組がアンパックされて i と c に入ります。</div></div>
+<div class="quiz" data-answer="d"><p class="q"><span class="qn">Q12</span>del 文に関する説明として正しいものはどれか。</p>
+<ol class="opts">
+<li data-k="a">del a[0] は削除した値を返す。</li>
+<li data-k="b">del a[:] を実行すると変数 a 自体が消える。</li>
+<li data-k="c">del は値を指定して要素を削除する。</li>
+<li data-k="d">del a を実行した後に a を参照すると NameError になる。</li>
+</ol><div class="exp" hidden>del は位置やスライスで削除し、値を返しません。del a[:] は中身を空にするだけで、変数は残ります。del a は変数そのものを削除します。</div></div>
+</div>

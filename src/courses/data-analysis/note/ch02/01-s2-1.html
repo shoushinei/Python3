@@ -1,0 +1,44 @@
+<h3 id="s2-1"><span class="secno">2.1</span>実行環境構築 <span class="scope">1問</span></h3>
+<div class="lead">Python本体のインストールと、仮想環境・パッケージ管理の仕組みを説明します。</div>
+
+<h4 id="s2-1-1"><span class="subno">2.1.1</span>Python公式版をインストール</h4>
+<p>Pythonは公式サイト（python.org）からダウンロードしてインストールできます。インストールできたら、ターミナルでバージョンを確認します。</p>
+<pre class="shell"><code>% python3 -V
+Python 3.13.2</code></pre>
+<p>Windowsでは <code>py</code> や <code>python</code> コマンドを使います。</p>
+
+<h4 id="s2-1-2"><span class="subno">2.1.2</span>venv: Pythonの仮想環境</h4>
+<p>プロジェクトごとに、使うパッケージとそのバージョンを分けておく仕組みを<dfn id="t33">仮想環境</dfn>と呼びます。標準ライブラリの <dfn id="t34">venv</dfn> で作れて、<mark>Windows・macOS・Linuxのどれでも使えます</mark>。</p>
+<pre class="shell"><code>% python3 -m venv env              <span class="cm"># env という名前の仮想環境を作る</span>
+% source env/bin/activate          <span class="cm"># 有効化（macOS / Linux）</span>
+(env) % python -V                  <span class="cm"># プロンプトの先頭に (env) が付く</span>
+Python 3.13.2
+(env) % deactivate                 <span class="cm"># 無効化</span></code></pre>
+<p>Windowsでは <code>env\Scripts\activate</code> で有効化します。</p>
+<div class="box warn"><span class="bh">注意：venvで分かれるのはパッケージ</span>
+<p>仮想環境の中のPythonは、<mark>venvを実行したPython本体と同じバージョン</mark>になります。venvは「パッケージの組み合わせ」を分ける仕組みで、Pythonのバージョン自体を切り替える仕組みではありません。別のバージョンを使いたいときは、そのバージョンのPythonを別にインストールして、そのPythonでvenvを作ります。</p></div>
+<div class="box java"><span class="bh">Javaと比べると</span><p>プロジェクトごとに依存ライブラリを分けて管理する、Maven や Gradle の考え方に近いものです。</p></div>
+
+<h4 id="s2-1-3"><span class="subno">2.1.3</span>pipコマンド</h4>
+<p><dfn id="t35">pip</dfn> は、<dfn id="t36">PyPI</dfn>（The Python Package Index）に公開されているパッケージをインストールするためのコマンドです。</p>
+<pre class="shell"><code>(env) % pip install numpy             <span class="cm"># インストール</span>
+(env) % pip install pandas==2.2.3     <span class="cm"># バージョンを指定してインストール</span>
+(env) % pip install -U numpy          <span class="cm"># 新しいバージョンに更新</span>
+(env) % pip list                      <span class="cm"># インストール済みのパッケージ一覧</span>
+(env) % pip freeze &gt; requirements.txt <span class="cm"># 一覧をファイルに書き出す</span>
+(env) % pip install -r requirements.txt  <span class="cm"># ファイルの一覧をまとめてインストール</span>
+(env) % pip uninstall numpy           <span class="cm"># アンインストール</span></code></pre>
+
+<h4 id="s2-1-4"><span class="subno">2.1.4</span>Anaconda</h4>
+<p><dfn id="t37">Anaconda</dfn> は、<mark>Anaconda社が開発・配布しているPythonの<span class="gl" tabindex="0" data-g="ディストリビューション">ディストリビューション</span></mark>です。NumPy や pandas など、データ分析でよく使うパッケージが最初からまとめて入っています。</p>
+<ul>
+<li>パッケージ管理と仮想環境の作成には、pip・venv ではなく<mark>独自の <dfn id="t38">conda</dfn> コマンド</mark>を使います（例：<code>conda create -n myenv python=3.12</code>）。</li>
+<li>conda では、仮想環境ごとにPythonのバージョンを指定できます。</li>
+<li>pip と conda を同じ環境で混ぜて使うと、依存関係が崩れることがあるので注意が必要です。</li>
+</ul>
+<div class="box point"><span class="bh">POINT</span><ul>
+<li>venv：標準ライブラリ。パッケージを環境ごとに分ける。</li>
+<li>pip：<span class="gl" tabindex="0" data-g="PyPI">PyPI</span> からパッケージをインストールする。</li>
+<li>Anaconda：Anaconda社のディストリビューション。conda で環境とパッケージを管理する。</li>
+</ul></div>
+

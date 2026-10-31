@@ -1,0 +1,21 @@
+<h3 id="s6-3"><span class="secno">6.3</span>dir()関数</h3>
+<p>組み込み関数 <dfn id="t41">dir()</dfn> は、モジュールが定義している名前を、<mark>並べ替えた文字列のリスト</mark>で返します。</p>
+<span class="inlbl">In</span><pre class="py"><code><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"."</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">fibo</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">fibo</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"__"</span><span class="p">)])</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">fibo</span><span class="p">)),</span> <span class="nb">dir</span><span class="p">(</span><span class="n">fibo</span><span class="p">)</span> <span class="o">==</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">dir</span><span class="p">(</span><span class="n">fibo</span><span class="p">)))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;fib&#x27;, &#x27;fib2&#x27;]
+&lt;class &#x27;list&#x27;&gt; True</code></pre>
+<ul>
+<li><mark>引数なしの <code>dir()</code> は、現在定義している名前</mark>（変数・モジュール・関数など）を返します。</li>
+<li>ただし、<mark>組み込み関数や組み込み変数の名前は含まれません</mark>。それらは標準モジュール <code>builtins</code> に定義されているので、<code>dir(builtins)</code> で見られます。</li>
+</ul>
+<span class="inlbl">In</span><pre class="py"><code><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"__"</span><span class="p">)))</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">builtins</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'print'</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">builtins</span><span class="p">),</span> <span class="s1">'len'</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">builtins</span><span class="p">))</span></code></pre>
+<span class="outlbl">Out</span>
+<pre class="out"><code>[&#x27;a&#x27;]
+True True</code></pre>
+
