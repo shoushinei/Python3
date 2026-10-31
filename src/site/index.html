@@ -4,80 +4,188 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Python 3 エンジニア認定試験 対策ノート</title>
-<meta name="description" content="Python 3 エンジニア認定基礎試験とデータ分析試験の教材と模擬試験">
+<meta name="description" content="Python 3 エンジニア認定基礎試験とデータ分析試験の学習サイト。教材を読み、コードを動かし、確認問題と模試で仕上げます。無料・登録不要です。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&family=Barlow:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700&family=Barlow:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
 {{styles}}</style>
 </head>
 <body>
-<main class="wrap">
-  <div class="eyebrow">PYTHON 3 ENGINEER</div>
-  <h1>Python 3 エンジニア認定試験 対策ノート</h1>
-  <p class="intro">基礎試験とデータ分析試験の教材と模擬試験です。読み進めた章や受験の記録は、お使いのブラウザに保存されます。</p>
+<header class="topbar">
+  <a class="logo" href="#top">Python 3 対策ノート</a>
+  <nav class="topnav" aria-label="ページ内の移動">
+    <a href="#exams">試験を選ぶ</a>
+    <a href="#howto">使い方</a>
+    <a href="#refs">参考サイト</a>
+    <a href="#faq">よくある質問</a>
+  </nav>
+</header>
 
-  <section class="course" id="basic">
-    <h2>Python 3 エンジニア認定基礎試験</h2>
-    <p class="facts">40問・60分・選択式／正答率70%以上で合格</p>
-    <div class="cards">
-      <a class="card" href="basic/note/index.html">
-        <span class="kind">教材</span>
-        <b>チュートリアル総点検</b>
-        <span class="desc">全小節の論点を1つずつ点検します。コードはその場で実行できます。</span>
-        <span class="state" data-note="basic"></span>
-      </a>
-      <a class="card" href="basic/exam/index.html">
-        <span class="kind">模試</span>
-        <b>本番形式模試</b>
-        <span class="desc">40問・60分で受験し、採点と章ごとの正解率、解説を確認できます。</span>
-        <span class="state" data-exam="basic"></span>
-      </a>
+<div class="hero" id="top">
+  <div class="hero-in">
+    <div class="hero-text">
+      <div class="eyebrow">PYTHON 3 ENGINEER CERTIFICATION</div>
+      <h1>Python 3 エンジニア認定試験 対策ノート</h1>
+      <p class="tagline">読んで、動かして、解いて、合格へ。</p>
+      <p class="lead">基礎試験とデータ分析試験の勉強を、ブラウザだけで進められる学習サイトです。無料で、登録もインストールも要りません。</p>
+      <div class="hero-acts">
+        <a class="btn on-hero" href="#basic">基礎試験から始める</a>
+        <a class="btn on-hero" href="#data-analysis">データ分析試験から始める</a>
+      </div>
+    </div>
+    <figure class="hero-code">
+      <figcaption>合格ラインをPythonで確かめる</figcaption>
+<pre><code><span class="pr">&gt;&gt;&gt;</span> correct = 28  <span class="cm"># 40問中の正解数</span>
+<span class="pr">&gt;&gt;&gt;</span> correct / 40 &gt;= 0.7
+True</code></pre>
+    </figure>
+  </div>
+</div>
+
+<main>
+  <section class="resume" id="resume" hidden aria-labelledby="resumeTitle">
+    <h2 id="resumeTitle">前回の続き</h2>
+    <ul class="resume-list" id="resumeList"></ul>
+  </section>
+
+  <section class="block" id="exams" aria-labelledby="examsTitle">
+    <div class="block-head">
+      <h2 id="examsTitle">受ける試験を選ぶ</h2>
+      <p>どちらも40問・60分の選択式で、正答率70%（28問）以上で合格です。出題の多い範囲から固めると効率よく進められます。</p>
+    </div>
+    <div class="exams">
+      <article class="exam" id="basic">
+        <div class="exam-head">
+          <h3>Python 3 エンジニア認定基礎試験</h3>
+          <p>Pythonの文法の基礎を問う試験です。これからPythonを学ぶ人や、文法を基礎から確かめたい人に向いています。</p>
+        </div>
+        <table class="dist">
+          <caption>出題の多い範囲（40問のうち）</caption>
+          <tbody>
+            <tr title="9問（22.5%）"><th scope="row">4章 制御構造ツール</th><td><span class="bar" style="--v:9"></span></td><td class="n">9問</td></tr>
+            <tr title="7問（17.5%）"><th scope="row">5章 データ構造</th><td><span class="bar" style="--v:7"></span></td><td class="n">7問</td></tr>
+            <tr title="6問（15%）"><th scope="row">3章 気楽な入門編</th><td><span class="bar" style="--v:6"></span></td><td class="n">6問</td></tr>
+            <tr title="4問（10%）"><th scope="row">8章 エラーと例外</th><td><span class="bar" style="--v:4"></span></td><td class="n">4問</td></tr>
+            <tr title="4問（10%）"><th scope="row">10章 標準ライブラリめぐり</th><td><span class="bar" style="--v:4"></span></td><td class="n">4問</td></tr>
+            <tr class="rest" title="10問（25%）"><th scope="row">残りの8章の合計</th><td><span class="bar" style="--v:10"></span></td><td class="n">10問</td></tr>
+          </tbody>
+        </table>
+        <p class="tip"><b>勉強のコツ</b>3〜5章で22問と半分以上を占めます。まずここを確実にしてから、1問ずつの章も拾いましょう。</p>
+        <div class="progress" data-progress="basic" hidden><span class="progress-text"></span><span class="progress-track"><i></i></span></div>
+        <div class="exam-acts">
+          <a class="btn primary" href="basic/note/index.html" data-note-link="basic">教材を読む</a>
+          <a class="btn" href="basic/exam/index.html">模試を受ける</a>
+        </div>
+      </article>
+
+      <article class="exam" id="data-analysis">
+        <div class="exam-head">
+          <h3>Python 3 エンジニア認定データ分析試験</h3>
+          <p>Pythonを使ったデータ分析の基礎や方法を問う試験です。Pythonの文法を学んだあと、データ分析に進みたい人に向いています。</p>
+        </div>
+        <table class="dist">
+          <caption>出題の多い範囲（40問のうち）</caption>
+          <tbody>
+            <tr title="8問（20%）"><th scope="row">scikit-learn</th><td><span class="bar" style="--v:8"></span></td><td class="n">8問</td></tr>
+            <tr title="7問（17.5%）"><th scope="row">pandas</th><td><span class="bar" style="--v:7"></span></td><td class="n">7問</td></tr>
+            <tr title="6問（15%）"><th scope="row">NumPy</th><td><span class="bar" style="--v:6"></span></td><td class="n">6問</td></tr>
+            <tr title="6問（15%）"><th scope="row">Matplotlib</th><td><span class="bar" style="--v:6"></span></td><td class="n">6問</td></tr>
+            <tr title="6問（15%）"><th scope="row">数学の基礎</th><td><span class="bar" style="--v:6"></span></td><td class="n">6問</td></tr>
+            <tr class="rest" title="7問（17.5%）"><th scope="row">Pythonと環境・役割</th><td><span class="bar" style="--v:7"></span></td><td class="n">7問</td></tr>
+          </tbody>
+        </table>
+        <p class="tip"><b>勉強のコツ</b>4つのライブラリで27問と約7割を占めます。実際にコードを動かしながら覚えましょう。</p>
+        <div class="progress" data-progress="data-analysis" hidden><span class="progress-text"></span><span class="progress-track"><i></i></span></div>
+        <div class="exam-acts">
+          <a class="btn primary" href="data-analysis/note/index.html" data-note-link="data-analysis">教材を読む</a>
+          <a class="btn" href="#mocks">外部の模試を探す</a>
+        </div>
+      </article>
     </div>
   </section>
 
-  <section class="course" id="data-analysis">
-    <h2>Python 3 エンジニア認定データ分析試験</h2>
-    <p class="facts">40問・60分・選択式／正答率70%以上で合格</p>
-    <div class="cards">
-      <a class="card" href="data-analysis/note/index.html">
-        <span class="kind">教材</span>
-        <b>Pythonデータ分析 入門</b>
-        <span class="desc">NumPy・pandas・Matplotlib・scikit-learnを中心に、出題範囲を順に学びます。</span>
-        <span class="state" data-note="data-analysis"></span>
-      </a>
-      <a class="card" href="#links">
-        <span class="kind">模試</span>
-        <b>外部の模擬試験を使う</b>
-        <span class="desc">データ分析試験の模試は、下の外部サイトで受けられます。</span>
-      </a>
+  <section class="block" id="howto" aria-labelledby="howtoTitle">
+    <div class="block-head">
+      <h2 id="howtoTitle">このサイトの使い方</h2>
+      <p>はじめての人は、この順番で進めるのがおすすめです。</p>
+    </div>
+    <ol class="steps">
+      <li>
+        <span class="hexno">1</span>
+        <h3>教材を章ごとに読む</h3>
+        <p>章のタブと目次で移動します。覚える用語は青い太字、間違えやすい点は黄色のマーカーで示しています。読み終えた章は読了にしておきましょう。</p>
+      </li>
+      <li>
+        <span class="hexno">2</span>
+        <h3>コードを動かす</h3>
+        <p>コード例の「▶ 実行」を押すと、その場で結果を確かめられます。書き換えて試すこともできます。初回だけ準備に少し時間がかかります。</p>
+      </li>
+      <li>
+        <span class="hexno">3</span>
+        <h3>確認問題と暗記シートで固める</h3>
+        <p>章末の確認問題を解いて理解を確かめます。付録の暗記シートと重要用語チェックで、試験の直前まで何度も見直せます。</p>
+      </li>
+      <li>
+        <span class="hexno">4</span>
+        <h3>模試で仕上げる</h3>
+        <p>本番と同じ形式で解いて、弱い章を見つけます。基礎試験の模試は、解説から教材の該当する節へ戻って復習できます。</p>
+      </li>
+    </ol>
+    <p class="note">読了した章や模試の記録は、お使いのブラウザに自動で保存されます。次に開くと、このページの上に「前回の続き」が出ます。</p>
+  </section>
+
+  <section class="block" id="refs" aria-labelledby="refsTitle">
+    <div class="block-head">
+      <h2 id="refsTitle">あわせて使える参考サイト</h2>
+      <p>どれも別の運営者によるサイトです。リンクは新しいタブで開きます。内容や料金は各サイトで確認してください。</p>
+    </div>
+    <div class="refs">
+      <section class="ref-group">
+        <h3>試験の公式情報</h3>
+        <ul>
+          <li><a href="https://pythonic-exam.com/exam/basic" target="_blank" rel="noopener noreferrer">基礎試験の試験概要</a><span>Pythonエンジニア育成推進協会。形式と出題範囲を確認できます。</span></li>
+          <li><a href="https://pythonic-exam.com/exam/analyist" target="_blank" rel="noopener noreferrer">データ分析試験の試験概要</a><span>同じく、データ分析試験の形式と出題範囲です。</span></li>
+          <li><a href="https://cbt.odyssey-com.co.jp/pythonic-exam/" target="_blank" rel="noopener noreferrer">Odyssey CBT</a><span>試験の案内と受験の申し込みはこちらから。</span></li>
+          <li><a href="https://pythonic-exam.com/archives/category/success-story" target="_blank" rel="noopener noreferrer">合格体験記</a><span>受験者の勉強法や体験談を読めます。</span></li>
+        </ul>
+      </section>
+      <section class="ref-group" id="mocks">
+        <h3>模擬試験</h3>
+        <ul>
+          <li><a href="https://study.prime-strategy.co.jp/" target="_blank" rel="noopener noreferrer">PRIME STUDY</a><span>基礎試験とデータ分析試験の模試を各3回分、何度でも無料で受験できます。</span></li>
+          <li><a href="https://diver.diveintocode.jp/dive_into_exam/lp" target="_blank" rel="noopener noreferrer">ディープロ EXAM</a><span>無料会員登録で模試を受験できます。解説や学習教材は有料プランで提供されています。</span></li>
+        </ul>
+      </section>
+      <section class="ref-group">
+        <h3>教材とドキュメント</h3>
+        <ul>
+          <li><a href="https://pythonic-exam.com/material" target="_blank" rel="noopener noreferrer">認定教材・参考教材</a><span>各試験の主教材や参考書の一覧です。</span></li>
+          <li><a href="https://www.oreilly.co.jp/books/9784873119359/" target="_blank" rel="noopener noreferrer">Pythonチュートリアル 第4版</a><span>基礎試験の主教材です（オライリー・ジャパン）。</span></li>
+          <li><a href="https://docs.python.org/ja/3/tutorial/index.html" target="_blank" rel="noopener noreferrer">Python チュートリアル（公式ドキュメント）</a><span>Web上で無料で読める日本語版です。</span></li>
+          <li class="doc-row"><span class="doc-label">データ分析ライブラリの公式ドキュメント</span>
+            <span class="doc-links"><a href="https://numpy.org/doc/stable/" target="_blank" rel="noopener noreferrer">NumPy</a><a href="https://pandas.pydata.org/docs/" target="_blank" rel="noopener noreferrer">pandas</a><a href="https://matplotlib.org/stable/" target="_blank" rel="noopener noreferrer">Matplotlib</a><a href="https://scikit-learn.org/stable/" target="_blank" rel="noopener noreferrer">scikit-learn</a></span></li>
+        </ul>
+      </section>
     </div>
   </section>
 
-  <section class="course" id="links">
-    <h2>外部の対策サイト</h2>
-    <p class="facts">どれも基礎試験とデータ分析試験の両方に対応しています。このサイトとは別の運営です。</p>
-    <div class="cards">
-      <a class="card" href="https://cbt.odyssey-com.co.jp/pythonic-exam/" target="_blank" rel="noopener noreferrer">
-        <span class="kind">試験の案内</span>
-        <b>Odyssey CBT <span class="ext" aria-label="別のサイトが開きます">↗</span></b>
-        <span class="desc">Pythonエンジニア認定試験の案内ページです。試験ごとの概要や受験の案内を確認できます。</span>
-      </a>
-      <a class="card" href="https://study.prime-strategy.co.jp/" target="_blank" rel="noopener noreferrer">
-        <span class="kind">無料の模擬試験</span>
-        <b>PRIME STUDY <span class="ext" aria-label="別のサイトが開きます">↗</span></b>
-        <span class="desc">基礎試験とデータ分析試験の模擬試験を、各3回分、何度でも無料で受験できます。</span>
-      </a>
-      <a class="card" href="https://diver.diveintocode.jp/dive_into_exam/lp" target="_blank" rel="noopener noreferrer">
-        <span class="kind">模擬試験サービス</span>
-        <b>ディープロ EXAM <span class="ext" aria-label="別のサイトが開きます">↗</span></b>
-        <span class="desc">無料会員登録で模擬試験を受験できます。解説や学習教材は有料プランで提供されています。</span>
-      </a>
+  <section class="block" id="faq" aria-labelledby="faqTitle">
+    <div class="block-head"><h2 id="faqTitle">よくある質問</h2></div>
+    <div class="faq">
+      <details><summary>無料で使えますか？登録は必要ですか？</summary><p>無料で使えます。会員登録もログインも必要ありません。</p></details>
+      <details><summary>Pythonをパソコンに入れる必要はありますか？</summary><p>必要ありません。コードはブラウザの中で動きます。ただし、「▶ 実行」を使うときはインターネット接続が必要です。</p></details>
+      <details><summary>スマホでも勉強できますか？</summary><p>できます。教材の目次は左上の「☰ 目次」から開きます。模試は問題一覧を「一覧」ボタンで開きます。</p></details>
+      <details><summary>進み具合はどこに保存されますか？</summary><p>お使いのブラウザの中にだけ保存します。別の端末には引き継がれず、ブラウザのデータを消すと記録も消えます。</p></details>
+      <details><summary>データ分析試験の模試はありますか？</summary><p>このサイトには、今のところ基礎試験の模試だけがあります。データ分析試験は<a href="#mocks">外部の模擬試験</a>を利用してください。</p></details>
+      <details><summary>試験の申し込みはどこからできますか？</summary><p><a href="https://cbt.odyssey-com.co.jp/pythonic-exam/" target="_blank" rel="noopener noreferrer">Odyssey CBT</a> から申し込めます。受験料や会場などの最新の情報も、公式の案内で確認してください。</p></details>
+      <details><summary>このサイトは公式の教材ですか？</summary><p>いいえ。個人が作成した非公式の学習教材で、試験の実施団体や出版社とは関係ありません。詳しくは<a href="about/index.html">このサイトについて</a>をご覧ください。</p></details>
     </div>
   </section>
 </main>
-<footer>
-  <p><a href="about/index.html">このサイトについて</a></p>
+
+<footer class="sitefoot">
+  <p class="foot-links"><a href="about/index.html">このサイトについて</a><a href="https://github.com/shoushinei/Python3/issues" target="_blank" rel="noopener noreferrer">誤りを報告する</a></p>
   <p>個人が作成した非公式の学習教材です。試験の実施団体や出版社とは関係ありません。</p>
 </footer>
 <script>

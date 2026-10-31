@@ -6,3 +6,6 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body)
 a{color:var(--brand-ink)}
 button{font:inherit;color:inherit}
 
+
+/* コードの記号（>= や != など）を合字にせず、入力するとおりに見せる */
+code,pre{font-variant-ligatures:none}

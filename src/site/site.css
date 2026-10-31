@@ -1,35 +1,141 @@
+:root{--hero-a:#075a9c; --hero-b:#0a6fbf; --bar:#0b86d6; --bar-rest:#9fb0c2; --topbar-h:56px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hero-a:#0b3f6e; --hero-b:#0a5a9c; --bar:#2f94dc; --bar-rest:#5b6778}}
+:root[data-theme="dark"]{--hero-a:#0b3f6e; --hero-b:#0a5a9c; --bar:#2f94dc; --bar-rest:#5b6778}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--topbar-h) + 16px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+[hidden]{display:none!important}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.8}
 a{color:var(--brand-ink)}
-.wrap{max-width:900px;margin:0 auto;padding:48px 16px 24px}
-.eyebrow{font-family:var(--f-num);font-weight:700;font-size:.8rem;letter-spacing:.12em;color:var(--brand-ink)}
-h1{font-family:var(--f-head);font-size:2rem;line-height:1.35;margin:6px 0 8px}
-.intro{color:var(--muted);margin:0 0 36px}
-h2{font-family:var(--f-head);font-size:1.2rem;line-height:1.5;margin:0}
+h1,h2,h3{font-family:var(--f-head);line-height:1.45;text-wrap:balance}
+main{max-width:1080px;margin:0 auto;padding:0 16px}
 
-/* ---------- 試験ごとのまとまり ---------- */
-.course{margin-bottom:36px;scroll-margin-top:16px}
-.facts{margin:2px 0 12px;font-size:.88rem;color:var(--muted)}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
-.card{display:flex;flex-direction:column;background:var(--sheet);border:1px solid var(--line);border-radius:10px;padding:16px 18px;color:inherit;text-decoration:none}
-.card:hover,.card:focus-visible{border-color:var(--brand);background:var(--brand-soft)}
-.kind{font-size:.76rem;font-weight:700;color:var(--brand-ink)}
-.card b{font-family:var(--f-head);font-size:1.08rem;margin:2px 0 4px}
-.desc{font-size:.9rem;color:var(--muted);line-height:1.65}
-.ext{font-family:var(--f-body);font-size:.85rem;color:var(--muted)}
-.state{font-size:.82rem;font-weight:700;color:var(--brand-ink);line-height:1.6;margin-top:auto;padding-top:8px}
-.state:empty{display:none}
+/* ---------- ボタン ---------- */
+.btn{display:inline-block;padding:9px 20px;border:1px solid var(--line);border-radius:999px;background:var(--sheet);color:var(--brand-ink);font-weight:700;font-size:.92rem;line-height:1.5;text-align:center;text-decoration:none}
+.btn:hover{border-color:var(--brand);background:var(--brand-soft)}
+.btn.primary{background:var(--brand-ink);border-color:var(--brand-ink);color:var(--sheet)}
+.btn.primary:hover{opacity:.9;background:var(--brand-ink)}
+.btn.on-hero{background:#fff;border-color:#fff;color:#075a9c}
+.btn.on-hero:hover{background:#e5f3fd;border-color:#e5f3fd}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.hero a:focus-visible{outline-color:#fff}
+
+/* ---------- 上部バー ---------- */
+.topbar{position:sticky;top:0;z-index:20;min-height:var(--topbar-h);display:flex;align-items:center;justify-content:space-between;gap:8px 20px;padding:0 max(16px,calc((100% - 1048px)/2));background:var(--sheet);border-bottom:1px solid var(--line)}
+.logo{font-family:var(--f-head);font-weight:700;color:var(--ink);text-decoration:none;white-space:nowrap}
+.topnav{display:flex;gap:4px 18px;font-size:.88rem;font-weight:700}
+.topnav a{color:var(--muted);text-decoration:none;white-space:nowrap}
+.topnav a:hover{color:var(--brand-ink)}
+
+/* ---------- ヒーロー ---------- */
+.hero{background:linear-gradient(135deg,var(--hero-a),var(--hero-b));color:#fff}
+.hero-in{max-width:1080px;margin:0 auto;padding:clamp(32px,6vw,64px) 16px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(24px,5vw,56px);align-items:center}
+.eyebrow{font-family:var(--f-num);font-weight:700;font-size:.78rem;letter-spacing:.12em;opacity:.85}
+.hero h1{font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.35;margin:8px 0 10px}
+.tagline{font-family:var(--f-head);font-weight:700;font-size:clamp(1.05rem,2.2vw,1.3rem);margin:0 0 10px}
+.lead{margin:0 0 22px;max-width:36em}
+.hero-acts{display:flex;flex-wrap:wrap;gap:10px}
+.hero-code{margin:0;border-radius:12px;overflow:hidden;background:#0d2238;box-shadow:0 10px 30px rgba(0,0,0,.22)}
+.hero-code figcaption{padding:9px 16px;font-size:.8rem;font-weight:700;color:#bcd6ec;border-bottom:1px solid rgba(255,255,255,.12)}
+.hero-code pre{margin:0;padding:16px;overflow-x:auto;font-size:.92rem;line-height:1.8}
+.hero-code code{font-family:var(--f-code);color:#eef6fd}
+.hero-code .pr{color:#7fc4f5}
+.hero-code .cm{color:#a5b6c7}
+
+/* ---------- 前回の続き ---------- */
+.resume{margin-top:24px;padding:18px 20px;background:var(--sheet);border:1px solid var(--brand);border-radius:12px}
+.resume h2{font-size:1.05rem;margin:0 0 8px}
+.resume-list{list-style:none;margin:0;padding:0}
+.resume-list li{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 16px;padding:10px 0;border-top:1px solid var(--line)}
+.resume-list li:first-child{border-top:0}
+.resume-what b{display:block;font-size:.95rem}
+.resume-what span{font-size:.86rem;color:var(--muted)}
+.resume-list .btn{padding:6px 16px;font-size:.86rem}
+
+/* ---------- セクション ---------- */
+.block{padding-top:clamp(40px,6vw,64px)}
+.block-head{margin-bottom:18px}
+.block-head h2{font-size:clamp(1.3rem,3vw,1.6rem);margin:0 0 4px}
+.block-head p{margin:0;color:var(--muted);max-width:44em}
+.note{margin:16px 0 0;font-size:.9rem;color:var(--muted)}
+
+/* ---------- 試験カード ---------- */
+.exams{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.exam{display:flex;flex-direction:column;gap:14px;padding:clamp(18px,3vw,26px);background:var(--sheet);border:1px solid var(--line);border-radius:12px;scroll-margin-top:calc(var(--topbar-h) + 16px)}
+.exam-head h3{font-size:1.15rem;margin:0 0 4px}
+.exam-head p{margin:0;font-size:.92rem;color:var(--muted);line-height:1.7}
+.dist{width:100%;border-collapse:collapse;font-size:.86rem;line-height:1.5}
+.dist caption{text-align:left;font-weight:700;font-size:.84rem;padding-bottom:6px}
+.dist th{font-weight:500;text-align:left;padding:4px 10px 4px 0;width:46%}
+.dist td{padding:4px 0}
+.dist .n{width:3.2em;text-align:right;font-family:var(--f-num);font-weight:700;white-space:nowrap}
+.bar{display:block;height:10px;width:calc(var(--v)*10%);min-width:4px;background:var(--bar);border-radius:0 4px 4px 0}
+.rest .bar{background:var(--bar-rest)}
+.rest th,.rest .n{color:var(--muted)}
+.tip{margin:0;padding:10px 14px;background:var(--brand-soft);border-radius:8px;font-size:.88rem;line-height:1.7}
+.tip b{display:block;font-size:.8rem;color:var(--brand-ink)}
+.progress{display:flex;flex-direction:column;gap:4px;font-size:.82rem;font-weight:700}
+.progress-track{display:block;height:6px;background:var(--line);border-radius:999px;overflow:hidden}
+.progress-track i{display:block;height:100%;background:var(--bar);border-radius:999px}
+.exam-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto}
+
+/* ---------- 使い方 ---------- */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.steps li{padding:18px;background:var(--sheet);border:1px solid var(--line);border-radius:12px}
+.hexno{width:40px;height:44px;display:flex;align-items:center;justify-content:center;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:var(--brand-ink);color:var(--sheet);font-family:var(--f-num);font-weight:700;font-size:1.15rem}
+.steps h3{font-size:1rem;margin:10px 0 4px}
+.steps p{margin:0;font-size:.88rem;color:var(--muted);line-height:1.7}
+
+/* ---------- 参考サイト ---------- */
+.refs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+.ref-group{padding:18px 20px;background:var(--sheet);border:1px solid var(--line);border-radius:12px;scroll-margin-top:calc(var(--topbar-h) + 16px)}
+.ref-group h3{font-size:1rem;margin:0 0 8px}
+.ref-group ul{list-style:none;margin:0;padding:0}
+.ref-group li{padding:9px 0;border-top:1px solid var(--line);line-height:1.6}
+.ref-group a{font-weight:700;font-size:.92rem}
+.ref-group li>span:not(.doc-label):not(.doc-links){display:block;font-size:.84rem;color:var(--muted)}
+.doc-label{display:block;font-size:.84rem;color:var(--muted)}
+.doc-links{display:flex;flex-wrap:wrap;gap:2px 14px}
+
+/* ---------- よくある質問 ---------- */
+.faq{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:0 20px}
+.faq details{border-top:1px solid var(--line)}
+.faq details:first-child{border-top:0}
+.faq summary{padding:14px 0;font-weight:700;cursor:pointer;line-height:1.6}
+.faq summary:hover{color:var(--brand-ink)}
+.faq details p{margin:0 0 16px;color:var(--muted);font-size:.94rem}
 
 /* ---------- 下部 ---------- */
-footer{max-width:900px;margin:0 auto;padding:0 16px 40px;font-size:.82rem;color:var(--muted)}
-footer p{margin:0 0 4px}
-footer p:first-child{border-top:1px solid var(--line);padding-top:16px}
+.sitefoot{max-width:1080px;margin:0 auto;padding:clamp(40px,6vw,64px) 16px 40px;font-size:.84rem;color:var(--muted)}
+.sitefoot p{margin:0 0 4px}
+.foot-links{display:flex;flex-wrap:wrap;gap:4px 18px;font-weight:700;border-top:1px solid var(--line);padding-top:18px}
 
 /* ---------- このサイトについて ---------- */
+.wrap{max-width:900px;margin:0 auto;padding:48px 16px 40px}
 .crumbs{margin:0 0 16px;font-size:.86rem;color:var(--muted)}
 .crumbs a{font-weight:700;text-decoration:none}
-.article h1{font-size:1.7rem;margin-bottom:24px}
-.article h2{margin:28px 0 8px}
+.article h1{font-size:1.7rem;margin:0 0 24px}
+.article h2{font-size:1.2rem;margin:28px 0 8px}
 .article ul{margin:0;padding-left:1.3em}
 .article p{margin:0}
+
+/* ---------- 狭い画面 ---------- */
+@media (max-width:980px){
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .refs{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:760px){
+  .hero-in{grid-template-columns:minmax(0,1fr)}
+  .exams,.refs{grid-template-columns:minmax(0,1fr)}
+  .topbar{position:static;flex-direction:column;align-items:flex-start;padding:10px 16px}
+  .topnav{flex-wrap:wrap}
+  html{scroll-padding-top:16px}
+  .exam,.ref-group{scroll-margin-top:16px}
+}
+@media (max-width:520px){
+  .steps{grid-template-columns:minmax(0,1fr)}
+  .hero-acts .btn,.exam-acts .btn{flex:1 1 100%}
+}
+
+/* コードの記号（>= や != など）を合字にせず、入力するとおりに見せる */
+code,pre{font-variant-ligatures:none}

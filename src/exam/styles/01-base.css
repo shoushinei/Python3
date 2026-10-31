@@ -22,3 +22,6 @@ pre .nf,pre .nc,pre .fm{color:var(--b);font-weight:600}
 .wrap{max-width:860px;margin:0 auto;padding:24px 16px 64px}
 h1,h2,h3{font-family:var(--f-head);line-height:1.4}
 
+
+/* コードの記号（>= や != など）を合字にせず、入力するとおりに見せる */
+code,pre{font-variant-ligatures:none}

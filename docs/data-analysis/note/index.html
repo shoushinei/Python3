@@ -45,6 +45,9 @@ body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body)
 a{color:var(--brand-ink)}
 button{font:inherit;color:inherit}
 
+
+/* コードの記号（>= や != など）を合字にせず、入力するとおりに見せる */
+code,pre{font-variant-ligatures:none}
 /* ---------- 上部バー ---------- */
 .appbar{position:sticky;top:0;z-index:30;height:var(--bar-h);display:flex;align-items:center;gap:14px;padding:0 max(16px,2vw);
   background:var(--sheet);border-bottom:1px solid var(--line);box-shadow:0 1px 0 rgba(0,0,0,.02)}

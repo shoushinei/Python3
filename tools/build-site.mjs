@@ -8,7 +8,9 @@ function progressData(courses) {
   const data = {};
   for (const c of courses) {
     data[c.id] = {
+      shortName: c.shortName,
       note: {
+        title: c.note.title,
         prefix: c.note.storagePrefix,
         titles: c.note.chapters.map((ch) => ch.attrs["data-title"]),
         chapters: c.note.chapters.filter((ch) => !ch.attrs["data-app"]).map((ch) => ch.attrs["data-ch"]),
