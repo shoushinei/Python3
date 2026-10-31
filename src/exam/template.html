@@ -24,8 +24,17 @@
     </div>
   </div>
   <section class="hist">
-    <h2>受験の記録</h2>
+    <h2>受験記録</h2>
+    <p class="hist-lead">提出した回の得点・選んだ答え・見直しマーク・振り返りメモが保存されます。「結果を開く」で、その回の ○× と解説をいつでも見直せます。</p>
     <div id="histBox"></div>
+    <div class="rec-acts">
+      <button class="btn" id="exportBtn" type="button">記録を書き出す</button>
+      <button class="btn" id="importBtn" type="button">記録を読み込む</button>
+      <button class="btn" id="manualBtn" type="button">結果を手で入力する</button>
+      <input id="importFile" type="file" accept=".json,application/json" hidden>
+    </div>
+    <p class="rec-msg" id="recMsg" role="status"></p>
+    <p class="hist-note">記録はこのブラウザにだけ保存されます。別の端末の記録は、そちらで「記録を書き出す」で作った JSON ファイルを、ここで「記録を読み込む」と今の記録に追加できます（今ある記録は消えません）。紙やスクリーンショットの ○× しか残っていない回は「結果を手で入力する」で記録にできます。</p>
   </section>
 </main>
 
@@ -50,8 +59,56 @@
   </div>
 </div>
 
-<!-- 結果 -->
-<main id="result" class="wrap" hidden></main>
+<!-- 振り返り -->
+<div id="result" hidden>
+  <div class="exambar">
+    <span class="ttl">{{courseName}} {{title}}</span>
+    <span class="sp"></span>
+    <span class="cnt"><span id="rvNo"></span> <b id="rvScore"></b></span>
+    <button class="btn listbtn" id="rvListBtn" type="button">問題一覧</button>
+    <button class="btn" id="rvHomeBtn" type="button">記録一覧へ</button>
+  </div>
+  <div class="exam">
+    <main class="rv-main" id="rvMain" tabindex="-1"></main>
+    <aside class="side rv-side" aria-label="問題一覧">
+      <h3>問題一覧</h3>
+      <button class="btn rv-summary" id="rvSummaryBtn" type="button">結果の概要</button>
+      <div class="filters" id="rvFilters" role="group" aria-label="見直す問題"></div>
+      <div class="grid" id="rvGrid"></div>
+      <div class="legend"><span><i class="s ok">○</i>正解</span><span><i class="s ng">×</i>不正解</span><span><i class="s un">－</i>未回答</span><span><i class="f"></i>見直し</span></div>
+      <p class="kbd">キー操作：← → で前後の問題</p>
+    </aside>
+  </div>
+</div>
+
+<!-- 結果の手入力 -->
+<div class="modal" id="manual" hidden role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="box wide">
+    <h3 id="mTitle">結果を手で入力する</h3>
+    <p class="m-lead">スクリーンショットや紙に残った ○× から、受験記録を作ります。最初は全問 ○ になっています。番号を押すたびに ○ → × → 未回答 と変わります。</p>
+    <div class="m-fields">
+      <label>受けた日時 <input id="mWhen" type="datetime-local"></label>
+      <label>かかった時間 <input id="mMin" type="number" min="0" step="1" inputmode="numeric" placeholder="空欄でも可"> 分</label>
+      <label class="m-check"><input id="mTimeout" type="checkbox"> 時間切れだった</label>
+    </div>
+    <div class="m-tools">
+      <div class="seg" id="mMode" role="group" aria-label="番号を押したときの動き">
+        <button type="button" data-mode="mark" aria-pressed="true">○× を変える</button>
+        <button type="button" data-mode="flag" aria-pressed="false">見直しマークを付ける</button>
+      </div>
+      <button class="btn" id="mAllOk" type="button">すべて ○</button>
+      <button class="btn" id="mAllNg" type="button">すべて ×</button>
+    </div>
+    <div class="grid m-grid" id="mGrid"></div>
+    <p class="m-sum" id="mSum" role="status"></p>
+    <p class="m-lead">問題の順番はどの回も同じです。振り返りメモは、保存したあとに開く結果の画面で 1 問ずつ書けます。</p>
+    <p class="warnline" id="mErr" role="alert"></p>
+    <div class="acts">
+      <button class="btn" id="mCancel" type="button">やめる</button>
+      <button class="btn primary" id="mSave" type="button">保存して振り返りへ</button>
+    </div>
+  </div>
+</div>
 
 <!-- 終了確認 -->
 <div class="modal" id="confirm" hidden role="dialog" aria-modal="true" aria-labelledby="cfTitle">

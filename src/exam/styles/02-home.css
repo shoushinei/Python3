@@ -18,5 +18,16 @@
 .tag.pass{background:var(--ok-soft);color:var(--ok)}
 .tag.fail{background:var(--ng-soft);color:var(--ng)}
 .linkbtn{background:none;border:0;color:var(--brand-ink);text-decoration:underline;padding:0}
+.linkbtn.del{color:var(--muted)}
 .empty{color:var(--muted);font-size:.92rem}
+.hist-lead{margin:0 0 12px;color:var(--muted);font-size:.92rem}
+.hist td.no{font-family:var(--f-num);font-weight:700;color:var(--muted)}
+.row-acts{white-space:nowrap}
+.row-acts .linkbtn+.linkbtn{margin-left:12px}
+.tag.hand{margin-left:8px;background:var(--brand-soft);color:var(--brand-ink);white-space:nowrap}
+.rec-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.rec-msg{margin:10px 0 0;font-size:.92rem;font-weight:700;color:var(--ok)}
+.rec-msg:empty{display:none}
+.rec-msg.bad{color:var(--ng)}
+.hist-note{margin:10px 0 0;color:var(--muted);font-size:.86rem}
 

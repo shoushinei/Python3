@@ -1,8 +1,24 @@
 /* ---------- モーダル ---------- */
-.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.4);display:grid;place-items:center;padding:16px}
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.4);display:grid;place-items:center;padding:16px;overflow:auto}
 .modal .box{background:var(--sheet);border-radius:14px;max-width:440px;width:100%;padding:22px 24px;box-shadow:0 10px 40px rgba(0,0,0,.25)}
 .modal h3{margin:0 0 8px}
 .modal p{margin:6px 0}
 .modal .acts{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
 .warnline{color:var(--ng);font-weight:700}
+.warnline:empty{display:none}
+
+/* ---------- 結果の手入力 ---------- */
+.modal .box.wide{max-width:740px}
+.m-lead{color:var(--muted);font-size:.88rem}
+.m-fields{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin:14px 0;font-size:.92rem}
+.m-fields label{display:flex;align-items:center;gap:8px}
+.m-fields input[type="datetime-local"],.m-fields input[type="number"]{font:inherit;color:inherit;background:var(--sheet);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+.m-fields input[type="number"]{width:9em}
+.m-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:12px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:var(--sheet);padding:7px 16px;font-size:.88rem;font-weight:700}
+.seg button[aria-pressed="true"]{background:var(--brand-ink);color:var(--sheet)}
+.m-tools .btn{padding:6px 14px;font-size:.88rem}
+.m-grid{grid-template-columns:repeat(10,1fr)}
+.m-sum{font-weight:700;font-size:.92rem}
 
