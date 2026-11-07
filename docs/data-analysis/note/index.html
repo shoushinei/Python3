@@ -272,7 +272,7 @@ dfn.flash{animation:flash 1.6s ease-out;border-radius:3px}
 .kfold div span.t{background:#f0a35e;border-color:#d9822f}
 .legend-dot{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin:0 4px 0 10px}
 /* 暗記シート */
-section.ch.cheat{overflow:clip}  /* hidden だと使い方のバーが上に付いてこない */
+section.ch.cheat{overflow:clip}  /* hidden だと操作バーが上に付いてこない */
 .drillbar{position:sticky;top:calc(var(--bar-h) + 6px);z-index:5;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--sheet);border:1.5px solid var(--brand);border-radius:999px;padding:6px 8px 6px 16px;margin:18px 0;box-shadow:0 4px 14px rgba(0,0,0,.06);font-size:.86rem}
 .drillbar b{color:var(--brand-ink)}
 .drillbar button{border:1.5px solid var(--brand);background:var(--sheet);color:var(--brand-ink);border-radius:999px;padding:3px 14px;cursor:pointer;font-weight:700;font-size:.82rem}
@@ -287,29 +287,13 @@ table.drill td.trap{font-size:.84rem;color:var(--warn)}
 .drilling table.drill td.a.show{color:inherit;background:var(--hl-soft,#fff8d6)}
 .drilling table.drill td.a.show *{visibility:visible}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .drilling table.drill td.a.show{background:#2b2612}}
-
-/* 暗記シート（スマホ）：表を1問ずつのカードにする */
-@media (max-width:640px){
-  .drillbar{flex-wrap:nowrap;border-radius:999px;padding:5px;gap:6px;top:calc(var(--bar-h) + 4px)}
-  .drillbar b,.drillbar .tip2{display:none}
-  .drillbar button{flex:1 1 0;padding:6px 10px;font-size:.88rem}
-  .tbl:has(table.drill){overflow:visible}
-  table.drill,table.drill tbody,table.drill tr,table.drill td{display:block;width:auto;min-width:0}
-  table.drill{font-size:.95rem}
-  table.drill tr:first-child{display:none}
-  table.drill tr{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 10px;background:var(--sheet)}
-  table.drill td{border:0;padding:0}
-  table.drill td:first-child{white-space:normal;line-height:1.6}
-  table.drill td code{white-space:normal;overflow-wrap:anywhere}
-  table.drill td.a{margin-top:8px;padding:8px 10px;border-radius:8px;background:var(--brand-softer);line-height:1.7}
-  table.drill td:nth-child(3){margin-top:6px;font-size:.86rem;line-height:1.6}
-  table.drill td:nth-child(3):empty{display:none}
-  table.drill td:nth-child(3)[data-label]::before{content:attr(data-label);display:inline-block;margin-right:6px;padding:0 8px;border-radius:999px;background:var(--line);color:var(--ink);font-size:.72rem;font-weight:700;vertical-align:1px}
-  table.drill td.trap:nth-child(3)::before{background:var(--warn-soft);color:var(--warn)}
-  .drilling table.drill td.a{position:relative;min-height:2.6em}
-  .drilling table.drill td.a::after{content:"タップして答えを見る";position:absolute;inset:0;display:grid;place-items:center;color:var(--brand-ink);font-size:.8rem;font-weight:700}
-  .drilling table.drill td.a.show::after{content:none}
-}
+.exam-day ul{margin:4px 0 0;padding-left:1.2em}
+details.exam-day>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px}
+details.exam-day>summary::-webkit-details-marker{display:none}
+details.exam-day>summary .bh{margin:0;display:inline-flex;align-items:center;font-family:var(--f-head);font-weight:700;font-size:.82rem;color:#fff;background:var(--brand);border-radius:999px;padding:1px 12px}
+details.exam-day>summary::after{content:"開く";font-size:.8rem;font-weight:700;color:var(--brand-ink)}
+details.exam-day[open]>summary::after{content:"閉じる"}
+details.exam-day[open]>summary{margin-bottom:6px}
 
 .gl{border-bottom:1.5px dotted var(--brand);cursor:help;border-radius:2px}
 .gl:hover,.gl:focus,.gl.on{background:var(--brand-soft);outline:none}
@@ -318,6 +302,128 @@ table.drill td.trap{font-size:.84rem;color:var(--warn)}
 #glpop .jv{display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.18);font-size:.8rem;opacity:.92}
 #glpop .jv::before{content:"Javaでいうと";display:inline-block;font-size:.7rem;font-weight:700;background:#9b6fd6;color:#fff;border-radius:999px;padding:0 8px;margin-right:6px}
 
+/* 覚えた印 */
+table.drill th.mk{width:1%;white-space:nowrap;text-align:center}
+table.drill td.mk{width:1%;text-align:center}
+.mk-btn{border:1.5px solid var(--line);background:var(--sheet);color:var(--muted);border-radius:999px;padding:2px 10px;font:inherit;font-size:.78rem;font-weight:700;white-space:nowrap;cursor:pointer}
+.mk-btn[aria-pressed="true"]{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+table.drill tr.is-known td:not(.mk){opacity:.6}
+
+/* 上に付いてくる操作バー */
+.kbar{position:sticky;top:calc(var(--bar-h) + 6px);z-index:6;display:flex;align-items:center;gap:8px;margin:18px 0 12px;padding:6px;background:var(--sheet);border:1.5px solid var(--brand);border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.kbar button{font-family:inherit;cursor:pointer}
+.seg{display:flex;flex:1;min-width:0;background:var(--brand-softer);border-radius:999px;padding:2px}
+.seg button{flex:1;border:0;background:none;border-radius:999px;padding:6px 8px;font-size:.86rem;font-weight:700;color:var(--brand-ink);white-space:nowrap}
+.seg button small{margin-left:4px;font-family:var(--f-num);font-size:.78rem;opacity:.75}
+.seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+.khide,.kto-index{flex:none;border:1.5px solid var(--brand);background:var(--sheet);color:var(--brand-ink);border-radius:999px;padding:5px 12px;font-size:.84rem;font-weight:700;white-space:nowrap}
+.khide[aria-pressed="true"]{background:var(--brand);color:#fff}
+
+/* 範囲の目次 */
+.kindex{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 8px;background:var(--brand-softer);scroll-margin-top:calc(var(--bar-h) + 70px)}
+.ki-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-bottom:10px}
+.ki-head b{font-family:var(--f-head);font-size:1.05rem;color:var(--brand-ink)}
+.ki-sum{font-size:.84rem;font-weight:700;color:var(--muted);margin-right:auto}
+.ki-open{border:1px solid var(--line);background:var(--sheet);color:var(--brand-ink);border-radius:999px;padding:2px 10px;font:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+.kcard-all{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:10px;padding:12px;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:1rem;cursor:pointer;margin-bottom:10px}
+.kcard-all small{font-size:.8rem;font-weight:500;opacity:.9}
+.kcard-all:disabled{opacity:.45;cursor:default}
+section.ch .ki-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px}
+section.ch .ki-list li{margin:0;max-width:none}
+.ki-parent{grid-column:1/-1;display:flex;align-items:center;gap:8px;margin-top:6px!important;font-family:var(--f-head);font-weight:700;font-size:.92rem;color:var(--brand-ink)}
+.ki-parent span{font-family:var(--f-body);font-size:.72rem;border:1.5px solid var(--brand);border-radius:999px;padding:0 8px}
+.ki-item{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 8px;width:100%;text-align:left;border:1px solid var(--line);background:var(--sheet);border-radius:10px;padding:9px 12px;font:inherit;color:inherit;cursor:pointer}
+.ki-item:hover{border-color:var(--brand)}
+.ki-item:disabled{opacity:.45;cursor:default}
+.ki-t{font-weight:700;font-size:.92rem;line-height:1.4}
+.ki-q{grid-column:2;grid-row:1;font-size:.72rem;font-weight:700;color:var(--brand-ink);background:var(--brand-soft);border-radius:999px;padding:0 8px;white-space:nowrap}
+.ki-n{grid-column:2;font-family:var(--f-num);font-weight:700;font-size:.8rem;color:var(--muted);white-space:nowrap}
+.ki-item:has(.ki-q) .ki-n{grid-row:2}
+.ki-p{grid-column:1;display:block;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.ki-p i{display:block;height:100%;width:0;background:var(--ok)}
+.ki-foot{margin:10px 0 0!important;font-size:.78rem;color:var(--muted)}
+.ki-reset{border:0;background:none;color:var(--brand-ink);text-decoration:underline;font:inherit;cursor:pointer;padding:0;margin-left:6px}
+
+/* 範囲ごとの開閉 */
+.kg-bar{display:flex;gap:8px;margin:-2px 0 10px}
+.kg-toggle,.kg-card{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--sheet);border-radius:8px;font-weight:700;font-size:.86rem;color:var(--brand-ink)}
+.kg-toggle{flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;text-align:left}
+.kg-n{margin-left:auto;font-weight:500;font-size:.8rem;color:var(--muted)}
+.kg-chev{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-2px,-2px);transition:transform .15s}
+.kg-toggle[aria-expanded="true"] .kg-chev{transform:rotate(-135deg) translate(-2px,-2px)}
+.kg-card{flex:none;padding:8px 14px}
+.kg-card:disabled{opacity:.45;cursor:default}
+.kg-bar.is-empty{opacity:.55}
+section.ch.cheat h3{margin-top:36px}
+section.ch.cheat h3,section.ch.cheat h4{scroll-margin-top:calc(var(--bar-h) + 64px)}
+section.ch.cheat h4{margin-top:22px}
+
+/* カードで覚える */
+body.kdeck-open{overflow:hidden}
+.kdeck{position:fixed;inset:0;z-index:70;background:var(--paper);display:flex;justify-content:center}
+.kd-in{display:flex;flex-direction:column;width:100%;max-width:640px;height:100%;padding:max(10px,env(safe-area-inset-top)) 16px max(14px,env(safe-area-inset-bottom))}
+.kd-top{display:flex;align-items:center;gap:10px;min-height:44px}
+.kd-close{flex:none;width:40px;height:40px;border:1px solid var(--line);background:var(--sheet);border-radius:50%;font-size:1.4rem;line-height:1;color:var(--ink);cursor:pointer}
+.kd-where{flex:1;min-width:0;font-weight:700;font-size:.86rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kd-pos{font-family:var(--f-num);font-weight:700;color:var(--brand-ink);white-space:nowrap}
+.kd-shuffle{flex:none;border:1px solid var(--line);background:var(--sheet);color:var(--brand-ink);border-radius:999px;padding:4px 10px;font:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+.kd-shuffle[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.kd-track{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin:8px 0 14px}
+.kd-track i{display:block;height:100%;width:0;background:var(--brand);transition:width .2s}
+.kd-card{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:14px;background:var(--sheet);border:1px solid var(--line);border-radius:16px;padding:20px 18px;outline:none;cursor:pointer;touch-action:pan-y}
+.kd-g:empty{display:none}
+.kd-g{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:var(--muted)}
+.kd-known{color:var(--ok);background:var(--ok-soft);border-radius:999px;padding:0 8px}
+.kd-q{font-size:1.25rem;font-weight:700;line-height:1.6;overflow-wrap:anywhere}
+.kd-q code,.kd-a code,.kd-note code{white-space:normal;overflow-wrap:anywhere}
+.kd-reveal{margin-top:auto;border:2px dashed var(--brand);background:var(--brand-softer);color:var(--brand-ink);border-radius:12px;padding:28px 12px;font:inherit;font-weight:700;cursor:pointer}
+.kd-a{font-size:1.08rem;line-height:1.7;background:var(--brand-softer);border-radius:12px;padding:14px 16px;overflow-wrap:anywhere}
+.kd-note{font-size:.92rem;line-height:1.6;color:var(--muted)}
+.kd-note.trap{color:var(--warn)}
+.kd-note span{display:inline-block;margin-right:6px;padding:0 8px;border-radius:999px;background:var(--line);color:var(--ink);font-size:.72rem;font-weight:700}
+.kd-note.trap span{background:var(--warn-soft);color:var(--warn)}
+.kd-end{margin:auto 0;text-align:center}
+.kd-end b{display:block;font-family:var(--f-head);font-size:1.3rem;margin-bottom:6px}
+.kd-acts{display:flex;gap:10px;padding-top:14px}
+.kd-btn{flex:1;min-height:52px;border:1.5px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:12px;font:inherit;font-weight:700;font-size:1rem;cursor:pointer}
+.kd-btn:disabled{opacity:.4;cursor:default}
+.kd-btn.primary{background:var(--ok);border-color:var(--ok);color:#fff}
+.kd-btn.todo{border-color:var(--warn);color:var(--warn)}
+
+/* 暗記シート（スマホ）：表を1問ずつのカードにする */
+@media (max-width:640px){
+  .drillbar{flex-wrap:nowrap;border-radius:999px;padding:5px;gap:6px;top:calc(var(--bar-h) + 4px)}
+  .drillbar b,.drillbar .tip2{display:none}
+  .drillbar button{flex:1 1 0;padding:6px 10px;font-size:.88rem}
+  .kbar{top:calc(var(--bar-h) + 4px);gap:5px;padding:4px;margin:14px -6px 10px}
+  .seg button{padding:6px 4px;font-size:.82rem}
+  .seg button small{margin-left:2px}
+  .khide,.kto-index{padding:5px 9px;font-size:.8rem}
+  .khide .lg{display:none}
+  .kindex{margin:0 -6px 8px;padding:10px}
+  .ki-list{grid-template-columns:minmax(0,1fr)}
+  .tbl:has(table.drill){overflow:visible}
+  table.drill,table.drill tbody,table.drill tr,table.drill td{display:block;width:auto;min-width:0}
+  table.drill{font-size:.95rem}
+  table.drill tr:first-child{display:none}
+  table.drill tr{position:relative;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 10px;background:var(--sheet)}
+  table.drill tr[hidden]{display:none}
+  table.drill td{border:0;padding:0}
+  table.drill td:first-child{white-space:normal;line-height:1.6;padding-right:84px}
+  table.drill td code{white-space:normal;overflow-wrap:anywhere}
+  table.drill td.a{margin-top:8px;padding:8px 10px;border-radius:8px;background:var(--brand-softer);line-height:1.7}
+  table.drill td:nth-child(3){margin-top:6px;font-size:.86rem;line-height:1.6}
+  table.drill td:nth-child(3):empty{display:none}
+  table.drill td:nth-child(3)[data-label]::before{content:attr(data-label);display:inline-block;margin-right:6px;padding:0 8px;border-radius:999px;background:var(--line);color:var(--ink);font-size:.72rem;font-weight:700;vertical-align:1px}
+  table.drill td.trap:nth-child(3)::before{background:var(--warn-soft);color:var(--warn)}
+  table.drill td.mk{position:absolute;top:8px;right:8px;width:auto}
+  .drilling table.drill td.a{position:relative;min-height:2.6em}
+  .drilling table.drill td.a::after{content:"タップして答えを見る";position:absolute;inset:0;display:grid;place-items:center;color:var(--brand-ink);font-size:.8rem;font-weight:700}
+  .drilling table.drill td.a.show::after{content:none}
+  section.ch.cheat h3{margin-top:28px;font-size:1.2rem;gap:8px;flex-wrap:wrap}
+  section.ch.cheat h3 .scope{margin-left:0}
+  .kd-q{font-size:1.12rem}
+}
 .box.real{border-color:#c0392b;background:#fdecea}
 .box.real>.bh{background:#c0392b}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .box.real{background:#2e1715;border-color:#e0786c}}
@@ -3050,13 +3156,19 @@ print(a[1:, 2], a.sum(axis=0).shape)</code></pre>
 <section class="ch cheat" data-ch="cheat" data-app="1" data-icon="表" data-title="第4章 暗記シート" data-short="暗記シート" data-tab="暗記シート" hidden>
 <header class="opener"><div class="hex">SHEET<b>表</b></div><div>
 <h2>第4章 暗記シート</h2>
-<p>第4章（出題の67.5%）で覚えるべき関数・引数・クラス・式を表にまとめました。「答えを隠す」を押すと答えの列が隠れるので、言えるか試してから、マスを押して確認しましょう。</p>
+<p>第4章（出題の67.5%）で覚えるべき関数・引数・クラス・式の一覧です。移動中のスマホでも見直せるように、下の「範囲」から見たいところだけを開くか、「カードで覚える」で1問ずつめくって確かめます。覚えた問題に印を付けると、「まだ」で残りだけを見られます。</p>
 <span class="scope-all">NumPy・pandas・Matplotlib・scikit-learn</span>
 </div></header>
-
+<details class="box point exam-day"><summary><span class="bh">当日の確認</span></summary>
+<ul>
+<li><b>40問・60分</b>、正答率70%（<b>28問</b>）で合格。1問あたり約1分30秒です。</li>
+<li>迷った問題は見直しマークを付けて先へ進み、最後に戻ります。未回答のまま終えないようにします。</li>
+<li>この表の4章は27問。多い順に scikit-learn（8問）、pandas（7問）、NumPy と Matplotlib（各6問）です。</li>
+<li>表にない数学の基礎（6問）と、Pythonと環境・データ分析エンジニアの役割（7問）は、<a href="#c3">第3章</a>・<a href="#c2">第2章</a>・<a href="#c1">第1章</a>の確認問題で見直します。</li>
+<li>オレンジの「注意点」は取り違えやすいところです。最後は「要注意」に絞って確かめます。</li>
+</ul></details>
 <div class="drillbar"><b>使い方</b><button type="button" data-drill="show" aria-pressed="true">すべて表示</button><button type="button" data-drill="hide" aria-pressed="false">答えを隠す</button><span class="tip2">隠したマスは押すと表示されます。<span style="color:var(--warn)">オレンジの文字</span>は取り違えやすい点です。</span></div>
-
-<h3 id="k-np">NumPy</h3>
+<h3 id="k-np">NumPy<span class="scope">出題 6問</span></h3>
 <h4 id="k-np1">属性・形の変更</h4>
 <div class="tbl"><table class="drill">
 <tr><th>書き方</th><th>答え（何をする／何が返る）</th><th>注意点</th></tr>
@@ -3100,7 +3212,7 @@ print(a[1:, 2], a.sum(axis=0).shape)</code></pre>
 <tr><td><code>a @ b</code>、<code>np.dot(a, b)</code></td><td class="a">内積・行列積</td><td class="trap"><code>a * b</code> は要素積</td></tr>
 </table></div>
 
-<h3 id="k-pd">pandas</h3>
+<h3 id="k-pd">pandas<span class="scope">出題 7問</span></h3>
 <h4 id="k-pd1">データ型と取り出し</h4>
 <div class="tbl"><table class="drill">
 <tr><th>書き方・用語</th><th>答え</th><th>注意点</th></tr>
@@ -3151,7 +3263,7 @@ print(a[1:, 2], a.sum(axis=0).shape)</code></pre>
 <tr><td><code>corr()</code></td><td class="a">列同士の相関係数（−1〜1）</td><td>1に近いほど正の相関</td></tr>
 </table></div>
 
-<h3 id="k-mpl">Matplotlib</h3>
+<h3 id="k-mpl">Matplotlib<span class="scope">出題 6問</span></h3>
 <h4 id="k-mpl1">描画オブジェクトとグラフの種類</h4>
 <div class="tbl"><table class="drill">
 <tr><th>書き方・グラフ</th><th>答え</th><th>注意点</th></tr>
@@ -3185,7 +3297,7 @@ print(a[1:, 2], a.sum(axis=0).shape)</code></pre>
 <tr><td><code>tick_label=[…]</code></td><td class="a">棒グラフの目盛りにラベルを付ける</td><td></td></tr>
 </table></div>
 
-<h3 id="k-sk">scikit-learn</h3>
+<h3 id="k-sk">scikit-learn<span class="scope">出題 8問</span></h3>
 <h4 id="k-sk1">クラス・関数とモジュール</h4>
 <div class="tbl"><table class="drill">
 <tr><th>クラス・関数</th><th>答え（モジュール／用途）</th><th>注意点</th></tr>
@@ -3235,7 +3347,7 @@ print(a[1:, 2], a.sum(axis=0).shape)</code></pre>
 </table></div>
 
 <h3 id="k-pair">取り違えやすいペア</h3>
-<div class="tbl"><table class="drill">
+<div class="tbl"><table class="drill pairs">
 <tr><th>ペア</th><th>答え（違い）</th><th></th></tr>
 <tr><td>ravel と flatten</td><td class="a">ravel＝ビュー（参照）、flatten＝コピー</td><td></td></tr>
 <tr><td>arange と linspace</td><td class="a">arange＝間隔指定・終点を含まない、linspace＝個数指定・終点を含む</td><td></td></tr>
@@ -3628,21 +3740,184 @@ print(a[1:, 2], a.sum(axis=0).shape)</code></pre>
   window.addEventListener("scroll",()=>{if(!pop.hidden)hideGl()},{passive:true});
 
   /* ---------- 暗記シート ---------- */
-  // スマホではマスを縦に並べるので、列の見出しを各マスにも持たせておく
-  document.querySelectorAll("table.drill").forEach(t=>{
-    const heads=[...t.rows[0].cells].map(c=>c.textContent.trim());
-    [...t.rows].slice(1).forEach(r=>[...r.cells].forEach((c,i)=>{if(heads[i])c.dataset.label=heads[i]}));
-  });
-  document.querySelectorAll("[data-drill]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      const sec=btn.closest("section.ch");const on=btn.dataset.drill==="hide";
-      sec.classList.toggle("drilling",on);
-      sec.querySelectorAll("[data-drill]").forEach(b=>b.setAttribute("aria-pressed",String(b===btn)));
-      sec.querySelectorAll("td.a.show").forEach(td=>td.classList.remove("show"));
-    });
-  });
-  document.addEventListener("click",e=>{const td=e.target.closest(".drilling td.a");if(td)td.classList.toggle("show")});
+  /* 表はそのまま残し、範囲の目次・たたみ・絞り込み・覚えた印・カードで覚える を足す。 */
+  let known=get("cheat-known",{});
+  const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  const hash=s=>{let h=0;for(const c of s)h=(h*31+c.codePointAt(0))|0;return(h>>>0).toString(36)};
+  const headText=h=>{const c=h.cloneNode(true);c.querySelectorAll(".scope,.secno,.subno").forEach(x=>x.remove());return c.textContent.trim()};
 
+  document.querySelectorAll("section.cheat").forEach(sec=>{
+    const groups=[];
+    sec.querySelectorAll("table.drill").forEach(t=>{
+      const box=t.closest(".tbl");
+      let h=box.previousElementSibling;while(h&&!/^H[34]$/.test(h.tagName))h=h.previousElementSibling;
+      let h3=h;while(h3&&h3.tagName!=="H3")h3=h3.previousElementSibling;
+      const g={id:h.id,head:h,box,title:headText(h),parent:h===h3?"":headText(h3),scope:(h3.querySelector(".scope")||{}).textContent||"",rows:[]};
+      t.rows[0].insertAdjacentHTML("beforeend",'<th class="mk">覚えた</th>');
+      [...t.rows].slice(1).forEach(tr=>{
+        const c=tr.cells;
+        // スマホではマスを縦に並べるので、列の見出しを各マスにも持たせておく
+        [...c].forEach((td,i)=>{const lb=t.rows[0].cells[i].textContent.trim();if(lb)td.dataset.label=lb});
+        const r={tr,g,id:g.id+":"+hash(c[0].textContent),q:c[0].innerHTML,a:c[1].innerHTML,note:c[2]?c[2].innerHTML:"",
+          noteLabel:c[2]?c[2].dataset.label||"":"",trap:t.classList.contains("pairs")||!!(c[2]&&(c[2].classList.contains("trap")||c[2].querySelector(".qreal")))};
+        tr.insertAdjacentHTML("beforeend",'<td class="mk"><button type="button" class="mk-btn" aria-pressed="false"><span aria-hidden="true">✓</span> 覚えた</button></td>');
+        r.btn=tr.lastChild.firstChild;
+        g.rows.push(r);
+      });
+      const bar=document.createElement("div");bar.className="kg-bar";
+      bar.innerHTML='<button type="button" class="kg-toggle" aria-expanded="false"></button><button type="button" class="kg-card">カード</button>';
+      h.after(bar);g.bar=bar;g.toggle=bar.firstChild;
+      box.id="kgb-"+g.id;g.toggle.setAttribute("aria-controls",box.id);
+      groups.push(g);
+    });
+    if(!groups.length)return;
+    const rows=groups.flatMap(g=>g.rows);
+    const filters={all:["すべて",()=>true],todo:["まだ",r=>!known[r.id]],trap:["要注意",r=>r.trap]};
+    let filter=filters[get("cheat-filter","all")]?get("cheat-filter","all"):"all";
+
+    // 上に付いてくる操作バーと、範囲の目次
+    const kbar=document.createElement("div");kbar.className="kbar";
+    kbar.innerHTML=`<div class="seg kfilter" role="group" aria-label="表示する問題">${Object.entries(filters).map(([k,[l]])=>`<button type="button" data-kf="${k}">${l}<small></small></button>`).join("")}</div>
+      <button type="button" class="khide" aria-pressed="false"><span class="lg">答えを</span>隠す</button><button type="button" class="kto-index">範囲</button>`;
+    const index=document.createElement("div");index.className="kindex";
+    index.innerHTML=`<div class="ki-head"><b>範囲</b><span class="ki-sum"></span><button type="button" class="ki-open" data-open="1">すべて開く</button><button type="button" class="ki-open" data-open="0">閉じる</button></div>
+      <button type="button" class="kcard-all"></button><ul class="ki-list"></ul>
+      <p class="ki-foot">覚えた印はこのブラウザに保存されます。<button type="button" class="ki-reset">覚えた印をすべて消す</button></p>`;
+    const old=sec.querySelector(".drillbar");
+    if(old)old.replaceWith(kbar,index);else groups[0].head.before(kbar,index);
+    const list=index.querySelector(".ki-list");
+    let lastParent=null;
+    groups.forEach((g,i)=>{
+      if(g.parent&&g.parent!==lastParent)list.insertAdjacentHTML("beforeend",`<li class="ki-parent">${esc(g.parent)}${g.scope?`<span>${esc(g.scope)}</span>`:""}</li>`);
+      lastParent=g.parent;
+      const li=document.createElement("li");if(g.parent)li.className="ki-sub";
+      li.innerHTML=`<button type="button" class="ki-item" data-g="${i}"><span class="ki-t">${esc(g.title)}</span>${!g.parent&&g.scope?`<span class="ki-q">${esc(g.scope)}</span>`:""}<span class="ki-n"></span><span class="ki-p"><i></i></span></button>`;
+      g.item=li.firstChild;list.appendChild(li);
+    });
+
+    const match=r=>filters[filter][1](r);
+    function setOpen(g,open){
+      g.open=open;g.box.hidden=!open;g.toggle.setAttribute("aria-expanded",String(open));
+    }
+    function refresh(){
+      kbar.querySelectorAll("[data-kf]").forEach(b=>{b.setAttribute("aria-pressed",String(b.dataset.kf===filter));b.querySelector("small").textContent=rows.filter(filters[b.dataset.kf][1]).length});
+      const knownAll=rows.filter(r=>known[r.id]).length;
+      index.querySelector(".ki-sum").textContent=`覚えた ${knownAll} / ${rows.length}`;
+      groups.forEach(g=>{
+        const shown=g.rows.filter(match),k=g.rows.filter(r=>known[r.id]).length;
+        g.rows.forEach(r=>{r.tr.hidden=!match(r);r.btn.setAttribute("aria-pressed",String(!!known[r.id]));r.tr.classList.toggle("is-known",!!known[r.id])});
+        g.shown=shown;
+        g.item.querySelector(".ki-n").textContent=filter==="all"?`${k} / ${g.rows.length}`:`${shown.length}問`;
+        g.item.querySelector(".ki-p i").style.width=`${k/g.rows.length*100}%`;
+        g.item.disabled=!shown.length;
+        g.toggle.innerHTML=`<span class="kg-chev" aria-hidden="true"></span>${g.open?"閉じる":"開く"}<span class="kg-n">${shown.length}問・覚えた ${k}/${g.rows.length}</span>`;
+        g.bar.querySelector(".kg-card").disabled=!shown.length;
+        [g.bar,g.box].forEach(e=>e.classList.toggle("is-empty",!shown.length));
+      });
+      const n=rows.filter(match).length;
+      const ca=index.querySelector(".kcard-all");ca.disabled=!n;
+      ca.innerHTML=`<span aria-hidden="true">▶</span> カードで覚える<small>${filter==="all"?"全範囲":filters[filter][0]}の ${n}問</small>`;
+    }
+    groups.forEach(g=>setOpen(g,false));
+    refresh();
+
+    function openOnly(g){groups.forEach(x=>setOpen(x,x===g));refresh();g.head.scrollIntoView({block:"start"})}
+    function openFor(el){const g=groups.find(x=>x.head===el||x.box.contains(el)||x.bar.contains(el));if(g&&!g.open){setOpen(g,true);refresh()}}
+    // 目次や他の章のリンクから、たたんだ範囲の中へ移るときは先に開く
+    document.addEventListener("click",e=>{const a=e.target.closest("a[href^='#']");if(a){const el=document.getElementById(a.getAttribute("href").slice(1));if(el&&sec.contains(el))openFor(el)}},true);
+    window.addEventListener("hashchange",()=>{const el=document.getElementById(location.hash.slice(1));if(el&&sec.contains(el))openFor(el)});
+    {const el=document.getElementById(location.hash.slice(1));if(el&&sec.contains(el)){const g=groups.find(x=>x.head===el);if(g){setOpen(g,true);refresh()}}}
+
+    function mark(r,v){if(v)known[r.id]=1;else delete known[r.id];set("cheat-known",known)}
+    sec.addEventListener("click",e=>{
+      const t=e.target;
+      const kf=t.closest("[data-kf]");if(kf){filter=kf.dataset.kf;set("cheat-filter",filter);refresh();return}
+      if(t.closest(".khide")){const on=!sec.classList.contains("drilling");sec.classList.toggle("drilling",on);t.closest(".khide").setAttribute("aria-pressed",String(on));sec.querySelectorAll("td.a.show").forEach(td=>td.classList.remove("show"));return}
+      if(t.closest(".kto-index")){index.scrollIntoView({block:"start"});return}
+      const it=t.closest(".ki-item");if(it){openOnly(groups[+it.dataset.g]);return}
+      const op=t.closest(".ki-open");if(op){groups.forEach(g=>setOpen(g,op.dataset.open==="1"));refresh();return}
+      if(t.closest(".kcard-all")){deck.open(rows.filter(match),filter==="all"?"全範囲":filters[filter][0]);return}
+      if(t.closest(".ki-reset")){if(confirm("覚えた印をすべて消しますか？")){known={};set("cheat-known",known);refresh()}return}
+      const g=groups.find(x=>x.bar.contains(t));
+      if(g&&t.closest(".kg-toggle")){setOpen(g,!g.open);refresh();return}
+      if(g&&t.closest(".kg-card")){deck.open(g.shown,g.parent?`${g.parent}・${g.title}`:g.title);return}
+      const mb=t.closest(".mk-btn");if(mb){const r=rows.find(x=>x.btn===mb);mark(r,!known[r.id]);refresh();return}
+    });
+
+    // カードで覚える：1問ずつ、答えを見てから「まだ」か「覚えた」を選ぶ
+    const deck=(()=>{
+      const el=document.createElement("div");el.className="kdeck";el.hidden=true;
+      el.setAttribute("role","dialog");el.setAttribute("aria-modal","true");el.setAttribute("aria-label","カードで覚える");
+      el.innerHTML=`<div class="kd-in">
+        <div class="kd-top"><button type="button" class="kd-close" aria-label="閉じる">×</button><span class="kd-where"></span><span class="kd-pos"></span><button type="button" class="kd-shuffle" aria-pressed="false">シャッフル</button></div>
+        <div class="kd-track"><i></i></div>
+        <div class="kd-card" tabindex="-1"></div>
+        <div class="kd-acts"></div>
+      </div>`;
+      document.body.appendChild(el);
+      const card=el.querySelector(".kd-card"),acts=el.querySelector(".kd-acts");
+      let base=[],list=[],pos=0,shown=false,label="",res={},lastFocus=null;
+      function render(){
+        el.querySelector(".kd-where").textContent=label;
+        if(pos>=list.length){
+          const ok=list.filter(r=>known[r.id]).length,left=list.filter(r=>!known[r.id]);
+          el.querySelector(".kd-pos").textContent=`${list.length} / ${list.length}`;
+          el.querySelector(".kd-track i").style.width="100%";
+          card.innerHTML=`<div class="kd-end"><b>おつかれさまでした</b><p>${list.length}問のうち、覚えた印が付いているのは <strong>${ok}問</strong> です。</p></div>`;
+          acts.innerHTML=`${left.length?`<button type="button" class="kd-btn primary" data-kd="again">まだの ${left.length}問をもう一度</button>`:""}<button type="button" class="kd-btn" data-kd="restart">最初から</button><button type="button" class="kd-btn" data-kd="close">閉じる</button>`;
+          return;
+        }
+        const r=list[pos];
+        el.querySelector(".kd-pos").textContent=`${pos+1} / ${list.length}`;
+        el.querySelector(".kd-track i").style.width=`${pos/list.length*100}%`;
+        const gname=r.g.parent?`${r.g.parent}・${r.g.title}`:r.g.title;
+        card.innerHTML=`<div class="kd-g">${gname===label?"":esc(gname)}${known[r.id]?'<span class="kd-known">覚えた</span>':""}</div>
+          <div class="kd-q">${r.q}</div>
+          ${shown?`<div class="kd-a">${r.a}</div>${r.note?`<div class="kd-note${r.trap?" trap":""}">${r.noteLabel?`<span>${esc(r.noteLabel)}</span>`:""}${r.note}</div>`:""}`:'<button type="button" class="kd-reveal" data-kd="reveal">タップして答えを見る</button>'}`;
+        acts.innerHTML=shown
+          ?`<button type="button" class="kd-btn todo" data-kd="todo">まだ</button><button type="button" class="kd-btn primary" data-kd="ok"><span aria-hidden="true">✓</span> 覚えた</button>`
+          :`<button type="button" class="kd-btn" data-kd="prev"${pos?"":" disabled"}>← 前</button><button type="button" class="kd-btn" data-kd="skip">とばす →</button>`;
+      }
+      function go(p){pos=Math.max(0,Math.min(list.length,p));shown=false;render();card.focus({preventScroll:true})}
+      function start(l){list=el.querySelector(".kd-shuffle").getAttribute("aria-pressed")==="true"?l.slice().sort(()=>Math.random()-.5):l.slice();go(0)}
+      function open(l,lb){
+        if(!l.length)return;base=l;label=lb;lastFocus=document.activeElement;
+        el.hidden=false;document.body.classList.add("kdeck-open");start(base);
+      }
+      function close(){el.hidden=true;document.body.classList.remove("kdeck-open");refresh();if(lastFocus)lastFocus.focus({preventScroll:true})}
+      function act(k){
+        if(k==="reveal"){shown=true;render();return}
+        if(k==="ok"||k==="todo"){mark(list[pos],k==="ok");go(pos+1);return}
+        if(k==="prev")go(pos-1);else if(k==="skip")go(pos+1);
+        else if(k==="again")start(list.filter(r=>!known[r.id]));
+        else if(k==="restart")start(base);
+        else if(k==="close")close();
+      }
+      el.addEventListener("click",e=>{
+        const b=e.target.closest("[data-kd]");if(b){act(b.dataset.kd);return}
+        if(e.target.closest(".kd-close")){close();return}
+        const sh=e.target.closest(".kd-shuffle");if(sh){sh.setAttribute("aria-pressed",String(sh.getAttribute("aria-pressed")!=="true"));start(base);return}
+        if(!shown&&pos<list.length&&e.target.closest(".kd-card"))act("reveal");
+      });
+      // 横にスワイプで前後へ
+      let sx=null,sy=0;
+      card.addEventListener("touchstart",e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+      card.addEventListener("touchend",e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=null;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)go(pos+(dx<0?1:-1))});
+      document.addEventListener("keydown",e=>{
+        if(el.hidden)return;
+        if(e.key==="Escape"){close();return}
+        if(pos>=list.length)return;
+        if(e.key===" "||e.key==="Enter"){if(!shown&&!e.target.closest("button")){e.preventDefault();act("reveal")}}
+        else if(e.key==="ArrowRight")go(pos+1);
+        else if(e.key==="ArrowLeft")go(pos-1);
+        else if(shown&&(e.key==="1"||e.key==="2"))act(e.key==="2"?"ok":"todo");
+      });
+      return {open};
+    })();
+  });
+
+  // 答えを隠したマスは、押すと表示する
+  document.addEventListener("click",e=>{const td=e.target.closest(".drilling td.a");if(td)td.classList.toggle("show")});
   /* ---------- 章送り ---------- */
   secs.forEach((s,i)=>{
     const pg=document.createElement("div");pg.className="pager";

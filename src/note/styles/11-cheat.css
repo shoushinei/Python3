@@ -1,5 +1,5 @@
 /* 暗記シート */
-section.ch.cheat{overflow:clip}  /* hidden だと使い方のバーが上に付いてこない */
+section.ch.cheat{overflow:clip}  /* hidden だと操作バーが上に付いてこない */
 .drillbar{position:sticky;top:calc(var(--bar-h) + 6px);z-index:5;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--sheet);border:1.5px solid var(--brand);border-radius:999px;padding:6px 8px 6px 16px;margin:18px 0;box-shadow:0 4px 14px rgba(0,0,0,.06);font-size:.86rem}
 .drillbar b{color:var(--brand-ink)}
 .drillbar button{border:1.5px solid var(--brand);background:var(--sheet);color:var(--brand-ink);border-radius:999px;padding:3px 14px;cursor:pointer;font-weight:700;font-size:.82rem}
@@ -14,29 +14,13 @@ table.drill td.trap{font-size:.84rem;color:var(--warn)}
 .drilling table.drill td.a.show{color:inherit;background:var(--hl-soft,#fff8d6)}
 .drilling table.drill td.a.show *{visibility:visible}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .drilling table.drill td.a.show{background:#2b2612}}
-
-/* 暗記シート（スマホ）：表を1問ずつのカードにする */
-@media (max-width:640px){
-  .drillbar{flex-wrap:nowrap;border-radius:999px;padding:5px;gap:6px;top:calc(var(--bar-h) + 4px)}
-  .drillbar b,.drillbar .tip2{display:none}
-  .drillbar button{flex:1 1 0;padding:6px 10px;font-size:.88rem}
-  .tbl:has(table.drill){overflow:visible}
-  table.drill,table.drill tbody,table.drill tr,table.drill td{display:block;width:auto;min-width:0}
-  table.drill{font-size:.95rem}
-  table.drill tr:first-child{display:none}
-  table.drill tr{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 10px;background:var(--sheet)}
-  table.drill td{border:0;padding:0}
-  table.drill td:first-child{white-space:normal;line-height:1.6}
-  table.drill td code{white-space:normal;overflow-wrap:anywhere}
-  table.drill td.a{margin-top:8px;padding:8px 10px;border-radius:8px;background:var(--brand-softer);line-height:1.7}
-  table.drill td:nth-child(3){margin-top:6px;font-size:.86rem;line-height:1.6}
-  table.drill td:nth-child(3):empty{display:none}
-  table.drill td:nth-child(3)[data-label]::before{content:attr(data-label);display:inline-block;margin-right:6px;padding:0 8px;border-radius:999px;background:var(--line);color:var(--ink);font-size:.72rem;font-weight:700;vertical-align:1px}
-  table.drill td.trap:nth-child(3)::before{background:var(--warn-soft);color:var(--warn)}
-  .drilling table.drill td.a{position:relative;min-height:2.6em}
-  .drilling table.drill td.a::after{content:"タップして答えを見る";position:absolute;inset:0;display:grid;place-items:center;color:var(--brand-ink);font-size:.8rem;font-weight:700}
-  .drilling table.drill td.a.show::after{content:none}
-}
+.exam-day ul{margin:4px 0 0;padding-left:1.2em}
+details.exam-day>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px}
+details.exam-day>summary::-webkit-details-marker{display:none}
+details.exam-day>summary .bh{margin:0;display:inline-flex;align-items:center;font-family:var(--f-head);font-weight:700;font-size:.82rem;color:#fff;background:var(--brand);border-radius:999px;padding:1px 12px}
+details.exam-day>summary::after{content:"開く";font-size:.8rem;font-weight:700;color:var(--brand-ink)}
+details.exam-day[open]>summary::after{content:"閉じる"}
+details.exam-day[open]>summary{margin-bottom:6px}
 
 .gl{border-bottom:1.5px dotted var(--brand);cursor:help;border-radius:2px}
 .gl:hover,.gl:focus,.gl.on{background:var(--brand-soft);outline:none}
@@ -45,3 +29,125 @@ table.drill td.trap{font-size:.84rem;color:var(--warn)}
 #glpop .jv{display:block;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.18);font-size:.8rem;opacity:.92}
 #glpop .jv::before{content:"Javaでいうと";display:inline-block;font-size:.7rem;font-weight:700;background:#9b6fd6;color:#fff;border-radius:999px;padding:0 8px;margin-right:6px}
 
+/* 覚えた印 */
+table.drill th.mk{width:1%;white-space:nowrap;text-align:center}
+table.drill td.mk{width:1%;text-align:center}
+.mk-btn{border:1.5px solid var(--line);background:var(--sheet);color:var(--muted);border-radius:999px;padding:2px 10px;font:inherit;font-size:.78rem;font-weight:700;white-space:nowrap;cursor:pointer}
+.mk-btn[aria-pressed="true"]{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+table.drill tr.is-known td:not(.mk){opacity:.6}
+
+/* 上に付いてくる操作バー */
+.kbar{position:sticky;top:calc(var(--bar-h) + 6px);z-index:6;display:flex;align-items:center;gap:8px;margin:18px 0 12px;padding:6px;background:var(--sheet);border:1.5px solid var(--brand);border-radius:999px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.kbar button{font-family:inherit;cursor:pointer}
+.seg{display:flex;flex:1;min-width:0;background:var(--brand-softer);border-radius:999px;padding:2px}
+.seg button{flex:1;border:0;background:none;border-radius:999px;padding:6px 8px;font-size:.86rem;font-weight:700;color:var(--brand-ink);white-space:nowrap}
+.seg button small{margin-left:4px;font-family:var(--f-num);font-size:.78rem;opacity:.75}
+.seg button[aria-pressed="true"]{background:var(--brand);color:#fff}
+.khide,.kto-index{flex:none;border:1.5px solid var(--brand);background:var(--sheet);color:var(--brand-ink);border-radius:999px;padding:5px 12px;font-size:.84rem;font-weight:700;white-space:nowrap}
+.khide[aria-pressed="true"]{background:var(--brand);color:#fff}
+
+/* 範囲の目次 */
+.kindex{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 8px;background:var(--brand-softer);scroll-margin-top:calc(var(--bar-h) + 70px)}
+.ki-head{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-bottom:10px}
+.ki-head b{font-family:var(--f-head);font-size:1.05rem;color:var(--brand-ink)}
+.ki-sum{font-size:.84rem;font-weight:700;color:var(--muted);margin-right:auto}
+.ki-open{border:1px solid var(--line);background:var(--sheet);color:var(--brand-ink);border-radius:999px;padding:2px 10px;font:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+.kcard-all{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:10px;padding:12px;background:var(--brand);color:#fff;font:inherit;font-weight:700;font-size:1rem;cursor:pointer;margin-bottom:10px}
+.kcard-all small{font-size:.8rem;font-weight:500;opacity:.9}
+.kcard-all:disabled{opacity:.45;cursor:default}
+section.ch .ki-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px}
+section.ch .ki-list li{margin:0;max-width:none}
+.ki-parent{grid-column:1/-1;display:flex;align-items:center;gap:8px;margin-top:6px!important;font-family:var(--f-head);font-weight:700;font-size:.92rem;color:var(--brand-ink)}
+.ki-parent span{font-family:var(--f-body);font-size:.72rem;border:1.5px solid var(--brand);border-radius:999px;padding:0 8px}
+.ki-item{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 8px;width:100%;text-align:left;border:1px solid var(--line);background:var(--sheet);border-radius:10px;padding:9px 12px;font:inherit;color:inherit;cursor:pointer}
+.ki-item:hover{border-color:var(--brand)}
+.ki-item:disabled{opacity:.45;cursor:default}
+.ki-t{font-weight:700;font-size:.92rem;line-height:1.4}
+.ki-q{grid-column:2;grid-row:1;font-size:.72rem;font-weight:700;color:var(--brand-ink);background:var(--brand-soft);border-radius:999px;padding:0 8px;white-space:nowrap}
+.ki-n{grid-column:2;font-family:var(--f-num);font-weight:700;font-size:.8rem;color:var(--muted);white-space:nowrap}
+.ki-item:has(.ki-q) .ki-n{grid-row:2}
+.ki-p{grid-column:1;display:block;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.ki-p i{display:block;height:100%;width:0;background:var(--ok)}
+.ki-foot{margin:10px 0 0!important;font-size:.78rem;color:var(--muted)}
+.ki-reset{border:0;background:none;color:var(--brand-ink);text-decoration:underline;font:inherit;cursor:pointer;padding:0;margin-left:6px}
+
+/* 範囲ごとの開閉 */
+.kg-bar{display:flex;gap:8px;margin:-2px 0 10px}
+.kg-toggle,.kg-card{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--sheet);border-radius:8px;font-weight:700;font-size:.86rem;color:var(--brand-ink)}
+.kg-toggle{flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;text-align:left}
+.kg-n{margin-left:auto;font-weight:500;font-size:.8rem;color:var(--muted)}
+.kg-chev{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-2px,-2px);transition:transform .15s}
+.kg-toggle[aria-expanded="true"] .kg-chev{transform:rotate(-135deg) translate(-2px,-2px)}
+.kg-card{flex:none;padding:8px 14px}
+.kg-card:disabled{opacity:.45;cursor:default}
+.kg-bar.is-empty{opacity:.55}
+section.ch.cheat h3{margin-top:36px}
+section.ch.cheat h3,section.ch.cheat h4{scroll-margin-top:calc(var(--bar-h) + 64px)}
+section.ch.cheat h4{margin-top:22px}
+
+/* カードで覚える */
+body.kdeck-open{overflow:hidden}
+.kdeck{position:fixed;inset:0;z-index:70;background:var(--paper);display:flex;justify-content:center}
+.kd-in{display:flex;flex-direction:column;width:100%;max-width:640px;height:100%;padding:max(10px,env(safe-area-inset-top)) 16px max(14px,env(safe-area-inset-bottom))}
+.kd-top{display:flex;align-items:center;gap:10px;min-height:44px}
+.kd-close{flex:none;width:40px;height:40px;border:1px solid var(--line);background:var(--sheet);border-radius:50%;font-size:1.4rem;line-height:1;color:var(--ink);cursor:pointer}
+.kd-where{flex:1;min-width:0;font-weight:700;font-size:.86rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kd-pos{font-family:var(--f-num);font-weight:700;color:var(--brand-ink);white-space:nowrap}
+.kd-shuffle{flex:none;border:1px solid var(--line);background:var(--sheet);color:var(--brand-ink);border-radius:999px;padding:4px 10px;font:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+.kd-shuffle[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+.kd-track{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin:8px 0 14px}
+.kd-track i{display:block;height:100%;width:0;background:var(--brand);transition:width .2s}
+.kd-card{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:14px;background:var(--sheet);border:1px solid var(--line);border-radius:16px;padding:20px 18px;outline:none;cursor:pointer;touch-action:pan-y}
+.kd-g:empty{display:none}
+.kd-g{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:var(--muted)}
+.kd-known{color:var(--ok);background:var(--ok-soft);border-radius:999px;padding:0 8px}
+.kd-q{font-size:1.25rem;font-weight:700;line-height:1.6;overflow-wrap:anywhere}
+.kd-q code,.kd-a code,.kd-note code{white-space:normal;overflow-wrap:anywhere}
+.kd-reveal{margin-top:auto;border:2px dashed var(--brand);background:var(--brand-softer);color:var(--brand-ink);border-radius:12px;padding:28px 12px;font:inherit;font-weight:700;cursor:pointer}
+.kd-a{font-size:1.08rem;line-height:1.7;background:var(--brand-softer);border-radius:12px;padding:14px 16px;overflow-wrap:anywhere}
+.kd-note{font-size:.92rem;line-height:1.6;color:var(--muted)}
+.kd-note.trap{color:var(--warn)}
+.kd-note span{display:inline-block;margin-right:6px;padding:0 8px;border-radius:999px;background:var(--line);color:var(--ink);font-size:.72rem;font-weight:700}
+.kd-note.trap span{background:var(--warn-soft);color:var(--warn)}
+.kd-end{margin:auto 0;text-align:center}
+.kd-end b{display:block;font-family:var(--f-head);font-size:1.3rem;margin-bottom:6px}
+.kd-acts{display:flex;gap:10px;padding-top:14px}
+.kd-btn{flex:1;min-height:52px;border:1.5px solid var(--line);background:var(--sheet);color:var(--ink);border-radius:12px;font:inherit;font-weight:700;font-size:1rem;cursor:pointer}
+.kd-btn:disabled{opacity:.4;cursor:default}
+.kd-btn.primary{background:var(--ok);border-color:var(--ok);color:#fff}
+.kd-btn.todo{border-color:var(--warn);color:var(--warn)}
+
+/* 暗記シート（スマホ）：表を1問ずつのカードにする */
+@media (max-width:640px){
+  .drillbar{flex-wrap:nowrap;border-radius:999px;padding:5px;gap:6px;top:calc(var(--bar-h) + 4px)}
+  .drillbar b,.drillbar .tip2{display:none}
+  .drillbar button{flex:1 1 0;padding:6px 10px;font-size:.88rem}
+  .kbar{top:calc(var(--bar-h) + 4px);gap:5px;padding:4px;margin:14px -6px 10px}
+  .seg button{padding:6px 4px;font-size:.82rem}
+  .seg button small{margin-left:2px}
+  .khide,.kto-index{padding:5px 9px;font-size:.8rem}
+  .khide .lg{display:none}
+  .kindex{margin:0 -6px 8px;padding:10px}
+  .ki-list{grid-template-columns:minmax(0,1fr)}
+  .tbl:has(table.drill){overflow:visible}
+  table.drill,table.drill tbody,table.drill tr,table.drill td{display:block;width:auto;min-width:0}
+  table.drill{font-size:.95rem}
+  table.drill tr:first-child{display:none}
+  table.drill tr{position:relative;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 10px;background:var(--sheet)}
+  table.drill tr[hidden]{display:none}
+  table.drill td{border:0;padding:0}
+  table.drill td:first-child{white-space:normal;line-height:1.6;padding-right:84px}
+  table.drill td code{white-space:normal;overflow-wrap:anywhere}
+  table.drill td.a{margin-top:8px;padding:8px 10px;border-radius:8px;background:var(--brand-softer);line-height:1.7}
+  table.drill td:nth-child(3){margin-top:6px;font-size:.86rem;line-height:1.6}
+  table.drill td:nth-child(3):empty{display:none}
+  table.drill td:nth-child(3)[data-label]::before{content:attr(data-label);display:inline-block;margin-right:6px;padding:0 8px;border-radius:999px;background:var(--line);color:var(--ink);font-size:.72rem;font-weight:700;vertical-align:1px}
+  table.drill td.trap:nth-child(3)::before{background:var(--warn-soft);color:var(--warn)}
+  table.drill td.mk{position:absolute;top:8px;right:8px;width:auto}
+  .drilling table.drill td.a{position:relative;min-height:2.6em}
+  .drilling table.drill td.a::after{content:"タップして答えを見る";position:absolute;inset:0;display:grid;place-items:center;color:var(--brand-ink);font-size:.8rem;font-weight:700}
+  .drilling table.drill td.a.show::after{content:none}
+  section.ch.cheat h3{margin-top:28px;font-size:1.2rem;gap:8px;flex-wrap:wrap}
+  section.ch.cheat h3 .scope{margin-left:0}
+  .kd-q{font-size:1.12rem}
+}

@@ -1,4 +1,4 @@
-<h3 id="k-mod">モジュール（6章）</h3>
+<h3 id="k-mod">モジュール（6章）<span class="scope">出題 2問</span></h3>
 <div class="tbl"><table class="drill">
 <tr><th>問い</th><th>答え</th><th>メモ</th></tr>
 <tr><td><code>from datetime import ＿＿</code></td><td class="a">date（from の後ろはモジュール名）</td><td><span class="qreal">本番</span></td></tr>
@@ -12,6 +12,6 @@
 <tr><td><code>-O / -OO</code></td><td class="a">assert を除去 / assert と docstring を除去</td><td></td></tr>
 <tr><td><code>dir() / dir(builtins)</code></td><td class="a">現在の名前（組み込みは含まない） / 組み込みの名前</td><td></td></tr>
 <tr><td><code>__init__.py</code></td><td class="a">ディレクトリをパッケージとして扱わせる</td><td></td></tr>
-<tr><td><code>from pkg import *</code></td><td class="a">__all__ に列挙したモジュールだけ</td><td></td></tr>
+<tr><td><code>from pkg import *</code></td><td class="a">__all__ に列挙したモジュールだけ</td><td class="trap">__all__ がなければサブモジュールは読み込まない</td></tr>
 <tr><td><code>from . import echo / from .. import x</code></td><td class="a">同じパッケージ / 親パッケージ</td><td class="trap">メインモジュールでは使えない</td></tr>
 </table></div>
