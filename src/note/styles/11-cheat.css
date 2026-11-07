@@ -1,4 +1,5 @@
 /* 暗記シート */
+section.ch.cheat{overflow:clip}  /* hidden だと使い方のバーが上に付いてこない */
 .drillbar{position:sticky;top:calc(var(--bar-h) + 6px);z-index:5;display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--sheet);border:1.5px solid var(--brand);border-radius:999px;padding:6px 8px 6px 16px;margin:18px 0;box-shadow:0 4px 14px rgba(0,0,0,.06);font-size:.86rem}
 .drillbar b{color:var(--brand-ink)}
 .drillbar button{border:1.5px solid var(--brand);background:var(--sheet);color:var(--brand-ink);border-radius:999px;padding:3px 14px;cursor:pointer;font-weight:700;font-size:.82rem}
@@ -13,6 +14,29 @@ table.drill td.trap{font-size:.84rem;color:var(--warn)}
 .drilling table.drill td.a.show{color:inherit;background:var(--hl-soft,#fff8d6)}
 .drilling table.drill td.a.show *{visibility:visible}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .drilling table.drill td.a.show{background:#2b2612}}
+
+/* 暗記シート（スマホ）：表を1問ずつのカードにする */
+@media (max-width:640px){
+  .drillbar{flex-wrap:nowrap;border-radius:999px;padding:5px;gap:6px;top:calc(var(--bar-h) + 4px)}
+  .drillbar b,.drillbar .tip2{display:none}
+  .drillbar button{flex:1 1 0;padding:6px 10px;font-size:.88rem}
+  .tbl:has(table.drill){overflow:visible}
+  table.drill,table.drill tbody,table.drill tr,table.drill td{display:block;width:auto;min-width:0}
+  table.drill{font-size:.95rem}
+  table.drill tr:first-child{display:none}
+  table.drill tr{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 10px;background:var(--sheet)}
+  table.drill td{border:0;padding:0}
+  table.drill td:first-child{white-space:normal;line-height:1.6}
+  table.drill td code{white-space:normal;overflow-wrap:anywhere}
+  table.drill td.a{margin-top:8px;padding:8px 10px;border-radius:8px;background:var(--brand-softer);line-height:1.7}
+  table.drill td:nth-child(3){margin-top:6px;font-size:.86rem;line-height:1.6}
+  table.drill td:nth-child(3):empty{display:none}
+  table.drill td:nth-child(3)[data-label]::before{content:attr(data-label);display:inline-block;margin-right:6px;padding:0 8px;border-radius:999px;background:var(--line);color:var(--ink);font-size:.72rem;font-weight:700;vertical-align:1px}
+  table.drill td.trap:nth-child(3)::before{background:var(--warn-soft);color:var(--warn)}
+  .drilling table.drill td.a{position:relative;min-height:2.6em}
+  .drilling table.drill td.a::after{content:"タップして答えを見る";position:absolute;inset:0;display:grid;place-items:center;color:var(--brand-ink);font-size:.8rem;font-weight:700}
+  .drilling table.drill td.a.show::after{content:none}
+}
 
 .gl{border-bottom:1.5px dotted var(--brand);cursor:help;border-radius:2px}
 .gl:hover,.gl:focus,.gl.on{background:var(--brand-soft);outline:none}
